@@ -10,7 +10,14 @@
 #define thing_h
 
 class Thing {
-    
+    char name;
+    int x;
+    int y;
+public:
+    Thing(char name, int x, int y, bool attackable);
+    void printName();
+    char getName();
+    virtual ~Thing();
 };
 
 #endif /* thing_h */
