@@ -30,7 +30,7 @@ int main(int argc, const char * argv[]) {
         cin >> pc_type;
     }
     me = new Player{pc_type};
-
+    int floor = 1;
     
     while (true) {
         
