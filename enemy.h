@@ -9,13 +9,20 @@
 #ifndef enemy_h
 #define enemy_h
 #include "thing.h"
+#include "player.h"
+
+class Player;
 
 class Enemy: public Thing {
     int hp;
     int atk;
     int def;
 public:
-    virtual 
+    Enemy(int hp, int atk, int def);
+    virtual void attack(Player &p);
+    virtual void hurt(Player &p);
+    Enemy *createEnemy();
+    virtual ~Enemy();
 };
 
 #endif /* enemy_h */

@@ -15,7 +15,8 @@
 class Shade: public Player {
 public:
     Shade();
-    void attack(Thing *t);
+    void attack(Enemy &e);
+    void hurt(Enemy &e);
     ~Shade();
 };
 

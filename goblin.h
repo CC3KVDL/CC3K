@@ -15,7 +15,8 @@
 class Goblin: public Player {
 public:
     Goblin();
-    void attack(Thing *t);
+    void attack(Enemy &e);
+    void hurt(Enemy &e);
     ~Goblin();
 };
 

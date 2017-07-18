@@ -15,7 +15,8 @@
 class Drow: public Player {
 public:
     Drow();
-    void attack(Thing *t);
+    void attack(Enemy &e);
+    void hurt(Enemy &e);
     ~Drow();
 };
 

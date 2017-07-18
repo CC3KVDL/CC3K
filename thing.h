@@ -18,11 +18,15 @@ class Thing {
     std::string name;
     int x;
     int y;
-    std::unique_ptr<Display> display;
+    Display *d; // This is an observer of the whole grid.
 public:
-    Thing(char name, int x, int y, bool attackable);
+    Thing(std::string name, int x, int y);
+    int getX();
+    int getY();
+    void setX(int pos_x);
+    void setY(int pos_y);
     void printName();
-    char getName();
+    std::string getName();
     virtual ~Thing();
 };
 

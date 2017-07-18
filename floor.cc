@@ -7,3 +7,7 @@
 //
 
 #include "floor.h"
+
+Floor :: Floor() {
+    // basic map; all fields;
+}

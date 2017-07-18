@@ -15,7 +15,8 @@
 class Vampire: public Player {
 public:
     Vampire();
-    void attack(Thing *t);
+    void attack(Enemy &e);
+    void hurt(Enemy &e);
     ~Vampire();
 };
 

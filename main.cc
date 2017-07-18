@@ -8,14 +8,16 @@
 
 #include <iostream>
 #include <string>
+#include <cstdlib>
 #include "player.h"
+#include "floor.h"
 
 using namespace std;
 
 int main(int argc, const char * argv[]) {
     cout << "Please choose your race or choose quit." << endl;
     string pc_type;
-    Player * me; // Pointer to Player, we should use unique_pointer
+    Player * me = new Player; // Pointer to Player
     cin >> pc_type;
     if (pc_type == "q") {
         return 0;
@@ -29,10 +31,28 @@ int main(int argc, const char * argv[]) {
         cout << "Oops! You cannot be something that doesn't exist! Please try to become something real!" << endl;
         cin >> pc_type;
     }
-    me = new Player{pc_type};
+    me->createPlayer(pc_type);
     int floor = 1;
     
     while (true) {
-        
+        if (argc == 1) { // no argument
+            Floor f("default.txt");
+            srand(time(NULL));
+            int v = rand()%4; // generate 0~4
+            if (v == 0) {
+                int v0 = rand()% ;
+                
+            } else if (v == 1) {
+                
+            } else if (v == 2) {
+                
+            } else if (v == 3) {
+                
+            } else {
+                
+            }
+        } else { // with argument
+            
+        }
     }
 }

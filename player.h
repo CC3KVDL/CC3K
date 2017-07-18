@@ -20,9 +20,11 @@ class Player: public Thing{
     bool OnDH; // Boolean value to indicate whether "me" is stepping on a Dragon Hoard
     bool MKiller; // True if "I" have killed merchant
 public:
-    Player(std::string pc_type, int x=-1, int y=-1);
+    Player(std::string pc_type = "", int x=-1, int y=-1);
     virtual ~Player();
-    virtual void attack(Thing *t);
+    Player *createPlayer(std::string pc_type);
+    virtual void attack(Enemy &e);
+    virtual void hurt(Enemy &e);
     void getGold(int amount); // This is called whenever "I" steps on a pile of gold or "I" killed an enemy
     void printStatus(); // Print out the status of "me"
     void use(Thing *t); // This is the first version, in DLC this should be a virtual
