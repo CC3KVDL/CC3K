@@ -15,16 +15,16 @@ using namespace std;
 
 Player::Player(string pc_type,int x, int y):Thing{pc_type.substr(0,1),x,y},onDH{false},gold{0},mKiller{false}{}
 
-Player::createPlayer(std::string type){
-  if (type == "@drow"){(need to delete?)
+Player::createPlayer(string type){
+  if (type == "d"){(need to delete?)
      this = new Drow();
-  }else if(type == "@vampire"){
+  }else if(type == "v"){
      this = new Vampire();
-  }else if(type == "@troll"){
+  }else if(type == "t"){
      this = new Troll();
-  }else if (type == "@goblin"){
+  }else if (type == "g"){
      this = new Goblin();
-  }else if (type == "@shade"){
+  }else if (type == "s"){
       this = new Shade();
   }
 }
