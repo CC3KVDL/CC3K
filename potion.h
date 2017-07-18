@@ -9,8 +9,15 @@
 #ifndef potion_h
 #define potion_h
 
-class Potion {
-    
+
+class Potion : public Thing {
+  int hp;
+  int atk;
+  int def;
+  public:
+  Potion(string name, int x, int y);
+  void modify(Player* p);
 };
+
 
 #endif /* potion_h */
