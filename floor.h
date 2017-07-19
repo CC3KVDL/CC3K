@@ -27,18 +27,25 @@ class Floor {
 
 public:
     // ctor / dtor
-    Floor(std::string fileName, Display* dis);
+    Floor(Display* dis);
     ~Floor();
     
-    
+    void readMap(std::string filename);
     void init(int x, int y, char c);
     void print(); // print out the current map
+    
     void moveEnemy(); // move all enemies randomly
     void movePlayer(Player* pc, std::string dir); // move pc to a direction
+    void check(); // enemies in radius attack the pc; get gold from dead enemies; delete dead enemies;
+    
+    
+    // randomly generate things
+    void randomPlayer(Player* pc);
+    void randomStair();
     void randomGold(); // randomly create gold
     void randomPotion(); // randomly create potions
     void randomEnemy(); // randomly create enemies
-    void check(); // enemies in radius attack the pc; get gold from dead enemies; delete dead enemies;
+    
     void attackEnemy(Player *pc, std::string dir);
     void usePotion(Player *pc, std::string dir);
     
