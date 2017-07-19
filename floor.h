@@ -16,7 +16,7 @@
 class Floor {
     int height;
     int width;
-    std::vector<std::vector<Thing>> grid;
+    std::vector<std::vector<Thing*>> grid;
     std::vector<Enemy *> Enemies;
     std::string mes;
     Display *dis;
