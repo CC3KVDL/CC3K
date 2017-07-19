@@ -8,6 +8,4 @@
 
 #include "floor.h"
 
-Floor :: Floor() {
-    // basic map; all fields;
-}
+Floor :: Floor(std::string fileName, Display* dis): height{25}, width{79}, 

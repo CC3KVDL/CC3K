@@ -35,8 +35,9 @@ int main(int argc, const char * argv[]) {
     int floor = 1;
     
     while (true) {
+        Display dis;
         if (argc == 1) { // no argument
-            Floor f("default.txt");
+            Floor f("default.txt", &dis);
             srand(time(NULL));
             int v = rand()%4; // generate 0~4
             if (v == 0) {
