@@ -38,12 +38,22 @@ int main(int argc, const char * argv[]) {
     
     while (true) {
         Display dis;
+        Floor f(&dis);
+        
+        // generate full floor
         if (argc == 1) { // no argument
-            Floor f("default.txt", &dis);
-            
-            
+            f.readMap();
+            f.randomPlayer(me);
+            f.randomStair();
+            f.randomPotion();
+            f.randomGold();
+            f.randomEnemy();
         } else { // with argument
-            
+           f.readMap(argv[1]); 
         }
+       
+        f.print();
+        me->printStatus();
+        cout << f.getMes();
     }
 }
