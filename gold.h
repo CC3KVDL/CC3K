@@ -10,7 +10,12 @@
 #define gold_h
 
 class Gold {
+    int value;
+    Dragon* owner;
     
+    public:
+    int getValue();
+    Dragon* getDragon();
 };
 
 #endif /* gold_h */
