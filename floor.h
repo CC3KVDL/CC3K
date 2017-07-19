@@ -13,10 +13,14 @@
 #include "enemy.h"
 #include <vector>
 
+// getPos is a function to randomly generate a position in any chambre
+
+void gepos(int &x, int &y);
+
 class Floor {
     int height;
     int width;
-    std::vector<std::vector<Thing>> grid;
+    std::vector<std::vector<Thing *>> grid;
     std::vector<Enemy *> Enemies;
     std::string mes;
     Display *dis;

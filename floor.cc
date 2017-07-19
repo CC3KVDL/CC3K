@@ -9,7 +9,7 @@
 #include <cstdlib>
 #include "floor.h"
 
-// 
+// This is the implementation of getPos
 void givePos(int& x, int& y) {
     srand(time(NULL));
     int v = rand()%5; // generate 0~4
