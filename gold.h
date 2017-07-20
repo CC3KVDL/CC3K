@@ -17,7 +17,7 @@ class Gold: public Thing {
     Dragon* owner;
     
     public:
-    Gold(std::string, int x, int y);
+    Gold(std::string, Dragon* owner, int x, int y);
     int getValue();
     Dragon* getDragon();
     ~Gold();
