@@ -62,11 +62,24 @@ int main(int argc, const char * argv[]) {
         while (cin >> command) {
             
             // break out loop conditions
+            
+            // HP == 0
             if (me->getHp() <= 0) {
+                cout << "Game Over" << endl;
                 cout << "You have scored: " << me->getGold() << endl;
                 return;
             }
-            // NOTICE: if at stair ???  && if floor == 5 win the game
+            
+            // at stair / win
+            if (me->getOn()->getName() == "/") {
+                if (floor == 5) {
+                    cout << "Win!" << endl;
+                    cout << "You have scored: " << me->getGold() << endl;
+                    return;
+                }
+                ++ floor;
+                break;
+            }
             
             
             // interprates commands
