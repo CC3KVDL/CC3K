@@ -7,3 +7,24 @@
 //
 
 #include "enemy.h"
+using namespace std;
+
+Enemy * Enemy:: createEnemy(string name, int x, int y) {
+  if (name == "H" ) {
+    return new Human(x,y);
+  } else if (name == "W") {
+    return new Dwarf(x, y);
+  } else if (name == "E") {
+    return new Elf(x, y);
+  } else if (name == "O") {
+    return new Orcs(x, y);
+  } else if (name == "M") {
+    return new Merchant(x, y);
+  } else if (name == "D") {
+    return new Dragon(x, y);
+  } else {
+    return new Halfling(x, y);
+  }
+}
+
+
