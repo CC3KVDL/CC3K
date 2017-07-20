@@ -30,7 +30,11 @@ Enemy * Enemy:: createEnemy(string name, int x, int y) {
 Enemy:: Enemy(int x, int y, std:: string name, int hp, int atk, int def): Thing{name, x, y}, hp{hp}, atk{atk}, def{def} {}
 
 void Enemy:: attack(Player &p) {
-  p.hurt(*this);
+  srand(time(NULL));
+  int v = rand()%2; // 0~1
+  if (v) {
+   p.hurt(*this);
+  }
 }
 
 void Enemy:: hurt(Player &p);
