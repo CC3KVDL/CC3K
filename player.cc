@@ -33,6 +33,10 @@ Player *Player::createPlayer(string type){
     }
 }
 
+bool Player::getmKiller(){
+    return mKillier;
+}
+
 void Player::setmKiller(){
     mKiller = true;
 }
@@ -87,7 +91,15 @@ int Player::getGold(){
 }
 
 void Player::attack(Enemy &e){
-    e.hurt(*this);
+    if (e.getName()=="Lhalfling"){
+      srand(time(NULL));
+      int i = rand()%2;
+      if (i == 0){
+        e.hurt(*this);
+      }
+    }else{
+        r.hurt(*this);
+    }
 }
 
 Thing* Player::getOn(){
