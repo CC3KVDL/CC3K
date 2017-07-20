@@ -38,7 +38,7 @@ void Enemy:: attack(Player &p) {
 }
 
 void Enemy:: hurt(Player &p) {
-  int hurt = (100 / (100 + def))*e.getAtk();
+  int hurt = (100 / (100 + def))*p.getAtk();
   hp -= hurt;
 }
 
