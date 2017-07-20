@@ -13,7 +13,7 @@
 
 class Dragon: public Enemy {
 public:
-    Dragon();
+    Dragon(int x, int y);
     void attack(Player &p);
     void hurt(Player &p);
     ~Dragon();
