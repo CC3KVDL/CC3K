@@ -12,6 +12,8 @@
 #include "thing.h"
 #include "enemy.h"
 
+class Enemy;
+
 
 class Player: public Thing{
     int hp;
