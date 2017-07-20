@@ -36,8 +36,11 @@ public:
     Thing *getOn();
     int getGold();
     int getHp();
+    bool getmKiller();
     
     void setOn(Thing* t); // Let pc step on something
+    void setmKiller();
+    
     
     void printStatus(); // Print out the status of "me"
     void use(Thing *t); // This is the first version, in DLC this should be a virtual
