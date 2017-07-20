@@ -7,3 +7,17 @@
 //
 
 #include "drow.h"
+
+using namespace std;
+
+Drow::Drow(){
+  hp = 150;
+  atk = 25;
+  def = 15;
+}
+
+void Drow::attack(Enemy &e);
+
+void Drow::hurt(Enemy &e);
+
+Drow::~Drow();
