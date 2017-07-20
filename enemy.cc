@@ -42,6 +42,6 @@ void Enemy:: hurt(Player &p) {
   hp -= hurt;
 }
 
-Enemy:: ~Enemy();
+Enemy:: ~Enemy() {}
 
 
