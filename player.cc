@@ -6,14 +6,13 @@
 //  Copyright © 2017 Dennis. All rights reserved.
 //
 
-#include "player.h"
 
 #include "player.h"
 #include <iostream>
 
 using namespace std;
 
-Player::Player(string pc_type,int x, int y):Thing{pc_type.substr(0,1),x,y},onDH{false},gold{0},mKiller{false}{}
+Player::Player(string pc_type,int x, int y, Thing* On):Thing{pc_type.substr(0,1),x,y},gold{0},mKiller{false},On{On}{}
 
 Player::createPlayer(string type){
   if (type == "d"){(need to delete?)
@@ -39,6 +38,29 @@ void Player::printStatus(){
   cout << "Def: " << def <<  endl;
 }
 
+void Player::getHp(){
+  return hp;
+}
+
+void addHp(int value){
+  hp = hp + value;
+  if (name=="@human" && hp > 140){
+      hp = 140;
+  }else if (name=="@drow" && hp > 150){
+     hp = 100;
+  }else if (name == "@troll" && hp > 120){
+     hp = 140;
+  }else if (name == "@shade" && hp > 125){
+    hp = 125;
+  }else if (name == "@goblin" && hp > 110){
+    hp = 110;
+  }
+  if (hp <= 0){
+    hp = 0;
+  }
+}
+
+
 void Player::gainGold(int amount){
   gold = gold + amount;
 }
@@ -49,6 +71,10 @@ int Player::getGold(){
 
 void Player::attack(Thing* t){
   t->hurt(this);
+}
+
+Thing* Player::getOn(){
+  return On;
 }
 
 void Player::hurt(Enemy* e){
