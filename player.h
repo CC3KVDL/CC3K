@@ -30,6 +30,9 @@ public:
     void getOn();
     void getGold();
     void getHp();
+    
+    void setOn(Thing* t);
+    
     void printStatus(); // Print out the status of "me"
     void use(Thing *t); // This is the first version, in DLC this should be a virtual
     friend class Enemy;
