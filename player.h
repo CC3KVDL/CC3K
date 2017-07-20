@@ -29,24 +29,29 @@ public:
     static Player *createPlayer(std::string pc_type);
     virtual void attack(Thing& e);
     virtual void hurt(Enemy &e);
+    void use(Thing *t); // This is the first version, in DLC this should be a virtual
     
+    //mutate relevant fields
     void addHp(int amount);
     void addAtk(int amout);
     void addDef(int amout);
     void addGold(int amount); // This is called whenever "I" steps on a pile of gold or "I" killed an enemy
+    
+    //accessor
     Thing *getOn();
     int getGold();
     int getHp();
     bool getmKiller();
     
+    //mutator
     void setOn(Thing* t); // Let pc step on something
     void setmKiller();
-    void setAtk();
-    void setDef();
+    void initStatus();
+
     
     
     void printStatus(); // Print out the status of "me"
-    void use(Thing *t); // This is the first version, in DLC this should be a virtual
+   
     friend class Enemy;
 };
 
