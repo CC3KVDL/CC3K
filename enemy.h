@@ -22,7 +22,7 @@ public:
     virtual void attack(Player &p);
     void hurt(Player &p);
     static Enemy *createEnemy(std::string name, int x, int y);
-    virtual ~Enemy();
+    ~Enemy();
 };
 
 #endif /* enemy_h */
