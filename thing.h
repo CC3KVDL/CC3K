@@ -11,8 +11,10 @@
 #include <memory>
 #include <string>
 #include "display.h"
+#include "player.h"
 
 class Display;
+class Player;
 
 class Thing {
     std::string name;
@@ -31,13 +33,15 @@ public:
     
     // Virtual Method for Player and Enemy
     virtual void attack(Thing* t);
-    virtual void hurt(Thing* t);
     virtual void use(Thing * t);
 
     // Virtual Method for Gold
     virtual void setOwner(Thing *t);
     virtual int getValue();
     Thing *getOwner();
+    
+    // Virtual Method for Potion
+    virtual void modify(Player *pc);
 };
 
 #endif /* thing_h */

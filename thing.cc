@@ -16,14 +16,13 @@ int Thing::getX(){return x;}
 int Thing::getY(){return y;}
 
 string getName(){
-  return name; 
+    return ;
 }
 
 Thing::~Thing(){}
 
-void attack(Thing* t){}
-void hurt(Thing* t){}
-void use(Thing* t){}
+void Thing::attack(Thing* t){}
+void Thing::use(Thing* t){}
 
 void setOwner(Thing* t){}
 int getValue(Thing* t){}

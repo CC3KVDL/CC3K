@@ -71,16 +71,6 @@ int getPos(int& x, int& y) {
     return v;
 }
 
-// This is the implementation of isIn()
-
-bool isIn(string ele, vector<string> arr){
-    bool result = false;
-    for (auto& i : arr) {
-        result = result || (ele == i);
-    }
-    return result;
-}
-
 // This is the implementation of cmpEnemies
 bool cmpEnemies(Enemy *a, Enemy *b) {
     if (a->getX() > b->getX()) {
@@ -246,9 +236,9 @@ void Floor:: moveEnemies() {
 }
 
 void Floor:: movePlayer(Player* pc, std::string dir){
-    int x_pc = pc->getX();
+    int x_pc = pc->getX(); // where pc is at
     int y_pc = pc->getY();
-    int x_new = x_pc;
+    int x_new = x_pc; // where "I" want to go
     int y_new = y_pc;
     if (dir == "no") {
         x_new-=1;
@@ -289,7 +279,15 @@ void Floor:: movePlayer(Player* pc, std::string dir){
 
 // pick up gold; enemies in radius attack the pc; Dragon attack pc; get gold from dead enemies; delete dead enemies;
 void Floor:: check(Player* pc) {
-    
+    Thing *sOn = pc->getOn(); // what "I" am standing on
+    if (sOn->getName()[0] == 'G'){
+        int x = pc->getX();
+        int y = pc->getY();
+        pc->addGold(sOn->getValue());
+        delete pc->getOn();
+        
+        
+    }
 }
 
 
@@ -311,7 +309,7 @@ void Floor::spawnEverything(Player *pc){
     while (pcount < 10) {
         srand(time(NULL));
         int p = rand()%6; // p is a random number from 0--5
-        string pn; // Denote potion type
+        string pn; // Denote potion name
         if (p == 0) {
             pn = "PRH";
         } else if (p == 1) {
@@ -325,8 +323,12 @@ void Floor::spawnEverything(Player *pc){
         } else{
             pn = "PWD";
         }
-        getPos(x, y);
-        if ()
+        while (true) {
+            getPos(x, y);
+            if (grid[x][y]->getName() == ".") {
+                init(x, y, pn);
+            }
+        }
     }
     
 }
@@ -345,12 +347,8 @@ void Floor:: randomPlayer(Player* pc){
 }
 
 
-void Floor:: randomGold(); // randomly create gold
-void Floor:: randomPotion(); // randomly create potions
-void Floor:: randomEnemy(); // randomly create enemies
-
 // what pc do
-void Floor:: attackEnemy(Player *pc, std::string dir) {
+void Floor:: attackEnemy(Player *pc, string dir) {
     // enemy's direction
     int x = pc->getX();
     int y = pc->getY();
@@ -377,12 +375,13 @@ void Floor:: attackEnemy(Player *pc, std::string dir) {
     }
     
     // if enemy, attack
-    if (isIn(grid[x][y]->getName().strsub(0,1), enemy_names)) {
+    string name = grid[x][y]->getName();
+    if (find(enemy_names.begin(), enemy_names.end(), name) != enemy_names.end()) {
         pc->attack(*grid[x][y]);
     }
 }
 
-void Floor:: usePotion(Player *pc, std::string dir) {
+void Floor:: usePotion(Player *pc, string dir) {
     // potion's direction
     int x = pc->getX();
     int y = pc->getY();
@@ -408,7 +407,7 @@ void Floor:: usePotion(Player *pc, std::string dir) {
         y-=1;
     }
     
-    if (grid[x][y]->getName().strsub(0,1) == "P") {
+    if (grid[x][y]->getName()[0] == 'P') {
         pc->use(grid[x][y]);
     }
 }

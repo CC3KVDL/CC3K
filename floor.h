@@ -38,15 +38,8 @@ public:
     void readMap(std::string filename = "default.txt", Player *pc = nullptr);
     void init(int x, int y, std::string c); // initial a signle Thing
     void print(); // print out the current map
+    void spawnEverything(Player *pc);
     std:: string getMes();
-    
-    // randomly generate things
-    void spawnEverything(Player *pc); //
-    void randomPlayer(Player* pc); // randomly put player somewhere
-    void randomStair();
-    void randomGold(); // randomly create gold
-    void randomPotion(); // randomly create potions
-    void randomEnemy(); // randomly create enemies
     
     // what pc do
     void movePlayer(Player* pc, std::string dir); // move pc to a direction
