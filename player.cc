@@ -74,6 +74,14 @@ void Player::addGold(int amount){
   gold = gold + amount;
 }
 
+void Player::addatk(int amount){
+    atk = atk + amount;
+}
+
+void Player::adddef(int amount){
+    def = def + amount;
+}
+
 int Player::getGold(){
   return gold;
 }
