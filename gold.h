@@ -9,13 +9,18 @@
 #ifndef gold_h
 #define gold_h
 
-class Gold {
+#include "thing.h"
+#include "dragon.h"
+
+class Gold: public Thing {
     int value;
     Dragon* owner;
     
     public:
+    Gold();
     int getValue();
     Dragon* getDragon();
+    ~Gold();
 };
 
 #endif /* gold_h */
