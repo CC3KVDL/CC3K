@@ -106,6 +106,10 @@ Thing* Player::getOn(){
   return On;
 }
 
+void Player::use(Thing* t){
+    t->modify(this);
+}
+
 void Player::hurt(Enemy &e){
   int hurt = (100 / (100 + def))*e.getAtk();
   addHp(-hurt);
