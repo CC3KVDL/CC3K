@@ -15,8 +15,6 @@
 class Troll: public Player {
 public:
     Troll();
-    void attack(Enemy &e);
-    void hurt(Enemy &e);
     ~Troll();
 };
 
