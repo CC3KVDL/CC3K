@@ -90,7 +90,7 @@ int Player::getGold(){
   return gold;
 }
 
-void Player::attack(Enemy &e){
+void Player::attack(Thing &e){
     if (e.getName()=="Lhalfling"){
       srand(time(NULL));
       int i = rand()%2;
