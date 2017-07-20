@@ -27,7 +27,7 @@ public:
     Player(std::string pc_type = "", int x=-1, int y=-1, Thing* On=nullptr);
     virtual ~Player();
     static Player *createPlayer(std::string pc_type);
-    virtual void attack(Thing* e);
+    virtual void attack(Thing& e);
     virtual void hurt(Enemy &e);
     
     void addHp(int amount);
