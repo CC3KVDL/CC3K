@@ -27,4 +27,6 @@ Enemy * Enemy:: createEnemy(string name, int x, int y) {
   }
 }
 
+Enemy:: Enemy(int x, int y, std:: string name, int hp, int atk, int def): Thing{name, x, y}, hp{hp}, atk{atk}, def{def} {}
+
 
