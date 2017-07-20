@@ -104,11 +104,6 @@ int main(int argc, const char * argv[]) {
                     f.moveEnemies();
                 }
                 
-                // print new map
-                f.print();
-                me->printStatus();
-                cout << f.getMes() << endl;
-                
                 // break out loop conditions
                 
                 // HP == 0
@@ -128,6 +123,13 @@ int main(int argc, const char * argv[]) {
                     ++ floor;
                     break;
                 }
+                
+                // print new map
+                f.print();
+                me->printStatus();
+                cout << f.getMes() << endl;
+                
+                
             }
             
             if (restart) break;
