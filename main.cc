@@ -88,6 +88,7 @@ int main(int argc, const char * argv[]) {
                         moveEnemy = true;
                     }
                 } else if (command == "r" ) {
+                    restart = true;
                     break;
                 } else if (command == "q" ) {
                     cout << "Game Over" << endl;
