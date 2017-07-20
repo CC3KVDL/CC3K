@@ -20,7 +20,8 @@ void Vampire::attack(Enemy &e){
   }else{
     addHp(5);
   }
-  //default attack;
+  //default attack
+  e.hurt(*this);
 }
 
 
