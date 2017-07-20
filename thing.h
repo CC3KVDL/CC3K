@@ -32,6 +32,7 @@ public:
     // Virtual Method for Player and Enemy
     virtual void attack(Thing* t);
     virtual void hurt(Thing* t);
+    virtual void use(Thing * t);
 
     // Virtual Method for Gold
     virtual void setOwner(Thing *t);
