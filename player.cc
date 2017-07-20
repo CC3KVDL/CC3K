@@ -33,6 +33,19 @@ void setmKiller(){
   mKiller = true;
 }
 
+void printStatus(){
+  cout << "HP: " << hp << endl;
+  cout << "Atk: " << atk << endl;
+  cout << "Def: " << def <<  endl;
+}
+
+void gainGold(int amount){
+  gold = gold + amount;
+}
+
+int getGold(){
+  return gold;
+}
 
 void Player::attack(Thing* t){
   t->hurt(this);
@@ -41,3 +54,5 @@ void Player::attack(Thing* t){
 void Player::hurt(Enemy* e){
     
 }
+
+Player::~Player(){]
