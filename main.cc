@@ -15,6 +15,7 @@ using namespace std;
 
 
 int main(int argc, const char * argv[]) {
+    while (true) {
     cout << "Please choose your race or choose quit." << endl;
     string pc_type;
     Player * me = new Player; // Pointer to Player
@@ -37,6 +38,7 @@ int main(int argc, const char * argv[]) {
     while (true) {
         Display dis;
         Floor f(&dis);
+        bool restart = false;
         
         // generate full floor
         if (argc == 1) { // no argument
@@ -103,7 +105,7 @@ int main(int argc, const char * argv[]) {
             } else if (command == "f" ) {
                 moveEnemy = false;
             } else if (command == "r" ) {
-                // NOTICE: restart ???
+                break;
             } else if (command == "q" ) {
                cout << "Game Over" << endl;
                return;
@@ -123,6 +125,8 @@ int main(int argc, const char * argv[]) {
             me->printStatus();
             cout << f.getMes() << endl;
         }
+        if (restart) break;
     }
+}
 }
 
