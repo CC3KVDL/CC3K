@@ -15,8 +15,7 @@
 class Vampire: public Player {
 public:
     Vampire();
-    void attack(Enemy &e);
-    void hurt(Enemy &e);
+    void attack(Enemy &e) override;
     ~Vampire();
 };
 
