@@ -9,3 +9,13 @@
 #include "merchant.h"
 
 Merchant:: Merchant(int x, int y): Enemy{x, y, "Mmerchant", 30, 70, 5} {}
+
+void Merchant:: attack(Player &p) override {
+  if (p.getmKiller()) {
+    srand(time(NULL));
+    int v = rand()%2; // 0~1
+    if (v) {
+      p.hurt(*this);
+    }
+  }
+}
