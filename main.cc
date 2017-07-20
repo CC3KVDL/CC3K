@@ -107,7 +107,10 @@ int main(int argc, const char * argv[]) {
             } else if (command == "q" ) {
                cout << "Game Over" << endl;
                return;
-            } //  NOTICE: invalide command????
+            } else {
+                cout << "Invalide command" << endl;
+                continue;
+            }
             
             // update information and move enemies
             f.check();
