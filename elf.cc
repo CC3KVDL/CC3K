@@ -10,7 +10,7 @@
 
 Elf:: Elf(int x, int y): Enemy{x, y, "Eelf", 140, 30, 10} {}
 
-void Elf:: attack(Player &p) override {
+void Elf:: attack(Player &p){
   if (p.getName() == "@drow") {
     p.hurt(*this);
   } else {

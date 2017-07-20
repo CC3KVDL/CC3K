@@ -7,10 +7,11 @@
 //
 
 #include "merchant.h"
+#include <cstdlib>
 
 Merchant:: Merchant(int x, int y): Enemy{x, y, "Mmerchant", 30, 70, 5} {}
 
-void Merchant:: attack(Player &p) override {
+void Merchant:: attack(Player &p) {
   if (p.getmKiller()) {
     srand(time(NULL));
     int v = rand()%2; // 0~1

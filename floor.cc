@@ -8,12 +8,17 @@
 
 #include <cstdlib>
 #include <fstream>
+#include <algorithm>
 #include "floor.h"
 #include "cell.h"
 #include "potion.h"
 #include "gold.h"
 
 using namespace std;
+
+// This
+vector<string> cell_names = {"-", "|", "+", "#", "\\", " "};
+vector<string> enemy_names = {"M", "L", "D", "E", "L", "D", "H", "O"};
 
 // what appears first are helper functions
 // This is the implementation of getPos
@@ -118,14 +123,18 @@ void Floor:: readMap(string filename,Player* pc) {
     ifstream file{filename};
     string line;
     string cell;
-    vector<Thing *> ld;
+    vector<Thing *> DHs; // array of pointers to Dragon Hoard
+    vector<Thing *> Ds; // array of pointers to Dragon
     for (int i = 0; i < 25; ++ i) {
         getline(file, line);
         for (int j = 0; j < 79; ++ j) {
             cell = line[i];
             if (cell == "9") {
                 init(i, j, cell);
-                ld.push_back(grid[i][j]);
+                DHs.push_back(grid[i][j]);
+            }else if (cell == "D") {
+                init(i, j, cell);
+                Ds.push_back(grid[i][j]);
             }else if (cell=="@"){
                 grid[i][j]=pc;
                 pc->setX(i);
@@ -136,13 +145,16 @@ void Floor:: readMap(string filename,Player* pc) {
             }
         }
     }
-    for (int i = 0 ; i < ld.size();++i){
-        int x = ld[i]->getX();
-        int y = ld[i]->getY();
+    
+    //
+    for (int i = 0 ; i < DHs.size();++i){
+        int x = DHs[i]->getX();
+        int y = DHs[i]->getY();
         for (int j = -1; j <= 1; ++j){
             for (int k = -1 ; k <= 1; ++k){
-                if (grid[x+j][y+k]->getName() == "D") {
-                    ld[i]->setOwner(grid[x+j][y+k]);
+                Thing *DMaybe = grid[x+j][y+k];
+                if (DMaybe->getName() == "D" || ) {
+                    DHs[i]->setOwner(grid[x+j][y+k]);
                 }
             }
         }
@@ -152,10 +164,14 @@ void Floor:: readMap(string filename,Player* pc) {
 
 void Floor:: init(int x, int y, string c) {
     vector<string> cell_names = {"-", "|", "+", "#", "\\", " "};
-    vector<string> enemy_names = {"M", "L", "D", "E", "L", "D", "H", "O"};
+    vector<string> enemy_names = {"M", "W", "L", "D", "E","H", "O"};
+    bool isCell = find(cell_names.begin(), cell_names.end(), c);
     
+    
+    // deleting the tile
     delete grid[x][y];
     
+    // adding enemy
     if (isIn(c, cell_names)) {
         grid[x][y] = new Cell(c, x, y);
     } else if (isIn(c, enemy_names)) {
@@ -182,22 +198,9 @@ void Floor:: init(int x, int y, string c) {
         grid[x][y] = new Gold("GD", nullptr,x,y);
     } else if (c == "@") {
         grid[x][y] = nullptr;
-    } else if (c == "M") {
-        grid[x][y] = new Merchant(x,y);
-    } else if (c == "L") {
-        grid[x][y] = new Halfling(x,y);
-    } else if (c == "D") {
-        grid[x][y] = new Dragon(x,y);
-    } else if (c == "E") {
-        grid[x][y] = new Elf(x,y);
-    } else if (c == "W") {
-        grid[x][y] = new Dwarf(x,y);
-    } else if (c == "H") {
-        grid[x][y] = new Human(x,y);
-    } else if (c == "O") {
-        grid[x][y] = new Orcs(x,y);
     }
     
+    // notifying display
     dis->notify(grid[x][y]);
 }
 
