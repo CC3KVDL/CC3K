@@ -10,14 +10,15 @@
 #define potion_h
 
 #include "thing.h"
+#include "player.h"
 
 class Potion : public Thing {
-  int hp;
-  int atk;
-  int def;
-  public:
-  Potion(string name, int x, int y);
-  void modify(Player* p);
+    int hp;
+    int atk;
+    int def;
+public:
+    Potion(std::string name, int x, int y);
+    void modify(Player* p);
 };
 
 
