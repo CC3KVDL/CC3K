@@ -25,6 +25,9 @@ public:
     int getY();
     void setX(int pos_x);
     void setY(int pos_y);
+    void setOwner(Thing* Owner);
+    void attack(Thing* t);
+    void hurt(Thing* t);
     void printName();
     std::string getName();
     virtual ~Thing();
