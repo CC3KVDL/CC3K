@@ -146,35 +146,39 @@ void Floor:: readMap(string filename,Player* pc) {
         }
     }
     
-    //
+    // Set the owner of a Dragon Hoard to a specific Dragon
     for (int i = 0 ; i < DHs.size();++i){
         int x = DHs[i]->getX();
         int y = DHs[i]->getY();
         for (int j = -1; j <= 1; ++j){
             for (int k = -1 ; k <= 1; ++k){
-                Thing *DMaybe = grid[x+j][y+k];
-                if (DMaybe->getName() == "D" || ) {
-                    DHs[i]->setOwner(grid[x+j][y+k]);
+                Thing *D = grid[x+j][y+k]; // suppose it is a dragon
+                if (D->getName() == "D") {
+                    if (find(Ds.begin(), Ds.end(), D) != Ds.end()) {
+                        DHs[i]->setOwner(D);
+                        Ds.erase(remove(Ds.begin(), Ds.end(), D), Ds.end());
+                    }
                 }
             }
         }
     }
+    
 }
 
 
 void Floor:: init(int x, int y, string c) {
     vector<string> cell_names = {"-", "|", "+", "#", "\\", " "};
     vector<string> enemy_names = {"M", "W", "L", "D", "E","H", "O"};
-    bool isCell = find(cell_names.begin(), cell_names.end(), c);
-    
+    bool isCell = find(cell_names.begin(), cell_names.end(), c) != cell_names.end();
+    bool isEnemy = find(enemy_names.begin(), enemy_names.end(), c) != enemy_names.end();
     
     // deleting the tile
     delete grid[x][y];
     
     // adding enemy
-    if (isIn(c, cell_names)) {
+    if (isCell) {
         grid[x][y] = new Cell(c, x, y);
-    } else if (isIn(c, enemy_names)) {
+    } else if (isEnemy) {
         grid[x][y] = Enemy::createEnemy(c, x, y);
     } else if (c == "0") {
         grid[x][y] = new Potion("PRH",x,y);
@@ -232,12 +236,11 @@ void Floor:: moveEnemies() {
                 Enemies[i]->setY(v2+y);
                 grid[v1+x][v2+y]->setX(x);
                 grid[v1+x][v2+y]->setY(y);
-                std:: swap(grid[x][y], grid[v1+x][v2+y]);
+                std::swap(grid[x][y], grid[v1+x][v2+y]);
                 dis->notify(grid[x][y]);
                 dis->notify(grid[v1+x][v2+y]);
                 break;
             }
-            
         }
     }
 }
@@ -273,7 +276,7 @@ void Floor:: movePlayer(Player* pc, std::string dir){
     Thing *whereTo = grid[x_new][y_new]; // Thing pc wants to step on
     vector<string> walkable = {"G", ".", "+", "#"}; // Names of Tings that can step on
     string whatTo = grid[x_new][y_new]->getName(); // Name of Thing pc want to step on
-    if (isIn(whatTo, walkable)) {
+    if (find(walkable.begin(), walkable.end(), whatTo) != walkable.end()) {
         grid[x_pc][y_pc] = pc->getOn();
         pc->setOn(whereTo);
         grid[x_new][y_new] = pc;
@@ -284,7 +287,10 @@ void Floor:: movePlayer(Player* pc, std::string dir){
     // Now we "DON'T" let pc pick up a gold yet!!!
 }
 
-void Floor:: check(Player* pc); // pick up gold; enemies in radius attack the pc; Dragon attack pc; get gold from dead enemies; delete dead enemies;
+// pick up gold; enemies in radius attack the pc; Dragon attack pc; get gold from dead enemies; delete dead enemies;
+void Floor:: check(Player* pc) {
+    
+}
 
 
 // randomly generate things (This is called when no map has been provided)
@@ -305,10 +311,22 @@ void Floor::spawnEverything(Player *pc){
     while (pcount < 10) {
         srand(time(NULL));
         int p = rand()%6; // p is a random number from 0--5
-        string p_name; // Denote potion type
+        string pn; // Denote potion type
         if (p == 0) {
-            p_name = 
+            pn = "PRH";
+        } else if (p == 1) {
+            pn = "PBA";
+        } else if (p == 2) {
+            pn = "PBD";
+        } else if (p == 3) {
+            pn = "PPH";
+        } else if (p == 4) {
+            pn = "PWA";
+        } else{
+            pn = "PWD";
         }
+        getPos(x, y);
+        if ()
     }
     
 }

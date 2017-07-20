@@ -52,7 +52,7 @@ public:
     void movePlayer(Player* pc, std::string dir); // move pc to a direction
     void attackEnemy(Player *pc, std::string dir);
     void usePotion(Player *pc, std::string dir);
-    void check(); // enemies in radius attack the pc; get gold from dead enemies; delete dead enemies;
+    void check(Player *pc); // enemies in radius attack the pc; get gold from dead enemies; delete dead enemies;
     void moveEnemies(); // move all enemies randomly
     
 };

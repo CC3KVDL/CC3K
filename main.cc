@@ -99,7 +99,7 @@ int main(int argc, const char * argv[]) {
                 }
                 
                 // update information and move enemies
-                f.check();
+                f.check(me);
                 if (moveEnemy) {
                     f.moveEnemies();
                 }
