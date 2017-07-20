@@ -14,7 +14,6 @@
 class Dwarf: public Enemy {
 public:
     Dwarf(int x, int y);
-    void attack(Player &p);
     void hurt(Player &p);
     ~Dwarf();
 };
