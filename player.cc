@@ -8,28 +8,33 @@
 
 
 #include "player.h"
+#include "drow.h"
+#include "vampire.h"
+#include "troll.h"
+#include "goblin.h"
+#include "shade.h"
 #include <iostream>
 
 using namespace std;
 
 Player::Player(string pc_type,int x, int y, Thing* On):Thing{pc_type.substr(0,1),x,y},gold{0},mKiller{false},On{On}{}
 
-Player::createPlayer(string type){
-  if (type == "d"){(need to delete?)
-     this = new Drow();
-  }else if(type == "v"){
-     this = new Vampire();
-  }else if(type == "t"){
-     this = new Troll();
-  }else if (type == "g"){
-     this = new Goblin();
-  }else if (type == "s"){
-      this = new Shade();
-  }
+Player *Player::createPlayer(string type){
+    if (type == "d"){
+        return new Drow();
+    }else if(type == "v"){
+        return new Vampire();
+    }else if(type == "t"){
+        return new Troll();
+    }else if (type == "g"){
+        return new Goblin();
+    }else if (type == "s"){
+        return new Shade();
+    }
 }
 
 void Player::setmKiller(){
-  mKiller = true;
+    mKiller = true;
 }
 
 void Player::setOn(Thing* t){
@@ -42,21 +47,21 @@ void Player::printStatus(){
   cout << "Def: " << def <<  endl;
 }
 
-void Player::getHp(){
+int Player::getHp(){
   return hp;
 }
 
-void addHp(int value){
-  hp = hp + value;
-  if (name=="@human" && hp > 140){
+void Player::addHp(int amount){
+  hp = hp + amount;
+  if (this->getName()=="@human" && hp > 140){
       hp = 140;
-  }else if (name=="@drow" && hp > 150){
+  }else if (this->getName()=="@drow" && hp > 150){
      hp = 100;
-  }else if (name == "@troll" && hp > 120){
+  }else if (this->getName() == "@troll" && hp > 120){
      hp = 140;
-  }else if (name == "@shade" && hp > 125){
+  }else if (this->getName() == "@shade" && hp > 125){
     hp = 125;
-  }else if (name == "@goblin" && hp > 110){
+  }else if (this->getName() == "@goblin" && hp > 110){
     hp = 110;
   }
   if (hp <= 0){
@@ -65,7 +70,7 @@ void addHp(int value){
 }
 
 
-void Player::gainGold(int amount){
+void Player::addGold(int amount){
   gold = gold + amount;
 }
 
@@ -73,16 +78,16 @@ int Player::getGold(){
   return gold;
 }
 
-void Player::attack(Thing* t){
-  t->hurt(this);
+void Player::attack(Enemy &e){
+    e.hurt(*this);
 }
 
 Thing* Player::getOn(){
   return On;
 }
 
-void Player::hurt(Enemy* e){
+void Player::hurt(Enemy &e){
     
 }
 
-Player::~Player(){]
+Player::~Player(){}

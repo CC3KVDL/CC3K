@@ -16,121 +16,120 @@ using namespace std;
 
 int main(int argc, const char * argv[]) {
     while (true) {
-    cout << "Please choose your race or choose quit." << endl;
-    string pc_type;
-    Player * me = new Player; // Pointer to Player
-    cin >> pc_type;
-    if (pc_type == "q") {
-        return 0;
-    }
-    
-    while (pc_type != "d" ||
-           pc_type != "v" ||
-           pc_type != "g" ||
-           pc_type != "s" ||
-           pc_type != "t") {
-        cout << "Oops! You cannot be something that doesn't exist! Please try to become something real!" << endl;
+        cout << "Please choose your race or choose quit." << endl;
+        string pc_type;
         cin >> pc_type;
-    }
-    me->createPlayer(pc_type);
-    int floor = 1;
-    
-    while (true) {
-        Display dis;
-        Floor f(&dis);
-        bool restart = false;
-        
-        // generate full floor
-        if (argc == 1) { // no argument
-            f.readMap();
-            f.randomPlayer(me);
-            f.randomStair();
-            f.randomPotion();
-            f.randomGold();
-            f.randomEnemy();
-        } else { // with argument
-           f.readMap(argv[1]); 
+        if (pc_type == "q") {
+            return 0;
         }
-       
-        // print the map and message
-        f.print();
-        me->printStatus();
-        cout << f.getMes() << "Player enters floor: " << floor << endl;
         
-       
-        // read in command
-        string command;
-        bool moveEnemy = true;
-        while (cin >> command) {
+        while (pc_type != "d" ||
+               pc_type != "v" ||
+               pc_type != "g" ||
+               pc_type != "s" ||
+               pc_type != "t") {
+            cout << "Oops! You cannot be something that doesn't exist! Please           try to become something real!" << endl;
+            cin >> pc_type;
+        }
+        Player *me = Player::createPlayer(pc_type);
+        int floor = 1;
+        
+        while (true) {
+            Display dis;
+            Floor f(&dis);
+            bool restart = false;
             
-            // break out loop conditions
-            
-            // HP == 0
-            if (me->getHp() <= 0) {
-                cout << "Game Over" << endl;
-                cout << "You have scored: " << me->getGold() << endl;
-                return;
+            // generate full floor
+            if (argc == 1) { // no argument
+                f.readMap();
+                f.randomPlayer(me);
+                f.randomStair();
+                f.randomPotion();
+                f.randomGold();
+                f.randomEnemy();
+            } else { // with argument
+                f.readMap(argv[1]);
             }
             
-            // at stair / win
-            if (me->getOn()->getName() == "/") {
-                if (floor == 5) {
-                    cout << "Win!" << endl;
+            // print the map and message
+            f.print();
+            me->printStatus();
+            cout << f.getMes() << "Player enters floor: " << floor << endl;
+            
+            
+            // read in command
+            string command;
+            bool moveEnemy = true;
+            while (cin >> command) {
+                
+                // break out loop conditions
+                
+                // HP == 0
+                if (me->getHp() <= 0) {
+                    cout << "Game Over" << endl;
                     cout << "You have scored: " << me->getGold() << endl;
                     return;
                 }
-                ++ floor;
-                break;
+                
+                // at stair / win
+                if (me->getOn()->getName() == "/") {
+                    if (floor == 5) {
+                        cout << "Win!" << endl;
+                        cout << "You have scored: " << me->getGold() << endl;
+                        return;
+                    }
+                    ++ floor;
+                    break;
+                }
+                
+                
+                // interprates commands
+                if (command == "no" ||
+                    command == "so" ||
+                    command == "ea" ||
+                    command == "we" ||
+                    command == "ne" ||
+                    command == "nw" ||
+                    command == "se" ||
+                    command == "sw") {
+                    f.movePlayer(me, command);
+                } else if (command == "u") {
+                    string dir;
+                    cin >> dir;
+                    f.usePotion(me, dir);
+                } else if (command == "a") {
+                    string dir;
+                    cin >> dir;
+                    f.attackEnemay(me, dir);
+                } else if (command == "f" ) {
+                    if (moveEnemy) {
+                        moveEnemy = false;
+                    } else {
+                        moveEnemy = true;
+                    }
+                } else if (command == "r" ) {
+                    break;
+                } else if (command == "q" ) {
+                    cout << "Game Over" << endl;
+                    return;
+                } else {
+                    cout << "Invalide command" << endl;
+                    continue;
+                }
+                
+                // update information and move enemies
+                f.check();
+                if (moveEnemy) {
+                    f.moveEnemies();
+                }
+                
+                // print new map
+                f.print();
+                me->printStatus();
+                cout << f.getMes() << endl;
             }
-            
-            
-            // interprates commands
-            if (command == "no" || 
-                command == "so" || 
-                command == "ea" || 
-                command == "we" || 
-                command == "ne" ||
-                command == "nw" ||
-                command == "se" ||
-                command == "sw") {
-               f.movePlayer(me, command);
-            } else if (command == "u") {
-                string dir;
-                cin >> dir;
-                f.usePotion(me, dir);
-            } else if (command == "a") {
-                string dir;
-                cin >> dir;
-                f.attackEnemay(me, dir);
-            } else if (command == "f" ) {
-               if (moveEnemy) {
-                   moveEnemy = false;
-               } else {
-                   moveEnemy = true;
-               }
-            } else if (command == "r" ) {
-                break;
-            } else if (command == "q" ) {
-               cout << "Game Over" << endl;
-               return;
-            } else {
-                cout << "Invalide command" << endl;
-                continue;
-            }
-            
-            // update information and move enemies
-            f.check();
-            if (moveEnemy) {
-                f.moveEnemies();
-            }
-            
-            // print new map
-            f.print();
-            me->printStatus();
-            cout << f.getMes() << endl;
+            if (restart) break;
         }
-        if (restart) break;
     }
-}
 }
 
