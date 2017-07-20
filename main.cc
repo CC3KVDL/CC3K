@@ -107,30 +107,28 @@ int main(int argc, const char * argv[]) {
                 f.print();
                 me->printStatus();
                 cout << f.getMes() << endl;
-            }
-            
-            
-            // break out loop conditions
-            
-            // HP == 0
-            if (me->getHp() <= 0) {
-                cout << "Game Over" << endl;
-                cout << "You have scored: " << me->getGold() << endl;
-                return 0;
-            }
-            
-            // at stair / win
-            if (me->getOn()->getName() == "/") {
-                if (floor == 5) {
-                    cout << "Win!" << endl;
+                
+                // break out loop conditions
+                
+                // HP == 0
+                if (me->getHp() <= 0) {
+                    cout << "Game Over" << endl;
                     cout << "You have scored: " << me->getGold() << endl;
                     return 0;
                 }
-                ++ floor;
-                break;
+                
+                // at stair / win
+                if (me->getOn()->getName() == "/") {
+                    if (floor == 5) {
+                        cout << "Win!" << endl;
+                        cout << "You have scored: " << me->getGold() << endl;
+                        return 0;
+                    }
+                    ++ floor;
+                    break;
+                }
             }
             
-
             if (restart) break;
         }
     }
