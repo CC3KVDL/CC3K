@@ -62,26 +62,6 @@ int main(int argc, const char * argv[]) {
             bool moveEnemy = true;
             while (cin >> command) {
                 
-                // break out loop conditions
-                
-                // HP == 0
-                if (me->getHp() <= 0) {
-                    cout << "Game Over" << endl;
-                    cout << "You have scored: " << me->getGold() << endl;
-                    return;
-                }
-                
-                // at stair / win
-                if (me->getOn()->getName() == "/") {
-                    if (floor == 5) {
-                        cout << "Win!" << endl;
-                        cout << "You have scored: " << me->getGold() << endl;
-                        return;
-                    }
-                    ++ floor;
-                    break;
-                }
-                
                 
                 // interprates commands
                 if (command == "no" ||
@@ -100,7 +80,7 @@ int main(int argc, const char * argv[]) {
                 } else if (command == "a") {
                     string dir;
                     cin >> dir;
-                    f.attackEnemay(me, dir);
+                    f.attackEnemy(me, dir);
                 } else if (command == "f" ) {
                     if (moveEnemy) {
                         moveEnemy = false;
@@ -111,7 +91,7 @@ int main(int argc, const char * argv[]) {
                     break;
                 } else if (command == "q" ) {
                     cout << "Game Over" << endl;
-                    return;
+                    return 0;
                 } else {
                     cout << "Invalide command" << endl;
                     continue;
@@ -128,6 +108,29 @@ int main(int argc, const char * argv[]) {
                 me->printStatus();
                 cout << f.getMes() << endl;
             }
+            
+            
+            // break out loop conditions
+            
+            // HP == 0
+            if (me->getHp() <= 0) {
+                cout << "Game Over" << endl;
+                cout << "You have scored: " << me->getGold() << endl;
+                return 0;
+            }
+            
+            // at stair / win
+            if (me->getOn()->getName() == "/") {
+                if (floor == 5) {
+                    cout << "Win!" << endl;
+                    cout << "You have scored: " << me->getGold() << endl;
+                    return 0;
+                }
+                ++ floor;
+                break;
+            }
+            
+
             if (restart) break;
         }
     }
