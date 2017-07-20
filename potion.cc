@@ -13,16 +13,28 @@ using namespace std;
 Potion::Potion(string name,int x, int y):Thing{name, x, y}{
   if (name == "PRH"){
     hp = 10;
+    atk = 0;
+    def = 0;
   }else if (name == "PBA"){
     atk = 5;
+    hp = 0;
+    def = 0;
   }else if (name == "PBD"){
     def = 5;
+    hp = 0;
+    atk = 0;
   }else if (name == "PPH"){
     hp = -10;
+    def = 0;
+    atk = 0;
   }else if (name  == "PWA"){
     atk = -5;
+    hp = 0;
+    def = 0;
   }else if (name == "PWD"){
     def = -5;
+    atk = 0;
+    hp = 0;
   } 
 }
 
