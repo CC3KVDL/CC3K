@@ -15,6 +15,7 @@
 
 using namespace std;
 
+// what appears first are helper functions
 // This is the implementation of getPos
 int getPos(int& x, int& y) {
     srand(time(NULL));
@@ -75,6 +76,16 @@ bool isIn(string ele, vector<string> arr){
     return result;
 }
 
+// This is the implementation of cmpEnemies
+bool cmpEnemies(Enemy *a, Enemy *b) {
+    if (a->getX() > b->getX()) {
+        return true;
+    } else if (a->getX() == b->getX()) {
+        return a->getY() > b->getY();
+    } else {
+        return false;
+    }
+}
 
 
 // ctor && dtor
@@ -199,20 +210,12 @@ string Floor:: getMes() {
 }
 
 
-bool sortEnemies(Enemy *a, Enemy *b) {
-    if (a->getX() > b->getX()) {
-        return true;
-    } else if (a->getX() == b->getX()) {
-        return a->getY() > b->getY();
-    } else {
-        return false;
-    }
-}
+
 
 // move all enemies randomly
 void Floor:: moveEnemies() {
     // sort
-    sort(Enemies.begin(), Enemies.end(), sortEnemies);
+    sort(Enemies.begin(), Enemies.end(), cmpEnemies);
     
     // move
     for (int i = 0; i < Enemies.size(); ++i) {
