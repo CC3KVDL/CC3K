@@ -41,6 +41,8 @@ public:
     
     void setOn(Thing* t); // Let pc step on something
     void setmKiller();
+    void setAtk();
+    void setDef();
     
     
     void printStatus(); // Print out the status of "me"
