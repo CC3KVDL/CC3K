@@ -14,7 +14,6 @@
 class Orcs: public Enemy {
 public:
     Orcs(int x, int y);
-    void hurt(Player &p);
     ~Orcs();
 };
 
