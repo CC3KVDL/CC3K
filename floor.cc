@@ -61,8 +61,58 @@ void getPos(int& x, int& y) {
 }
 
 
-Floor :: Floor(Display* dis): grid{vector<vector<Thing*>>()}, Enemies{vector<Enemy *>()}, mes{""}, dis{dis} {
-    
+// ctor && dtor
+Floor :: Floor(Display* dis): mes{"Action: "}, dis{dis} {
+    grid.resize(25);
+    for (int i = 0; i < 25; ++ i) {
+        grid[i].resize(79);
+    }
+    for (int i = 0; i < 25; ++ i) {
+        for (int j = 0; j < 79; ++ j) {
+            grid[i][j] = nullptr;
+        }
+    }
 }
 
-Floor:: 
+Floor:: ~Floor() {
+    for (int i = 0; i < 25; ++ i) {
+        for (int j = 0; j < 79; ++ j) {
+            delete grid[i][j];
+        }
+    }
+    for (int i = 0; i < Enemies.size(); ++ i) {
+        delete Enemies[i];
+    }
+}
+    
+    
+// initializing the floor
+    
+void Floor:: readMap(string filename) {
+    if (filename == "") {
+        
+    } else {
+        
+    }
+}
+    void Floor:: init(int x, int y, char c);
+    void Floor:: print(); // print out the current map
+    std:: string Floor:: getMes();
+    
+    void Floor:: moveEnemies(); // move all enemies randomly
+    void Floor:: movePlayer(Player* pc, std::string dir); // move pc to a direction
+    void Floor:: check(); // enemies in radius attack the pc; get gold from dead enemies; delete dead enemies;
+    
+    
+    // randomly generate things
+    void Floor:: randomPlayer(Player* pc); // randomly put player somewhere
+    void Floor:: randomStair(); //
+    void Floor:: randomGold(); // randomly create gold
+    void Floor:: randomPotion(); // randomly create potions
+    void Floor:: randomEnemy(); // randomly create enemies
+    
+    void Floor:: attackEnemy(Player *pc, std::string dir);
+    void Floor:: usePotion(Player *pc, std::string dir);
+    
+
+
