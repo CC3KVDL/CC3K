@@ -29,21 +29,21 @@ Player::createPlayer(string type){
   }
 }
 
-void setmKiller(){
+void Player::setmKiller(){
   mKiller = true;
 }
 
-void printStatus(){
+void Player::printStatus(){
   cout << "HP: " << hp << endl;
   cout << "Atk: " << atk << endl;
   cout << "Def: " << def <<  endl;
 }
 
-void gainGold(int amount){
+void Player::gainGold(int amount){
   gold = gold + amount;
 }
 
-int getGold(){
+int Player::getGold(){
   return gold;
 }
 
