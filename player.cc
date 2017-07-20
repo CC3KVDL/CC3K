@@ -17,7 +17,7 @@
 
 using namespace std;
 
-Player::Player(string pc_type,int x, int y, Thing* On):Thing{pc_type.substr(0,1),x,y},gold{0},mKiller{false},On{On}{}
+Player::Player(string pc_type,int x, int y, Thing* On):Thing{pc_type,x,y},gold{0},mKiller{false},On{On}{}
 
 Player *Player::createPlayer(string type){
     if (type == "d"){

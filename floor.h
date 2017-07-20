@@ -13,10 +13,12 @@
 #include "enemy.h"
 #include <vector>
 
-// getPos is a function to randomly generate a position in any chambre and returns
+// getPos(x, y) is a function to randomly generate a position in any chambre and returns
 // which chambre it was hte position is in (0--4)
-
 int getPos(int &x, int &y);
+
+// isIn(ele, arr) checks if a certain element(a string) is in the array and returns a boolean
+bool isIn(std::string ele, std::vector<std::string>);
 
 class Floor {
     std::vector<std::vector<Thing *>> grid; // the real grid of objects
@@ -29,27 +31,26 @@ public:
     Floor(Display* dis);
     ~Floor();
     
-    // initializing the floor
-    void readMap(std::string filename = "default.txt");
-    void init(int x, int y, char c);
+    // initializing the floor and printing
+    void readMap(std::string filename = "default.txt", Player *pc = nullptr);
+    void init(int x, int y, std::string c); // initial a signle Thing
     void print(); // print out the current map
     std:: string getMes();
-    
-    void moveEnemies(); // move all enemies randomly
-    void movePlayer(Player* pc, std::string dir); // move pc to a direction
-    void check(); // enemies in radius attack the pc; get gold from dead enemies; delete dead enemies;
-    
     
     // randomly generate things
     void spawnEverything(Player *pc); //
     void randomPlayer(Player* pc); // randomly put player somewhere
-    void randomStair(); //
+    void randomStair();
     void randomGold(); // randomly create gold
     void randomPotion(); // randomly create potions
     void randomEnemy(); // randomly create enemies
     
+    // what pc do
+    void movePlayer(Player* pc, std::string dir); // move pc to a direction
     void attackEnemy(Player *pc, std::string dir);
     void usePotion(Player *pc, std::string dir);
+    void check(); // enemies in radius attack the pc; get gold from dead enemies; delete dead enemies;
+    void moveEnemies(); // move all enemies randomly
     
 };
 

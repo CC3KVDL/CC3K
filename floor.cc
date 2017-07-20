@@ -65,6 +65,17 @@ int getPos(int& x, int& y) {
     return v;
 }
 
+// This is the implementation of isIn()
+
+bool isIn(string ele, vector<string> arr){
+    bool result = false;
+    for (auto& i : arr) {
+        result = result || (ele == i);
+    }
+    return result;
+}
+
+
 
 // ctor && dtor
 Floor :: Floor(Display* dis): mes{"Action: "}, dis{dis} {
@@ -92,81 +103,87 @@ Floor:: ~Floor() {
 
 
 // initializing the floor
-
-void Floor:: readMap(string filename) {
+void Floor:: readMap(string filename,Player* pc) {
     ifstream file{filename};
-    char cell;
-    int gdX, gdY, dX, dY;
+    string line;
+    string cell;
+    vector<Thing *> ld;
     for (int i = 0; i < 25; ++ i) {
+        getline(file, line);
         for (int j = 0; j < 79; ++ j) {
-            file >> cell;
-            if (cell == '9') {
-                gdX = i;
-                gdY = j;
+            cell = line[i];
+            if (cell == "9") {
+                init(i, j, cell);
+                ld.push_back(grid[i][j]);
+            }else if (cell=="@"){
+                grid[i][j]=pc;
+                pc->setX(i);
+                pc->setY(j);
+                dis->notify(pc);
+            }else{
+                init(i, j, cell);
             }
-            if (cell == 'D') {
-                dX = i;
-                dY = j;
-            }
-            init(i, j, cell);
         }
     }
-    grid[gdX][gdY]->setOwner(grid[dX][dY]);
+    for (int i = 0 ; i < ld.size();++i){
+        int x = ld[i]->getX();
+        int y = ld[i]->getY();
+        for (int j = -1; j <= 1; ++j){
+            for (int k = -1 ; k <= 1; ++k){
+                if (grid[x+j][y+k]->getName() == "D") {
+                    ld[i]->setOwner(grid[x+j][y+k]);
+                }
+            }
+        }
+    }
 }
 
 
-void Floor:: init(int x, int y, char c) {
+void Floor:: init(int x, int y, string c) {
+    vector<string> cell_names = {"-", "|", "+", "#", "\\", " "};
+    vector<string> enemy_names = {"M", "L", "D", "E", "L", "D", "H", "O"};
+    
     delete grid[x][y];
     
-    if (c == '-') {
-        grid[x][y] = new Cell("-",x,y);
-    } else if (c == '|') {
-        grid[x][y] = new Cell("|",x,y);
-    } else if (c == '+') {
-        grid[x][y] = new Cell("+",x,y);
-    } else if (c == '#') {
-        grid[x][y] = new Cell("#",x,y);
-    } else if (c == '\\') {
-        grid[x][y] = new Cell("\\",x,y);
-    } else if (c == '.') {
-        grid[x][y] = new Cell(".",x,y);
-    } else if (c ==' ') {
-        grid[x][y] = new Cell(" ",x,y);
-    } else if (c == '0') {
+    if (isIn(c, cell_names)) {
+        grid[x][y] = new Cell(c, x, y);
+    } else if (isIn(c, enemy_names)) {
+        grid[x][y] = Enemy::createEnemy(c, x, y);
+    } else if (c == "0") {
         grid[x][y] = new Potion("PRH",x,y);
-    } else if (c == '1') {
+    } else if (c == "1") {
         grid[x][y] = new Potion("PBA",x,y);
-    } else if (c == '2') {
+    } else if (c == "2") {
         grid[x][y] = new Potion("PBD",x,y);
-    } else if (c =='3') {
+    } else if (c == "3") {
         grid[x][y] = new Potion("PPH",x,y);
-    } else if (c == '4') {
+    } else if (c == "4") {
         grid[x][y] = new Potion("PWA",x,y);
-    } else if (c =='5') {
+    } else if (c == "5") {
         grid[x][y] = new Potion("PWD",x,y);
-    } else if (c == '6') {
+    } else if (c == "6") {
         grid[x][y] = new Gold("GN", nullptr,x,y);
-    } else if (c == '7') {
+    } else if (c == "7") {
         grid[x][y] = new Gold("GS", nullptr,x,y);
-    } else if (c =='8') {
+    } else if (c == "8") {
         grid[x][y] = new Gold("GH", nullptr,x,y);
-    } else if (c == '9') {
+    } else if (c == "9") {
         grid[x][y] = new Gold("GD", nullptr,x,y);
-    } else if (c == '@') {
+    } else if (c == "@") {
         grid[x][y] = nullptr;
-    } else if (c == 'M') {
+    } else if (c == "M") {
         grid[x][y] = new Merchant(x,y);
-    } else if (c =='L') {
+    } else if (c == "L") {
         grid[x][y] = new Halfling(x,y);
-    } else if (c =='D') {
+    } else if (c == "D") {
         grid[x][y] = new Dragon(x,y);
-    } else if (c == 'E') {
+    } else if (c == "E") {
         grid[x][y] = new Elf(x,y);
-    } else if (c == 'W') {
+    } else if (c == "W") {
         grid[x][y] = new Dwarf(x,y);
-    } else if (c == 'H') {
+    } else if (c == "H") {
         grid[x][y] = new Human(x,y);
-    } else if (c =='O') {
+    } else if (c == "O") {
         grid[x][y] = new Orcs(x,y);
     }
     
@@ -192,8 +209,8 @@ bool sortEnemies(Enemy *a, Enemy *b) {
     }
 }
 
-
-void Floor:: moveEnemies() { // move all enemies randomly
+// move all enemies randomly
+void Floor:: moveEnemies() {
     // sort
     sort(Enemies.begin(), Enemies.end(), sortEnemies);
     
@@ -219,12 +236,52 @@ void Floor:: moveEnemies() { // move all enemies randomly
     }
 }
 
+void Floor:: movePlayer(Player* pc, std::string dir){
+    int x_pc = pc->getX();
+    int y_pc = pc->getY();
+    int x_new = x_pc;
+    int y_new = y_pc;
+    if (dir == "no") {
+        x_new-=1;
+    } else if (dir == "ne") {
+        x_new-=1;
+        y_new+=1;
+    } else if (dir == "ea") {
+        y_new+=1;
+    } else if (dir == "se") {
+        x_new+=1;
+        y_new+=1;
+    } else if (dir == "so") {
+        x_new+=1;
+    } else if (dir == "sw") {
+        x_new+=1;
+        y_new-=1;
+    } else if (dir == "we") {
+        y_new-=1;
+    } else if (dir == "nw") {
+        x_new-=1;
+        y_new-=1;
+    }
+    
+    // here is when pc actually walks
+    Thing *whereTo = grid[x_new][y_new]; // Thing pc wants to step on
+    vector<string> walkable = {"G", ".", "+", "#"}; // Names of Tings that can step on
+    string whatTo = grid[x_new][y_new]->getName(); // Name of Thing pc want to step on
+    if (isIn(whatTo, walkable)) {
+        grid[x_pc][y_pc] = pc->getOn();
+        pc->setOn(whereTo);
+        grid[x_new][y_new] = pc;
+        pc->setX(x_new);
+        pc->setY(y_new);
+    }
+    
+    // Now we "DON'T" let pc pick up a gold yet!!!
+}
 
-void Floor:: movePlayer(Player* pc, std::string dir); // move pc to a direction
-void Floor:: check(); // enemies in radius attack the pc; get gold from dead enemies; delete dead enemies;
+void Floor:: check(Player* pc); // pick up gold; enemies in radius attack the pc; Dragon attack pc; get gold from dead enemies; delete dead enemies;
 
 
-// randomly generate things
+// randomly generate things (This is called when no map has been provided)
 
 void Floor::spawnEverything(Player *pc){
     // set player
@@ -235,7 +292,7 @@ void Floor::spawnEverything(Player *pc){
     
     // set stairway
     while (getPos(x, y) == chmbr){}
-    init(x,y,'\\');
+    init(x,y,"\\");
     
     // set potions
     int pcount = 0;
@@ -268,6 +325,7 @@ void Floor:: randomGold(); // randomly create gold
 void Floor:: randomPotion(); // randomly create potions
 void Floor:: randomEnemy(); // randomly create enemies
 
+// what pc do
 void Floor:: attackEnemy(Player *pc, std::string dir);
 void Floor:: usePotion(Player *pc, std::string dir);
 

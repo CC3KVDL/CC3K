@@ -18,8 +18,9 @@ class Gold: public Thing {
     
     public:
     Gold(std::string, Dragon* owner, int x, int y);
+    void setOwner(Thing *t);
+    Thing *getOwner(Thing *t);
     int getValue();
-    Dragon* getDragon();
     ~Gold();
 };
 
