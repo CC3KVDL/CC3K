@@ -118,7 +118,7 @@ int main(int argc, const char * argv[]) {
                 f.moveEnemies();
             }
             
-            // print new map  NOTICE: clear old map????
+            // print new map
             f.print();
             me->printStatus();
             cout << f.getMes() << endl;
