@@ -62,3 +62,5 @@ void getPos(int& x, int& y) {
 
 
 Floor :: Floor(Display* dis): grid{vector<vector<Thing*>>()}, Enemies{vector<Enemy *>()}, mes{}
+
+Floor:: 
