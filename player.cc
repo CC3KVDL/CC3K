@@ -19,6 +19,8 @@ using namespace std;
 
 Player::Player(string pc_type,int x, int y, Thing* On):Thing{pc_type,x,y},gold{0},mKiller{false},On{On}{}
 
+Player::~Player(){}
+
 Player *Player::createPlayer(string type){
     if (type == "d"){
         return new Drow();
@@ -33,28 +35,32 @@ Player *Player::createPlayer(string type){
     }
 }
 
-bool Player::getmKiller(){
-    return mKillier;
+
+void Player::attack(Thing &e){
+    if (e.getName()=="Lhalfling"){
+      srand(time(NULL));
+      int i = rand()%2;
+      if (i == 0){
+        e.hurt(*this);
+      }
+    }else{
+        r.hurt(*this);
+    }
 }
 
-void Player::setmKiller(){
-    mKiller = true;
+void Player::hurt(Enemy &e){
+  int hurt = (100 / (100 + def))*e.getAtk();
+  addHp(-hurt);
 }
 
-void Player::setOn(Thing* t){
-  On = t;
+void Player::use(Thing* t){
+    t->modify(this);
 }
 
-void Player::printStatus(){
-  cout << "HP: " << hp << endl;
-  cout << "Atk: " << atk << endl;
-  cout << "Def: " << def <<  endl;
-}
 
-int Player::getHp(){
-  return hp;
-}
 
+
+//modify relevant field;
 void Player::addHp(int amount){
   hp = hp + amount;
   if (this->getName()=="@human" && hp > 140){
@@ -80,39 +86,76 @@ void Player::addGold(int amount){
 
 void Player::addAtk(int amount){
     atk = atk + amount;
+    if (atk < 0){
+        atk = 0;
+    }   
 }
 
 void Player::addDef(int amount){
     def = def + amount;
+    if (def < 0){
+       def = 0;
+    }
+}
+
+
+
+
+//accessor
+int Player::getHp(){
+  return hp;
 }
 
 int Player::getGold(){
   return gold;
 }
 
-void Player::attack(Thing &e){
-    if (e.getName()=="Lhalfling"){
-      srand(time(NULL));
-      int i = rand()%2;
-      if (i == 0){
-        e.hurt(*this);
-      }
-    }else{
-        r.hurt(*this);
-    }
-}
-
 Thing* Player::getOn(){
   return On;
 }
 
-void Player::use(Thing* t){
-    t->modify(this);
+bool Player::getmKiller(){
+    return mKillier;
 }
 
-void Player::hurt(Enemy &e){
-  int hurt = (100 / (100 + def))*e.getAtk();
-  addHp(-hurt);
+
+
+
+//mutator
+void Player::setmKiller(){
+    mKiller = true;
 }
 
-Player::~Player(){}
+void Player::setOn(Thing* t){
+  On = t;
+}
+
+void initStatus(){
+  if (name == "@vampire"){
+      atk = 25;
+      def = 25;
+  }else if (name == "@shade"){
+      atk = 25;
+      def = 25;
+  }else if (name == "@drow"){
+      atk = 25;
+      def = 15;
+  }else if (name == "@troll"){
+      atk = 25;
+      def = 15;
+  }else if (name == "@goblin"){
+      atk = 15;
+      def = 20;
+  }
+}
+
+
+void Player::printStatus(){
+  cout << "HP: " << hp << endl;
+  cout << "Atk: " << atk << endl;
+  cout << "Def: " << def <<  endl;
+}
+
+
+
+
