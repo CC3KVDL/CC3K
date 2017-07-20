@@ -14,7 +14,6 @@
 class Human: public Enemy {
 public:
     Human(int x, int y);
-    void hurt(Player &p);
     ~Human();
 };
 
