@@ -7,8 +7,11 @@
 //
 
 #include <cstdlib>
+#include <fstream>
 #include "floor.h"
 #include "cell.h"
+#include "potion.h"
+#include "gold.h"
 
 using namespace std;
 
@@ -105,7 +108,7 @@ void Floor:: readMap(string filename) {
                 dX = i;
                 dY = j;
             }
-            inti(i, j, cell);
+            init(i, j, cell);
         }
     }
     grid[gdX][gdY]->setOwner(grid[dX][dY]);
@@ -120,7 +123,7 @@ void Floor:: init(int x, int y, char c) {
     } else if (c == '|') {
         grid[x][y] = new Cell("|",x,y);
     } else if (c == '+') {
-        grid[x][y] = new Cell("+"x,y);
+        grid[x][y] = new Cell("+",x,y);
     } else if (c == '#') {
         grid[x][y] = new Cell("#",x,y);
     } else if (c == '\\') {
@@ -170,7 +173,10 @@ void Floor:: init(int x, int y, char c) {
     dis->notify(grid[x][y]);
 }
 
-void Floor:: print(); // print out the current map
+void Floor:: print(){
+    dis->print();
+}
+
 string Floor:: getMes() {
     return mes;
 }

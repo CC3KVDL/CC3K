@@ -14,6 +14,7 @@
 class Dragon: public Enemy {
 public:
     Dragon(int x, int y);
+    void setOwner()
     void attack(Player &p);
     void hurt(Player &p);
     ~Dragon();
