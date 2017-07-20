@@ -8,6 +8,6 @@
 
 #include "halfling.h"
 
-Halfling:: Halfling(int x, int y): Enemy{x, y, "Lhalfling", 100, 15, 20} {}
+Halfling::Halfling(int x, int y): Enemy{x, y, "Lhalfling", 100, 15, 20} {}
 
 Halfling::~Halfling(){}
