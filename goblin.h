@@ -15,8 +15,7 @@
 class Goblin: public Player {
 public:
     Goblin();
-    void attack(Enemy &e);
-    void hurt(Enemy &e);
+    void hurt(Enemy &e) override;
     ~Goblin();
 };
 
