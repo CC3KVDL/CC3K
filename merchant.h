@@ -13,7 +13,7 @@
 
 class Merchant: public Enemy {
 public:
-    Merchant();
+    Merchant(int x, int y);
     void attack(Player &p);
     void hurt(Player &p);
     ~Merchant();
