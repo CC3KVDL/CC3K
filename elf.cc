@@ -28,3 +28,5 @@ void Elf:: attack(Player &p) override {
     }
   }
 }
+
+Elf:: ~Elf() {}
