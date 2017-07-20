@@ -7,3 +7,16 @@
 //
 
 #include "troll.h"
+
+
+Troll::Troll(){
+  hp = 120;
+  atk = 25;
+  def = 15;
+}
+    
+void Troll::attack(Enemy &e);
+    
+void Troll::hurt(Enemy &e);
+    
+Troll::~Troll();
