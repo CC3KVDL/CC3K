@@ -8,11 +8,12 @@
 
 #include <cstdlib>
 #include "floor.h"
+#include "cell.h"
 
 using namespace std;
 
 // This is the implementation of getPos
-void getPos(int& x, int& y) {
+int getPos(int& x, int& y) {
     srand(time(NULL));
     int v = rand()%5; // generate 0~4
     if (v == 0) {
@@ -58,6 +59,7 @@ void getPos(int& x, int& y) {
             y = (v4 - 33) % 39 + 37;
         }
     }
+    return v;
 }
 
 
@@ -84,10 +86,10 @@ Floor:: ~Floor() {
         delete Enemies[i];
     }
 }
-    
-    
+
+
 // initializing the floor
-    
+
 void Floor:: readMap(string filename) {
     if (filename == "") {
         
@@ -95,24 +97,62 @@ void Floor:: readMap(string filename) {
         
     }
 }
-    void Floor:: init(int x, int y, char c);
-    void Floor:: print(); // print out the current map
-    std:: string Floor:: getMes();
+void Floor:: init(int x, int y, char c);
+void Floor:: print(); // print out the current map
+std:: string Floor:: getMes();
+
+void Floor:: moveEnemies(); // move all enemies randomly
+void Floor:: movePlayer(Player* pc, std::string dir); // move pc to a direction
+void Floor:: check(); // enemies in radius attack the pc; get gold from dead enemies; delete dead enemies;
+
+
+// randomly generate things
+
+void Floor::spawnEverything(Player *pc){
+    // set player
+    int x, y, chmbr;
+    chmbr = getPos(x, y);
+    pc->setOn(grid[x][y]);
+    grid[x][y] = pc;
     
-    void Floor:: moveEnemies(); // move all enemies randomly
-    void Floor:: movePlayer(Player* pc, std::string dir); // move pc to a direction
-    void Floor:: check(); // enemies in radius attack the pc; get gold from dead enemies; delete dead enemies;
+    // set stairway
+    while (getPos(x, y) == chmbr){}
+    delete grid[x][y];
+    grid[x][y] = new Cell("\\", x, y);
     
+    // set potions
+    int pcount = 0;
+    while (pcount < 10) {
+        srand(time(NULL));
+        int p = rand()%5; // p is a random number from 0--5
+        string p_name; // Denote potion type
+        if (p == 0) {
+            p_name = 
+        }
+    }
     
-    // randomly generate things
-    void Floor:: randomPlayer(Player* pc); // randomly put player somewhere
-    void Floor:: randomStair(); //
-    void Floor:: randomGold(); // randomly create gold
-    void Floor:: randomPotion(); // randomly create potions
-    void Floor:: randomEnemy(); // randomly create enemies
-    
-    void Floor:: attackEnemy(Player *pc, std::string dir);
-    void Floor:: usePotion(Player *pc, std::string dir);
-    
+}
+
+void Floor:: randomPlayer(Player* pc){
+    int x;
+    int y;
+    while (true) {
+        getPos(x, y);
+        if (grid[x][y]->getName() == ".") {
+            pc->setOn(grid[x][y]);
+            grid[x][y] = pc;
+            break;
+        }
+    }
+}
+
+
+void Floor:: randomGold(); // randomly create gold
+void Floor:: randomPotion(); // randomly create potions
+void Floor:: randomEnemy(); // randomly create enemies
+
+void Floor:: attackEnemy(Player *pc, std::string dir);
+void Floor:: usePotion(Player *pc, std::string dir);
+
 
 

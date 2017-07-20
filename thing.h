@@ -20,7 +20,7 @@ class Thing {
     int y;
     Display *d; // This is an observer of the whole grid.
 public:
-    Thing(std::string name, int x, int y);
+    Thing(std::string name, int x=-1, int y=-1);
     int getX();
     int getY();
     void setX(int pos_x);

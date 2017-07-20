@@ -13,9 +13,10 @@
 #include "enemy.h"
 #include <vector>
 
-// getPos is a function to randomly generate a position in any chambre
+// getPos is a function to randomly generate a position in any chambre and returns
+// which chambre it was hte position is in (0--4)
 
-void getPos(int &x, int &y);
+int getPos(int &x, int &y);
 
 class Floor {
     std::vector<std::vector<Thing *>> grid; // the real grid of objects
@@ -40,6 +41,7 @@ public:
     
     
     // randomly generate things
+    void spawnEverything(Player *pc); //
     void randomPlayer(Player* pc); // randomly put player somewhere
     void randomStair(); //
     void randomGold(); // randomly create gold

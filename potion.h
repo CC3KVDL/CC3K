@@ -19,6 +19,7 @@ class Potion : public Thing {
 public:
     Potion(std::string name, int x, int y);
     void modify(Player* p);
+    ~Potion();
 };
 
 
