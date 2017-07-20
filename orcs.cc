@@ -7,3 +7,5 @@
 //
 
 #include "orcs.h"
+
+Orcs:: Orcs(int x, int y): Enemy{x, y, "Hhuman", 180, 30, 25} {}
