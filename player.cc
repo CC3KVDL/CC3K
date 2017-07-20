@@ -78,11 +78,11 @@ void Player::addGold(int amount){
   gold = gold + amount;
 }
 
-void Player::addatk(int amount){
+void Player::addAtk(int amount){
     atk = atk + amount;
 }
 
-void Player::adddef(int amount){
+void Player::addDef(int amount){
     def = def + amount;
 }
 
@@ -107,7 +107,12 @@ Thing* Player::getOn(){
 }
 
 void Player::hurt(Enemy &e){
-    
+  int hurt = (100 / (100 + def))*e.getAtk(); ;
+  if (e->getName()=="Oorcs"){
+      addHp(-hurt*1.5);
+  }else{
+      addHp(-hurt);
+  }
 }
 
 Player::~Player(){}
