@@ -12,9 +12,20 @@ Elf:: Elf(int x, int y): Enemy{x, y, "Eelf", 140, 30, 10} {}
 
 void Elf:: attack(Player &p){
   if (p.getName() == "@drow") {
+  int v = rand()%2; // generate 0~1
+    if (v) {
     p.hurt(*this);
+    }
   } else {
+    int v1 = rand()%2; // generate 0~1 
+    if (v1) {
     p.hurt(*this);
+    }
+    int v2 = rand()%2; // generate 0~1
+    if (v2) {
     p.hurt(*this);
+    }
   }
 }
+
+Elf:: ~Elf() {}

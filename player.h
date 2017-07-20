@@ -9,6 +9,7 @@
 #ifndef player_h
 #define player_h
 #include <string>
+#include <cstdlib>
 #include "thing.h"
 #include "enemy.h"
 

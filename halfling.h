@@ -14,7 +14,6 @@
 class Halfling: public Enemy {
 public:
     Halfling(int x, int y);
-    void hurt(Player &p);
     ~Halfling();
 };
 

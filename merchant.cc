@@ -20,3 +20,5 @@ void Merchant:: attack(Player &p) {
     }
   }
 }
+
+Merchant:: ~Merchant() {}

@@ -14,16 +14,16 @@ Vampire::Vampire(){
   def = 25;
 }
 
-void Vampire::attack(Enemy &e){
+void Vampire::attack(Enemy &e) {
   if (e->getName()=="Wdwarf"){
     addHp(-5);
   }else{
     addHp(5);
   }
-  //default attack;
+  //default attack
+  e.hurt(*this);
 }
 
 
 
-void hurt(Enemy &e){}
 Vampire::~Vampire(){}
