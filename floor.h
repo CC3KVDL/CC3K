@@ -31,6 +31,7 @@ public:
     void readMap(std::string filename);
     void init(int x, int y, char c);
     void print(); // print out the current map
+    std:: string getMes();
     
     void moveEnemy(); // move all enemies randomly
     void movePlayer(Player* pc, std::string dir); // move pc to a direction

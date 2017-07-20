@@ -25,7 +25,9 @@ public:
     Player *createPlayer(std::string pc_type);
     virtual void attack(Enemy &e);
     virtual void hurt(Enemy &e);
-    void getGold(int amount); // This is called whenever "I" steps on a pile of gold or "I" killed an enemy
+    void gainGold(int amount); // This is called whenever "I" steps on a pile of gold or "I" killed an enemy
+    void getGold();
+    void getHp();
     void printStatus(); // Print out the status of "me"
     void use(Thing *t); // This is the first version, in DLC this should be a virtual
     friend class Enemy;
