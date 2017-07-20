@@ -13,9 +13,15 @@ Goblin::Goblin(){
   atk = 15;
   def = 20;
 }
+
     
-void Goblin::attack(Enemy &e);
-    
-void Goblin::hurt(Enemy &e);
-   
-Goblin::~Goblin();
+void Goblin::hurt(Enemy &e){
+  int hurt = (100 / (100 + def))*e.getAtk();
+  if (e->getName()=="Oorcs"){
+    addHp(-hurt*1.5);
+  }else{
+    addHp(-hurt);
+  }
+}
+
+Goblin::~Goblin(){}
