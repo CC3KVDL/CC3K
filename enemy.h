@@ -20,7 +20,7 @@ class Enemy: public Thing {
 public:
     Enemy(int x, int y, std::string name, int hp, int atk, int def);
     virtual void attack(Player &p);
-    virtual void hurt(Player &p);
+    void hurt(Player &p);
     static Enemy *createEnemy(std::string name, int x, int y);
     virtual ~Enemy();
 };
