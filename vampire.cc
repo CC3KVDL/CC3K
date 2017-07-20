@@ -14,7 +14,7 @@ Vampire::Vampire(){
   def = 25;
 }
 
-void Vampire::attack(Enemy &e){
+void Vampire::attack(Enemy &e) override{
   if (e->getName()=="Wdwarf"){
     addHp(-5);
   }else{
@@ -26,5 +26,4 @@ void Vampire::attack(Enemy &e){
 
 
 
-void hurt(Enemy &e){}
 Vampire::~Vampire(){}
