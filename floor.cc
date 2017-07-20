@@ -332,8 +332,69 @@ void Floor:: randomPotion(); // randomly create potions
 void Floor:: randomEnemy(); // randomly create enemies
 
 // what pc do
-void Floor:: attackEnemy(Player *pc, std::string dir);
-void Floor:: usePotion(Player *pc, std::string dir);
+void Floor:: attackEnemy(Player *pc, std::string dir) {
+    // enemy's direction
+    int x = pc->getX();
+    int y = pc->getY();
+    if (dir == "no") {
+        x-=1;
+    } else if (dir == "ne") {
+        x-=1;
+        y+=1;
+    } else if (dir == "ea") {
+        y+=1;
+    } else if (dir == "se") {
+        x+=1;
+        y+=1;
+    } else if (dir == "so") {
+        x+=1;
+    } else if (dir == "sw") {
+        x+=1;
+        y-=1;
+    } else if (dir == "we") {
+        y-=1;
+    } else if (dir == "nw") {
+        x-=1;
+        y-=1;
+    }
+    
+    // if enemy, attack
+    if (isIn(grid[x][y]->getName().strsub(0,1), enemy_names)) {
+        pc->attack(*grid[x][y]);
+    }
+}
+
+void Floor:: usePotion(Player *pc, std::string dir) {
+    // potion's direction
+    int x = pc->getX();
+    int y = pc->getY();
+    if (dir == "no") {
+        x-=1;
+    } else if (dir == "ne") {
+        x-=1;
+        y+=1;
+    } else if (dir == "ea") {
+        y+=1;
+    } else if (dir == "se") {
+        x+=1;
+        y+=1;
+    } else if (dir == "so") {
+        x+=1;
+    } else if (dir == "sw") {
+        x+=1;
+        y-=1;
+    } else if (dir == "we") {
+        y-=1;
+    } else if (dir == "nw") {
+        x-=1;
+        y-=1;
+    }
+    
+    if (grid[x][y]->getName().strsub(0,1) == "P") {
+        pc->use(grid[x][y]);
+    }
+}
+    
 
 
 
