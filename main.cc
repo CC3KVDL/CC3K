@@ -103,7 +103,11 @@ int main(int argc, const char * argv[]) {
                 cin >> dir;
                 f.attackEnemay(me, dir);
             } else if (command == "f" ) {
-                moveEnemy = false;
+               if (moveEnemy) {
+                   moveEnemy = false;
+               } else {
+                   moveEnemy = true;
+               }
             } else if (command == "r" ) {
                 break;
             } else if (command == "q" ) {
