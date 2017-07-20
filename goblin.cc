@@ -7,3 +7,15 @@
 //
 
 #include "goblin.h"
+
+Goblin::Goblin(){
+  hp = 110;
+  atk = 15;
+  def = 20;
+}
+    
+void Goblin::attack(Enemy &e);
+    
+void Goblin::hurt(Enemy &e);
+   
+Goblin::~Goblin();
