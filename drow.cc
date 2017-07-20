@@ -16,8 +16,6 @@ Drow::Drow(){
   def = 15;
 }
 
-void Drow::attack(Enemy &e);
 
-void Drow::hurt(Enemy &e);
 
-Drow::~Drow();
+Drow::~Drow(){}
