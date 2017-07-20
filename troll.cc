@@ -15,8 +15,5 @@ Troll::Troll(){
   def = 15;
 }
     
-void Troll::attack(Enemy &e);
-    
-void Troll::hurt(Enemy &e);
-    
-Troll::~Troll();
+
+Troll::~Troll(){}
