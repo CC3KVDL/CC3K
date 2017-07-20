@@ -15,7 +15,6 @@ class Merchant: public Enemy {
 public:
     Merchant(int x, int y);
     void attack(Player &p) override;
-    void hurt(Player &p);
     ~Merchant();
 };
 
