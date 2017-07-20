@@ -15,25 +15,26 @@
 
 // getPos is a function to randomly generate a position in any chambre
 
-void gepos(int &x, int &y);
+void getPos(int &x, int &y);
 
 class Floor {
-    std::vector<std::vector<Thing *>> grid;
-    std::vector<Enemy *> Enemies;
-    std::string mes;
-    Display *dis;
+    std::vector<std::vector<Thing *>> grid; // the real grid of objects
+    std::vector<Enemy *> Enemies; // an array of enemies
+    std::string mes; // the message that you print out each time
+    Display *dis; // a field to keep track of the display
 
 public:
     // ctor / dtor
     Floor(Display* dis);
     ~Floor();
     
-    void readMap(std::string filename);
+    // initializing the floor
+    void readMap(std::string filename = "default.txt");
     void init(int x, int y, char c);
     void print(); // print out the current map
     std:: string getMes();
     
-    void moveEnemy(); // move all enemies randomly
+    void moveEnemies(); // move all enemies randomly
     void movePlayer(Player* pc, std::string dir); // move pc to a direction
     void check(); // enemies in radius attack the pc; get gold from dead enemies; delete dead enemies;
     

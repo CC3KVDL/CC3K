@@ -9,8 +9,10 @@
 #include <cstdlib>
 #include "floor.h"
 
+using namespace std;
+
 // This is the implementation of getPos
-void givePos(int& x, int& y) {
+void getPos(int& x, int& y) {
     srand(time(NULL));
     int v = rand()%5; // generate 0~4
     if (v == 0) {
@@ -59,6 +61,4 @@ void givePos(int& x, int& y) {
 }
 
 
-Floor :: Floor(Display* dis) {
-    
-}
+Floor :: Floor(Display* dis): grid{vector<vector<Thing*>>()}, Enemies{vector<Enemy *>()}, mes{}
