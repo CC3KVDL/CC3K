@@ -32,6 +32,10 @@ void Player::setmKiller(){
   mKiller = true;
 }
 
+void Player::setOn(Thing* t){
+  On = t;
+}
+
 void Player::printStatus(){
   cout << "HP: " << hp << endl;
   cout << "Atk: " << atk << endl;
