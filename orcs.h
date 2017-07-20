@@ -13,7 +13,7 @@
 
 class Orcs: public Enemy {
 public:
-    Orcs();
+    Orcs(int x, int y);
     void attack(Player &p);
     void hurt(Player &p);
     ~Orcs();
