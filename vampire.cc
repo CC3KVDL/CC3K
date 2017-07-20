@@ -15,10 +15,10 @@ Vampire::Vampire(){
 }
 
 void Vampire::attack(Enemy &e){
-  if (r->getName()=="Wdwarf"){
-    hp = hp - 5;
+  if (e->getName()=="Wdwarf"){
+    addHp(-5);
   }else{
-    hp = hp + 5;
+    addHp(5);
   }
   //default attack;
 }
