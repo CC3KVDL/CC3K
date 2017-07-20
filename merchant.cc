@@ -19,3 +19,5 @@ void Merchant:: attack(Player &p) override {
     }
   }
 }
+
+Merchant:: ~Merchant() {}
