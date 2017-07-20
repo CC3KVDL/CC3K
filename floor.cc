@@ -59,4 +59,6 @@ void givePos(int& x, int& y) {
 }
 
 
-Floor :: Floor(std::string fileName, Display* dis): height{25}, width{79}, 
+Floor :: Floor(Display* dis) {
+    
+}

@@ -9,6 +9,7 @@
 #ifndef potion_h
 #define potion_h
 
+#include "thing.h"
 
 class Potion : public Thing {
   int hp;

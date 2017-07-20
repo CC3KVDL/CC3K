@@ -18,8 +18,6 @@
 void gepos(int &x, int &y);
 
 class Floor {
-    int height;
-    int width;
     std::vector<std::vector<Thing *>> grid;
     std::vector<Enemy *> Enemies;
     std::string mes;
@@ -40,8 +38,8 @@ public:
     
     
     // randomly generate things
-    void randomPlayer(Player* pc);
-    void randomStair();
+    void randomPlayer(Player* pc); // randomly put player somewhere
+    void randomStair(); //
     void randomGold(); // randomly create gold
     void randomPotion(); // randomly create potions
     void randomEnemy(); // randomly create enemies
