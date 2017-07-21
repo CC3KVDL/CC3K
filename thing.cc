@@ -9,22 +9,27 @@
 #include "thing.h"
 using namespace std;
 
+// Method all "thing" can call
 Thing::Thing(string name, int x, int y):name{name},x{x}, y{y}{}
-
 int Thing::getX(){return x;}
-
 int Thing::getY(){return y;}
-
-string getName(){
-    return ;
+string Thing::getName(){
+    return name;
 }
 
 Thing::~Thing(){}
 
+//Virtual Method for Player and Enemy
 void Thing::attack(Thing* t){}
 void Thing::use(Thing* t){}
 
-void setOwner(Thing* t){}
-int getValue(Thing* t){}
-Thing* getOwner(){}
+// Virtual Method for Gold
+void Thing::setOwner(Thing* t){}
+int Thing::getValue(){
+    return -1;
+}
+Thing* Thing::getOwner(){}
+
+// Virtual Method for Potion
+void Thing::modify(Player *pc) {}
 

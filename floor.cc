@@ -11,6 +11,7 @@
 #include <algorithm>
 #include "floor.h"
 #include "cell.h"
+#include "enemy.h"
 #include "potion.h"
 #include "gold.h"
 
@@ -126,7 +127,7 @@ void Floor:: readMap(string filename,Player* pc) {
                 init(i, j, cell);
                 Ds.push_back(grid[i][j]);
             }else if (cell=="@"){
-                grid[i][j]=pc;
+                grid[i][j] = pc;
                 pc->setX(i);
                 pc->setY(j);
                 dis->notify(pc);
@@ -157,7 +158,7 @@ void Floor:: readMap(string filename,Player* pc) {
 
 
 void Floor:: init(int x, int y, string c) {
-    vector<string> cell_names = {"-", "|", "+", "#", "\\", " "};
+    vector<string> cell_names = {"-", "|", "+", "#", "\\", " ", "."};
     vector<string> enemy_names = {"M", "W", "L", "D", "E","H", "O"};
     bool isCell = find(cell_names.begin(), cell_names.end(), c) != cell_names.end();
     bool isEnemy = find(enemy_names.begin(), enemy_names.end(), c) != enemy_names.end();
@@ -285,7 +286,8 @@ void Floor:: check(Player* pc) {
         int y = pc->getY();
         pc->addGold(sOn->getValue());
         delete pc->getOn();
-        
+        Thing *nt = new Cell(".", x, y)
+        pc->setOn()
         
     }
 }
