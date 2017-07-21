@@ -10,11 +10,9 @@
 #define thing_h
 #include <memory>
 #include <string>
-#include "display.h"
-#include "player.h"
 
-class Display;
 class Player;
+class Enemy;
 
 class Thing {
     std::string name;
@@ -32,7 +30,8 @@ public:
     virtual ~Thing();
     
     // Virtual Method for Player and Enemy
-    virtual void attack(Thing* t);
+    virtual void attack(Thing &t);
+    virtual void hurt(Thing &t);
     virtual void use(Thing * t);
 
     // Virtual Method for Gold

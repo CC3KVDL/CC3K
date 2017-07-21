@@ -6,7 +6,16 @@
 //  Copyright © 2017 Dennis. All rights reserved.
 //
 
+#include <cstdlib>
+#include "player.h"
 #include "enemy.h"
+#include "human.h"
+#include "dwarf.h"
+#include "orcs.h"
+#include "merchant.h"
+#include "dragon.h"
+#include "elf.h"
+#include "halfling.h"
 using namespace std;
 
 Enemy * Enemy:: createEnemy(string name, int x, int y) {
@@ -38,7 +47,7 @@ void Enemy:: attack(Player &p) {
 }
 
 void Enemy:: hurt(Player &p) {
-  int hurt = (100 / (100 + def))*p.getAtk();
+  int hurt = (100 / (100 + def))* p.getAtk();
   hp -= hurt;
 }
 

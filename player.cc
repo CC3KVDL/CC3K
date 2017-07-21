@@ -17,7 +17,7 @@
 
 using namespace std;
 
-Player::Player(string pc_type,int x, int y, Thing* On):Thing{pc_type,x,y},gold{0},mKiller{false},On{On}{}
+Player::Player(std::string pc_type, int hp, int atk, int def): Thing{pc_type,0,0}, hp{hp}, atk{atk}, def{def}, gold{0}, On{nullptr}, mKiller{false} {}
 
 Player::~Player(){}
 
@@ -44,7 +44,7 @@ void Player::attack(Thing &e){
         e.hurt(*this);
       }
     }else{
-        r.hurt(*this);
+        e.hurt(*this);
     }
 }
 

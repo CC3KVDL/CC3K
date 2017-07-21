@@ -9,11 +9,7 @@
 #include "troll.h"
 
 
-Troll::Troll(){
-  hp = 120;
-  atk = 25;
-  def = 15;
-}
+Troll::Troll(): Player{"@Troll", 120, 25, 15}{}
     
 
 Troll::~Troll(){}

@@ -8,11 +8,7 @@
 
 #include "vampire.h"
 
-Vampire::Vampire(){
-  hp = 50;
-  atk = 25;
-  def = 25;
-}
+Vampire::Vampire(): Player{"@vampire", 50, 25, 25}{}
 
 void Vampire::attack(Enemy &e) {
   if (e->getName()=="Wdwarf"){

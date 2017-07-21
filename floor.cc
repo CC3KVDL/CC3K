@@ -286,8 +286,8 @@ void Floor:: check(Player* pc) {
         int y = pc->getY();
         pc->addGold(sOn->getValue());
         delete pc->getOn();
-        Thing *nt = new Cell(".", x, y)
-        pc->setOn()
+        Thing *nt = new Cell(".", x, y);
+        pc->setOn(); ////////////////////
         
     }
 }
@@ -311,41 +311,15 @@ void Floor::spawnEverything(Player *pc){
     while (pcount < 10) {
         srand(time(NULL));
         int p = rand()%6; // p is a random number from 0--5
-        string pn; // Denote potion name
-        if (p == 0) {
-            pn = "PRH";
-        } else if (p == 1) {
-            pn = "PBA";
-        } else if (p == 2) {
-            pn = "PBD";
-        } else if (p == 3) {
-            pn = "PPH";
-        } else if (p == 4) {
-            pn = "PWA";
-        } else{
-            pn = "PWD";
-        }
         while (true) {
+            string pn = to_string(p);
             getPos(x, y);
             if (grid[x][y]->getName() == ".") {
                 init(x, y, pn);
             }
         }
     }
-    
-}
-
-void Floor:: randomPlayer(Player* pc){
-    int x;
-    int y;
-    while (true) {
-        getPos(x, y);
-        if (grid[x][y]->getName() == ".") {
-            pc->setOn(grid[x][y]);
-            grid[x][y] = pc;
-            break;
-        }
-    }
+    //////////////////////////////
 }
 
 

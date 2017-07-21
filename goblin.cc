@@ -8,14 +8,10 @@
 
 #include "goblin.h"
 
-Goblin::Goblin(){
-  hp = 110;
-  atk = 15;
-  def = 20;
-}
+Goblin::Goblin(): Player{"@goblin", 110, 15, 20}{}
 
     
-void Goblin::hurt(Enemy &e) override{
+void Goblin::hurt(Enemy &e) {
   int hurt = (100 / (100 + def))*e.getAtk();
   if (e->getName()=="Oorcs"){
     addHp(-hurt*1.5);

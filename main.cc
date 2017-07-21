@@ -42,11 +42,7 @@ int main(int argc, const char * argv[]) {
             // generate full floor
             if (argc == 1) { // no argument
                 f.readMap();
-                f.randomPlayer(me);
-                f.randomStair();
-                f.randomPotion();
-                f.randomGold();
-                f.randomEnemy();
+                f.spawnEverything(me);
             } else { // with argument
                 f.readMap(argv[1]);
             }

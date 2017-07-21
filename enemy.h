@@ -9,7 +9,6 @@
 #ifndef enemy_h
 #define enemy_h
 #include "thing.h"
-#include "player.h"
 
 class Player;
 

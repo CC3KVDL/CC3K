@@ -11,10 +11,6 @@
 #include <string>
 #include <cstdlib>
 #include "thing.h"
-#include "enemy.h"
-
-class Enemy;
-
 
 class Player: public Thing{
     int hp;
@@ -24,7 +20,7 @@ class Player: public Thing{
     Thing* On; // Thing that the Player is stepping on
     bool mKiller; // True if "I" have killed merchant
 public:
-    Player(std::string pc_type = "", int x=-1, int y=-1, Thing* On=nullptr);
+    Player(std::string pc_type, int hp, int atk, int def);
     virtual ~Player();
     static Player *createPlayer(std::string pc_type);
     virtual void attack(Thing& e);

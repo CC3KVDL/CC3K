@@ -8,10 +8,6 @@
 
 #include "shade.h"
 
-Shade::Shade(){
-  hp = 125;
-  atk = 25;
-  def = 25;
-}
+Shade::Shade(): Player{"@shade", 120, 25, 25} {}
 
-Shade::~Shade{}
+Shade::~Shade(){}

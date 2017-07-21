@@ -11,6 +11,7 @@
 
 #include "thing.h"
 #include "enemy.h"
+#include "display.h"
 #include <vector>
 
 // getPos(x, y) is a function to randomly generate a position in any chambre and returns
