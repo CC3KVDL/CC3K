@@ -10,8 +10,8 @@
 
 Vampire::Vampire(): Player{"@vampire", 50, 25, 25}{}
 
-void Vampire::attack(Enemy &e) {
-  if (e->getName()=="Wdwarf"){
+void Vampire::attack(Thing &e) {
+  if (e.getName()=="Wdwarf"){
     addHp(-5);
   }else{
     addHp(5);

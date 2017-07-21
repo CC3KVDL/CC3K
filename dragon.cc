@@ -8,6 +8,6 @@
 
 #include "dragon.h"
 
-Dragon:: dragon(int x, int y): Enemy{x, y, "Ddragon", 150, 20, 20} {}
+Dragon:: Dragon(int x, int y): Enemy{x, y, "Ddragon", 150, 20, 20} {}
 
 Dragon:: ~Dragon() {}

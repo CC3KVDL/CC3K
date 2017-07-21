@@ -7,6 +7,7 @@
 //
 
 #include "elf.h"
+#include "player.h"
 
 Elf:: Elf(int x, int y): Enemy{x, y, "Eelf", 140, 30, 10} {}
 

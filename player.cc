@@ -49,7 +49,7 @@ void Player::attack(Thing &e){
 }
 
 void Player::hurt(Enemy &e){
-  int hurt = (100 / (100 + def))*e.getAtk();
+  int hurt = (100 / (100 + def))*e.atk;
   addHp(-hurt);
 }
 
@@ -102,22 +102,21 @@ void Player::addDef(int amount){
 
 
 //accessor
-int Player::getHp(){
-  return hp;
-}
-
-int Player::getGold(){
-  return gold;
-}
-
 Thing* Player::getOn(){
   return On;
 }
 
 bool Player::getmKiller(){
-    return mKillier;
+    return mKiller;
 }
 
+int Player:: getHp() {
+    return hp;
+}
+
+int Player:: getGold() {
+    return gold;
+}
 
 
 
@@ -130,20 +129,20 @@ void Player::setOn(Thing* t){
   On = t;
 }
 
-void initStatus(){
-  if (name == "@vampire"){
+void Player::initStatus(){
+  if (getName() == "@vampire"){
       atk = 25;
       def = 25;
-  }else if (name == "@shade"){
+  }else if (getName() == "@shade"){
       atk = 25;
       def = 25;
-  }else if (name == "@drow"){
+  }else if (getName() == "@drow"){
       atk = 25;
       def = 15;
-  }else if (name == "@troll"){
+  }else if (getName() == "@troll"){
       atk = 25;
       def = 15;
-  }else if (name == "@goblin"){
+  }else if (getName() == "@goblin"){
       atk = 15;
       def = 20;
   }

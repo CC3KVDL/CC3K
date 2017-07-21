@@ -7,6 +7,7 @@
 //
 
 #include "merchant.h"
+#include "player.h"
 #include <cstdlib>
 
 Merchant:: Merchant(int x, int y): Enemy{x, y, "Mmerchant", 30, 70, 5} {}

@@ -7,3 +7,31 @@
 //
 
 #include "gold.h"
+
+
+Gold:: Gold(std::string name, int x, int y, Thing* owner): Thing{name, x, y}, owner{owner} {
+    if (name == "GD") { // dragon gold
+        value = 8;
+    } else if (name == "GS") { // small gold
+        value = 1;
+    } else if (name == "GN") { // normal gold
+        value = 2;
+    } else if (name == "GH") { //merchant gold
+        value = 4;
+    }
+}
+
+void Gold:: setOwner(Thing *t) {
+    owner = t;
+}
+
+Thing *Gold:: getOwner() {
+    return owner;
+}
+
+int Gold:: getValue() {
+    return value;
+}
+
+Gold:: ~Gold() {}
+

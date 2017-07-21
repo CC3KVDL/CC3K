@@ -11,8 +11,11 @@
 #include <string>
 #include <cstdlib>
 #include "thing.h"
+#include "enemy.h"
+
 
 class Player: public Thing{
+protected:
     int hp;
     int atk;
     int def;
@@ -34,18 +37,18 @@ public:
     void addGold(int amount); // This is called whenever "I" steps on a pile of gold or "I" killed an enemy
     
     //accessor
-    Thing *getOn();
-    int getGold();
     int getHp();
+    int getGold();
+    Thing *getOn();
     bool getmKiller();
+    
     
     //mutator
     void setOn(Thing* t); // Let pc step on something
     void setmKiller();
     void initStatus();
 
-    
-    
+    //printer
     void printStatus(); // Print out the status of "me"
    
     friend class Enemy;

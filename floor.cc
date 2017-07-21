@@ -184,13 +184,13 @@ void Floor:: init(int x, int y, string c) {
     } else if (c == "5") {
         grid[x][y] = new Potion("PWD",x,y);
     } else if (c == "6") {
-        grid[x][y] = new Gold("GN", nullptr,x,y);
+        grid[x][y] = new Gold("GN",x,y); // normal gold
     } else if (c == "7") {
-        grid[x][y] = new Gold("GS", nullptr,x,y);
+        grid[x][y] = new Gold("GS",x,y); // small gold
     } else if (c == "8") {
-        grid[x][y] = new Gold("GH", nullptr,x,y);
+        grid[x][y] = new Gold("GH",x,y); // merchant gold
     } else if (c == "9") {
-        grid[x][y] = new Gold("GD", nullptr,x,y);
+        grid[x][y] = new Gold("GD",x,y); // dragon gold
     } else if (c == "@") {
         grid[x][y] = nullptr;
     }

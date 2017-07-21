@@ -14,12 +14,12 @@
 
 class Gold: public Thing {
     int value;
-    Dragon* owner;
+    Thing* owner;
     
     public:
-    Gold(std::string, Dragon* owner, int x, int y);
+    Gold(std::string name, int x, int y, Thing* owner = nullptr);
     void setOwner(Thing *t);
-    Thing *getOwner(Thing *t);
+    Thing *getOwner();
     int getValue();
     ~Gold();
 };
