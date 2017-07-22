@@ -11,11 +11,12 @@
 
 #include "player.h"
 #include "thing.h"
+#include <string>
 
 class Goblin: public Player {
 public:
     Goblin();
-    void hurt(Enemy &e) override;
+    std::string hurt(Enemy &e) override;
     ~Goblin();
 };
 
