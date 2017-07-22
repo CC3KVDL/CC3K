@@ -8,7 +8,7 @@
 
 #include "dragon.h"
 
-Dragon:: Dragon(int x, int y): Enemy{x, y, "Ddragon", 150, 20, 20} {}
+Dragon:: Dragon(int x, int y): Enemy{x, y, "Ddragon", 150, 20, 20}, hoard{nullptr} {}
 
 Dragon:: ~Dragon() {}
 
