@@ -26,7 +26,7 @@ bool cmpEnemies(Enemy *a, Enemy *b);
 
 class Floor {
     std::vector<std::vector<Thing *>> grid; // the real grid of objects
-    std::vector<Enemy *> Enemies; // an array of enemies
+    std::vector<Thing *> Enemies; // an array of enemies
     std::string mes; // the message that you print out each time
     Display *dis; // a field to keep track of the display
 

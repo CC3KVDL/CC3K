@@ -21,7 +21,7 @@ using namespace std;
 
 // This
 vector<string> cell_names = {"-", "|", "+", "#", "\\", " "};
-vector<string> enemy_names = {"M", "L", "D", "E", "L", "D", "H", "O"};
+vector<string> enemy_names = {"H", "W", "L", "E", "O", "M", "D"};
 
 // what appears first are helper functions
 // This is the implementation of getPos
@@ -172,6 +172,7 @@ void Floor:: init(int x, int y, string c) {
         grid[x][y] = new Cell(c, x, y);
     } else if (isEnemy) {
         grid[x][y] = Enemy::createEnemy(c, x, y);
+        Enemies.push_back(grid[x][y]);
     } else if (c == "0") {
         grid[x][y] = new Potion("PRH",x,y);
     } else if (c == "1") {
@@ -247,18 +248,16 @@ void Floor::spawnEverything(Player *pc){
         string gn; // gold name
         if (g >= 1 && g <= 5) {
             gn = "6";
-        } else if (g == 6 && g == 7) {
+        } else if (g == 6 || g == 7) {
             gn = "7";
         } else {
             gn = "9";
         }
         
         getPos(x, y);
-        if (gn == "9") {
-            // if the pos is not walkable or none of its neighbours are valid choose again
-            while (grid[x][y]->getName() != "." || !checkNbs(x, y)) {
-                getPos(x, y);
-            }
+        // if the pos is not walkable or none of its neighbours are valid choose again
+        while (grid[x][y]->getName() != "." || !checkNbs(x, y)) {
+            getPos(x, y);
         }
         
         init(x, y, gn);
@@ -281,11 +280,29 @@ void Floor::spawnEverything(Player *pc){
     //set enemies
     for (int i=0; i<20; i++) {
         srand(time(NULL));
-        int e = rand()%16 + 1;
+        int e = rand()%18 + 1;
         string en; // enemy name
         if (1<=e && e<=4) {
             en = "H";
+        } else if (5<=e && e<=7) {
+            en = "W";
+        } else if (8<=e && e<=12) {
+            en = "F";
+        } else if (13==e || e==14) {
+            en = "E";
+        } else if (15==e || e==16) {
+            en = "O";
+        } else {
+            en = "M";
         }
+        
+        getPos(x, y);
+        while (grid[x][y]->getName() != ".") {
+            getPos(x, y);
+        }
+        
+        init(x, y, en); // we pushed enemy into Enemies in the function init!!
+        
     }
 }
 
@@ -333,7 +350,7 @@ void Floor:: movePlayer(Player* pc, std::string dir){
     // Now we "DON'T" let pc pick up a gold yet!!!
 }
 
-// pick up gold; enemies in radius attack pc; Dragon attack pc; get gold from dead enemies; delete dead enemies;
+// pick up gold; enemies in radius attack pc; Dragon attack pc;
 void Floor:: check(Player* pc) {
     Thing *sOn = pc->getOn(); // what "I" am standing on
     int x = pc->getX();
@@ -353,7 +370,7 @@ void Floor:: check(Player* pc) {
         pc->setOn(nOn);
     }
     
-    // enemies in radius attack pc
+    // enemies in radius attack pc, dragon attack pc
     for (int i=-1; i<=1; i++) {
         for (int j=-1; j<=1; j++){
             Thing *what = grid[x+i][y+j]; // This is the thing you see(may attack you)
@@ -362,13 +379,11 @@ void Floor:: check(Player* pc) {
             bool isGold = name == "G";
             if (isEnemy) {
                 mes += grid[x+i][y+j]->attack(*pc);
-            } else if (isGold && what) {
-                
+            } else if (isGold && what->getOwner() != nullptr) {
+                mes += what->getOwner()->attack(*pc); // dragon attack pc
             }
         }
     }
-    
-    
 }
 
 
@@ -401,6 +416,8 @@ void Floor:: moveEnemies() {
 
 
 // what pc do
+
+// attackEnemy should get gold from dead enemy and modify dragons
 void Floor:: attackEnemy(Player *pc, string dir) {
     // enemy's direction
     int x = pc->getX();
@@ -429,24 +446,23 @@ void Floor:: attackEnemy(Player *pc, string dir) {
     
     // if enemy, attack
     Thing *enemy = grid[x][y];
-    string name = enemy->getName();
+    string name = enemy->getName().substr(0,1);
     if (find(enemy_names.begin(), enemy_names.end(), name) != enemy_names.end()) {
-        pc->attack(*enemy);
+        mes += pc->attack(*enemy);
         //update message
-        mes = mes + "PC deals " + to_string(enemy->getDamage()) + " damage to " + (enemy->getName().substr(1)) + " . ";
        
         // check if attacking a merchant
-        if (enemy->getName() == "Mmerchant") {
+        if (name == "M") {
             pc->setmKiller();
         }
         
         // check if enemy is dead && pick up gold && delete it && make it to tile
         if (enemy->getHp() <= 0) {
-            if (enemy->getName()[0] == 'H') {
+            if (name == "H") {
                 pc->addGold(4);
-            } else if (enemy->getName()[0] == 'M') {
+            } else if (name == "M") {
                 pc->addGold(4);
-            } else if (enemy->getName()[0] == 'D') {
+            } else if (name == "D") {
                 pc->addGold(0);
             } else {
                 srand(time(NULL));
