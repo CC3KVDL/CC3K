@@ -7,10 +7,12 @@
 //
 
 #include "vampire.h"
+#include <string>
+using namespace std;
 
 Vampire::Vampire(): Player{"@vampire", 50, 25, 25}{}
 
-void Vampire::attack(Thing &e) {
+string Vampire::attack(Thing &e) {
   if (e.getName()=="Wdwarf"){
     addHp(-5);
   }else{
