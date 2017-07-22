@@ -14,7 +14,7 @@
 class Elf: public Enemy {
 public:
     Elf(int x, int y);
-    void attack(Player &p) override;
+    std::string attack(Player &p) override;
     ~Elf();
 };
 
