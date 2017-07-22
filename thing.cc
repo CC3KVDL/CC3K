@@ -50,6 +50,10 @@ Thing* Thing::getHoard(){
     return nullptr;
 }
 
+bool Thing::getStand(){
+    return false;
+}
+
 Thing* Thing::getOwner(){
     return nullptr;
 }
