@@ -154,6 +154,7 @@ void Player::initStatus(){
 
 
 void Player::printStatus(){
+    cout << "Race: " << name.substr(1) << " " << "Gold: " << gold << endl;
   cout << "HP: " << hp << endl;
   cout << "Atk: " << atk << endl;
   cout << "Def: " << def <<  endl;
