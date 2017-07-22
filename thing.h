@@ -36,6 +36,8 @@ public:
     virtual int getHp();
     virtual Thing* getOn();
     virtual setOn(Thing *);
+    virtual void setStand();
+    virtual bool getStand();
 
     // Virtual Method for Gold
     virtual void setOwner(Thing *t);
