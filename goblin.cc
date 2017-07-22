@@ -7,6 +7,7 @@
 //
 
 #include "goblin.h"
+using namespace std;
 
 Goblin::Goblin(): Player{"@goblin", 110, 15, 20}{}
 
