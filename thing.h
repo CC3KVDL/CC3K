@@ -37,6 +37,7 @@ public:
 
     // Virtual Method for Gold
     virtual void setOwner(Thing *t);
+    virtual void setHoard(Thing* t);
     virtual int getValue();
     Thing *getOwner();
     
