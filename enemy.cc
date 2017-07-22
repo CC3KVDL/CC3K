@@ -18,8 +18,11 @@
 #include "halfling.h"
 using namespace std;
 
+// ctor && dtor
 Enemy:: Enemy(int x, int y, std:: string name, int hp, int atk, int def): Thing{name, x, y}, hp{hp}, atk{atk}, def{def} {}
+Enemy:: ~Enemy() {}
 
+// actions of enemy
 Enemy * Enemy:: createEnemy(string name, int x, int y) {
     if (name == "H" ) {
         return new Human(x,y);
@@ -37,7 +40,6 @@ Enemy * Enemy:: createEnemy(string name, int x, int y) {
         return new Halfling(x, y);
     }
 }
-
 void Enemy:: attack(Player &p) {
     srand(time(NULL));
     int v = rand()%2; // 0~1
@@ -45,20 +47,22 @@ void Enemy:: attack(Player &p) {
         p.hurt(*this);
     }
 }
-
 void Enemy:: hurt(Player &p) {
     int hurt = (100 / (100 + def))* p.atk;
     hp -= hurt;
 }
 
+// accessor
 int Enemy::getHp() {
     return hp;
 }
-
 int Enemy::getAtk() {
     return atk;
 }
+int Enemy:: getDamage() {
+    return damage;
+}
 
-Enemy:: ~Enemy() {}
+
 
 
