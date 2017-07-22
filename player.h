@@ -19,12 +19,18 @@ protected:
     int hp;
     int atk;
     int def;
+    int damage;
     int gold;
     Thing* On; // Thing that the Player is stepping on
     bool mKiller; // True if "I" have killed merchant
+    
 public:
+    
+    // ctor && dtor
     Player(std::string pc_type, int hp, int atk, int def);
     virtual ~Player();
+    
+    // actions of player
     static Player *createPlayer(std::string pc_type);
     virtual void attack(Thing& e);
     virtual void hurt(Enemy &e);
@@ -38,10 +44,10 @@ public:
     
     //accessor
     int getHp();
+    int getDamage();
     int getGold();
     Thing *getOn();
     bool getmKiller();
-    
     
     //mutator
     void setOn(Thing* t); // Let pc step on something
