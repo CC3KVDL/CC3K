@@ -198,6 +198,9 @@ void Floor:: init(int x, int y, string c) {
 
 void Floor:: print(Player *pc, int f){
     dis->print();
+    cout << pc->printStatus(f);
+    cout << mes << endl;
+    mes = "Action: ";
 }
 
 // randomly generate things (This is called when no map has been provided)
@@ -445,8 +448,9 @@ void Floor:: attackEnemy(Player *pc, string dir) {
     Thing *enemy = grid[x][y];
     string name = enemy->getName().substr(0,1);
     if (find(enemy_names.begin(), enemy_names.end(), name) != enemy_names.end()) {
-        mes += pc->attack(*enemy);
-        //update message
+         //update message
+         mes += pc->attack(*enemy);
+       
        
         // check if attacking a merchant
         if (name == "M") {
@@ -513,8 +517,7 @@ void Floor:: usePotion(Player *pc, string dir) {
     
     if (grid[x][y]->getName()[0] == 'P') {
         //update message
-        mes = mes + " PC uses " + grid[x][y]->getName().substr(1) + " . ";
-        pc->use(grid[x][y]);
+        mes = mes + pc->use(grid[x][y]);
     }
     
     init(x, y, ".");
