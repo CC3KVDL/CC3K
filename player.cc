@@ -17,8 +17,8 @@
 
 using namespace std;
 
+// ctor && dtor
 Player::Player(std::string pc_type, int hp, int atk, int def): Thing{pc_type,0,0}, hp{hp}, atk{atk}, def{def}, gold{0}, On{nullptr}, mKiller{false} {}
-
 Player::~Player(){}
 
 Player *Player::createPlayer(string type){
@@ -112,6 +112,10 @@ bool Player::getmKiller(){
 
 int Player:: getHp() {
     return hp;
+}
+
+int Player:: getDamage() {
+    return damage;
 }
 
 int Player:: getGold() {
