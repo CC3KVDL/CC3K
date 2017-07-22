@@ -45,11 +45,14 @@ void Enemy:: attack(Player &p) {
     int v = rand()%2; // 0~1
     if (v) {
         p.hurt(*this);
+    } else {
+        p.setDamage(0);
     }
 }
 void Enemy:: hurt(Player &p) {
     int hurt = (100 / (100 + def))* p.atk;
     hp -= hurt;
+    p.setDamage(hurt);
 }
 
 // accessor
