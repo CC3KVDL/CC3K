@@ -66,6 +66,11 @@ int Enemy:: getDamage() {
     return damage;
 }
 
+// mutator
+void Enemy:: setDamage(int i) {
+    damage = i;
+}
+
 
 
 
