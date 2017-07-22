@@ -20,7 +20,7 @@
 using namespace std;
 
 // ctor && dtor
-Enemy:: Enemy(int x, int y, std:: string name, int hp, int atk, int def): Thing{name, x, y}, hp{hp}, atk{atk}, def{def} {}
+Enemy:: Enemy(int x, int y, std:: string name, int hp, int atk, int def): Thing{name, x, y}, hp{hp}, atk{atk}, def{def}, stand{false} {}
 Enemy:: ~Enemy() {}
 
 // actions of enemy
@@ -66,6 +66,15 @@ int Enemy::getHp() {
 }
 int Enemy::getAtk() {
     return atk;
+}
+
+bool Enemy:: getStand() {
+    return stand;
+}
+
+// mutator
+void Enemy:: setStand() {
+    stand = false;
 }
 
 
