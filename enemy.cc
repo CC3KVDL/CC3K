@@ -62,14 +62,7 @@ int Enemy::getHp() {
 int Enemy::getAtk() {
     return atk;
 }
-int Enemy:: getDamage() {
-    return damage;
-}
 
-// mutator
-void Enemy:: setDamage(int i) {
-    damage = i;
-}
 
 
 
