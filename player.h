@@ -53,7 +53,7 @@ public:
     void initStatus();
 
     //printer
-    void printStatus(); // Print out the status of "me"
+    void printStatus(int floor); // Print out the status of "me"
    
     friend class Enemy;
 };
