@@ -33,7 +33,7 @@ public:
     static Player *createPlayer(std::string pc_type);
     virtual std::string attack(Thing& e);
     virtual std::string hurt(Enemy &e);
-    void use(Thing *t); // This is the first version, in DLC this should be a virtual
+    std::string use(Thing *t); // This is the first version, in DLC this should be a virtual
     
     //mutate relevant fields
     void addHp(int amount);

@@ -102,6 +102,11 @@ Floor :: Floor(Display* dis): mes{"Action: "}, dis{dis} {
 Floor:: ~Floor() {
     for (int i = 0; i < 25; ++ i) {
         for (int j = 0; j < 79; ++ j) {
+            if (grid[i][j]->getName()[0] == '@') {
+                Thing *pc = grid[i][j];
+                grid[i][j] = pc->getOn();
+                pc->setOn(nullptr);
+            }
             delete grid[i][j];
         }
     }
@@ -198,7 +203,7 @@ void Floor:: init(int x, int y, string c) {
 
 void Floor:: print(Player *pc, int f){
     dis->print();
-    cout << pc->printStatus(f);
+    pc->printStatus(f);
     cout << mes << endl;
     mes = "Action: ";
 }
@@ -395,7 +400,7 @@ void Floor:: moveEnemies() {
     
     // move
     for (int i = 0; i < Enemies.size(); ++i) {
-        while (true) {
+        while (Enemies[i]->getStand()) {
             int v1 = rand()%3-1;
             int v2 = rand()%3-1;
             int x = Enemies[i]->getX();
