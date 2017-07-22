@@ -17,15 +17,22 @@ protected:
     int hp;
     int atk;
     int def;
+    int damage;
 public:
 
+    // ctor && dtor
     Enemy(int x, int y, std::string name, int hp, int atk, int def);
+    virtual ~Enemy();
+    
+    // actions of enemy
     virtual void attack(Player &p);
     void hurt(Player &p);
+    static Enemy *createEnemy(std::string name, int x, int y);
+    
+    // accessor
     int getHp();
     int getAtk();
-    static Enemy *createEnemy(std::string name, int x, int y);
-    virtual ~Enemy();
+    int getDamage();
     
     friend class Player;
 };
