@@ -19,7 +19,7 @@ string Vampire::attack(Thing &e) {
     addHp(5);
   }
   //default attack
-  e.hurt(*this);
+  return e.hurt(*this);
 }
 
 
