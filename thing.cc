@@ -27,6 +27,11 @@ string Thing::getName(){
     return name;
 }
 
+Thing* getOn(){
+  return nullptr;
+}
+
+
 Thing::~Thing(){}
 
 //Virtual Method for Player and Enemy
