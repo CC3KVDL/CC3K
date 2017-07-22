@@ -111,7 +111,7 @@ int main(int argc, const char * argv[]) {
                 }
                 
                 // at stair / win
-                if (me->getOn()->getName() == "/") {
+                if (me->getOn()->getName() == "\\") {
                     if (floor == 5) {
                         cout << "Win!" << endl;
                         cout << "You have scored: " << me->getGold() << endl;
