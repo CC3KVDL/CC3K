@@ -30,9 +30,9 @@ public:
     virtual ~Thing();
     
     // Virtual Method for Player and Enemy
-    virtual void attack(Thing &t);
-    virtual void hurt(Thing &t);
-    virtual void use(Thing * t);
+    virtual std::string attack(Thing &t);
+    virtual std::string hurt(Thing &t);
+    virtual std::string use(Thing * t);
     virtual int getHp();
 
     // Virtual Method for Gold
