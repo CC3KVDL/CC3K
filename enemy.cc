@@ -53,8 +53,8 @@ string Enemy:: attack(Player &p) {
 string Enemy:: hurt(Player &p) {
     int hurt = (100 / (100 + def))* p.atk;
     hp -= hurt;
-    string name_p = p.getName.substr(1);
-    string name_e = name.substr(1);
+    string name_p = p.getName().substr(1);
+    string name_e = getName().substr(1);
     string damage = to_string(hurt);
     string mes = name_p + " " + "deals " + damage + " to " + name_e + ". ";
     return mes;

@@ -139,7 +139,7 @@ void Floor:: readMap(string filename,Player* pc) {
         }
     }
     
-    // Set the owner of a Dragon Hoard to a specific Dragon
+    // Set the owner of a Dragon Hoard to a specific Dragon and set the hoard of a Dragon to a specific Gold
     for (int i = 0 ; i < DHs.size();++i){
         int x = DHs[i]->getX();
         int y = DHs[i]->getY();
@@ -148,7 +148,8 @@ void Floor:: readMap(string filename,Player* pc) {
                 Thing *D = grid[x+j][y+k]; // suppose it is a dragon
                 if (D->getName() == "D") {
                     if (find(Ds.begin(), Ds.end(), D) != Ds.end()) {
-                        DHs[i]->setOwner(D);
+                        DHs[i]->setOwner(D); // set Owner of gold
+                        D->setHoard(DHs[i]); // set Gold of dragon
                         Ds.erase(remove(Ds.begin(), Ds.end(), D), Ds.end());
                     }
                 }
@@ -191,8 +192,6 @@ void Floor:: init(int x, int y, string c) {
         grid[x][y] = new Gold("GH",x,y); // merchant gold
     } else if (c == "9") {
         grid[x][y] = new Gold("GD",x,y); // dragon gold
-    } else if (c == "@") {
-        grid[x][y] = nullptr;
     }
     
     // notifying display
@@ -203,18 +202,13 @@ void Floor:: print(Player *pc, int f){
     dis->print();
 }
 
-void Floor::getMes(){
-  cout << mes;
-  mes = "Action: ";
-}
-
 // randomly generate things (This is called when no map has been provided)
 
 bool Floor::checkNbs(int x, int y) { // a helper function to set gold
     bool result = false;
     for (int i=-1; i<=1; i++) {
         for (int j=-1; i<=1; j++) {
-            if (!(i==0 && j==0)) {
+            if (i!=0 || j!=0) {
                 result = result || (grid[x+i][y+j]->getName() == ".");
             }
         }
@@ -249,11 +243,11 @@ void Floor::spawnEverything(Player *pc){
     // set golds
     for (int i=0; i < 10; i++) {
         srand(time(NULL));
-        int g = rand()%8;
-        string gn;
-        if (g >= 0 && g <= 4) {
+        int g = rand()%8 + 1;
+        string gn; // gold name
+        if (g >= 1 && g <= 5) {
             gn = "6";
-        } else if (g >= 5 && g <= 6) {
+        } else if (g == 6 && g == 7) {
             gn = "7";
         } else {
             gn = "9";
@@ -261,8 +255,7 @@ void Floor::spawnEverything(Player *pc){
         
         getPos(x, y);
         if (gn == "9") {
-            // if the pos is not walkable or none of its neighbours are valid
-            // choose again
+            // if the pos is not walkable or none of its neighbours are valid choose again
             while (grid[x][y]->getName() != "." || !checkNbs(x, y)) {
                 getPos(x, y);
             }
@@ -270,41 +263,28 @@ void Floor::spawnEverything(Player *pc){
         
         init(x, y, gn);
         
+        // set the dragon
         if (gn == "9") {
             while (true) {
                 int i = rand()%3 - 1;
                 int j = rand()%3 - 1;
                 if (grid[x+i][y+j]->getName() == ".") {
                     init(x+i, y+j, "D");
+                    grid[x][y]->setOwner(grid[x+i][y+j]); // set Owner of gold
+                    grid[x+i][y+j]->setHoard(grid[x][y]); // set Hoard of dragon
+                    break;
                 }
             }
         }
     }
-}
-
-
-// move all enemies randomly
-void Floor:: moveEnemies() {
-    // sort
-    sort(Enemies.begin(), Enemies.end(), cmpEnemies);
     
-    // move
-    for (int i = 0; i < Enemies.size(); ++i) {
-        while (true) {
-            int v1 = rand()%3-1;
-            int v2 = rand()%3-1;
-            int x = Enemies[i]->getX();
-            int y = Enemies[i]->getY();
-            if (grid[v1+x][v2+y]->getName() == ".") {
-                Enemies[i]->setX(v1+x);
-                Enemies[i]->setY(v2+y);
-                grid[v1+x][v2+y]->setX(x);
-                grid[v1+x][v2+y]->setY(y);
-                std::swap(grid[x][y], grid[v1+x][v2+y]);
-                dis->notify(grid[x][y]);
-                dis->notify(grid[v1+x][v2+y]);
-                break;
-            }
+    //set enemies
+    for (int i=0; i<20; i++) {
+        srand(time(NULL));
+        int e = rand()%16 + 1;
+        string en; // enemy name
+        if (1<=e && e<=4) {
+            en = "H";
         }
     }
 }
@@ -338,7 +318,7 @@ void Floor:: movePlayer(Player* pc, std::string dir){
     
     // here is when pc actually walks
     Thing *whereTo = grid[x_new][y_new]; // Thing pc wants to step on
-    vector<string> walkable = {"G", ".", "+", "#"}; // Names of Tings that can step on
+    vector<string> walkable = {"G", ".", "+", "#", "\\"}; // Names of Tings that can step on
     string whatTo = grid[x_new][y_new]->getName(); // Name of Thing pc want to step on
     if (find(walkable.begin(), walkable.end(), whatTo) != walkable.end()) {
         grid[x_pc][y_pc] = pc->getOn();
@@ -353,26 +333,71 @@ void Floor:: movePlayer(Player* pc, std::string dir){
     // Now we "DON'T" let pc pick up a gold yet!!!
 }
 
-// pick up gold; enemies in radius attack the pc; Dragon attack pc; get gold from dead enemies; delete dead enemies;
+// pick up gold; enemies in radius attack pc; Dragon attack pc; get gold from dead enemies; delete dead enemies;
 void Floor:: check(Player* pc) {
     Thing *sOn = pc->getOn(); // what "I" am standing on
+    int x = pc->getX();
+    int y = pc->getY();
     
     // pick up gold that I am on and change it to a tile
     if (sOn->getName()[0] == 'G' && sOn->getOwner() == nullptr){
-        mes += "PC picks up a gold of value " + to_string(sOn->getValue()) + " .";
-        int x = pc->getX();
-        int y = pc->getY();
+        // pick it up
         pc->addGold(sOn->getValue());
+        
+        // update message
+        mes += "PC picks up a gold of value " + to_string(sOn->getValue()) + " .";
+        
+        // set new tile
         delete pc->getOn();
         Thing *nOn = new Cell(".", x, y);
         pc->setOn(nOn);
     }
     
+    // enemies in radius attack pc
+    for (int i=-1; i<=1; i++) {
+        for (int j=-1; j<=1; j++){
+            Thing *what = grid[x+i][y+j]; // This is the thing you see(may attack you)
+            string name = what->getName().substr(0,1); // name
+            bool isEnemy = find(enemy_names.begin(), enemy_names.end(), name) != enemy_names.end();
+            bool isGold = name == "G";
+            if (isEnemy) {
+                mes += grid[x+i][y+j]->attack(*pc);
+            } else if (isGold && what) {
+                
+            }
+        }
+    }
     
     
 }
 
 
+
+// move all enemies randomly
+void Floor:: moveEnemies() {
+    // sort
+    sort(Enemies.begin(), Enemies.end(), cmpEnemies);
+    
+    // move
+    for (int i = 0; i < Enemies.size(); ++i) {
+        while (true) {
+            int v1 = rand()%3-1;
+            int v2 = rand()%3-1;
+            int x = Enemies[i]->getX();
+            int y = Enemies[i]->getY();
+            if (grid[v1+x][v2+y]->getName() == ".") {
+                Enemies[i]->setX(v1+x);
+                Enemies[i]->setY(v2+y);
+                grid[v1+x][v2+y]->setX(x);
+                grid[v1+x][v2+y]->setY(y);
+                std::swap(grid[x][y], grid[v1+x][v2+y]);
+                dis->notify(grid[x][y]);
+                dis->notify(grid[v1+x][v2+y]);
+                break;
+            }
+        }
+    }
+}
 
 
 // what pc do

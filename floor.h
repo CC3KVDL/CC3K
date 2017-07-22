@@ -41,7 +41,6 @@ public:
     void print(Player *pc, int f); // print out the current map
     bool checkNbs(int x, int y); //check if one of the neighbours is spawnable
     void spawnEverything(Player *pc);
-    void getMes();
     
     // what pc do
     void movePlayer(Player* pc, std::string dir); // move pc to a direction
