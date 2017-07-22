@@ -17,6 +17,7 @@ protected:
     int hp;
     int atk;
     int def;
+    bool stand;
 public:
 
     // ctor && dtor
@@ -31,6 +32,10 @@ public:
     // accessor
     int getHp();
     int getAtk();
+    bool getStand();
+    
+    // mutator 
+    void setStand();
     
     friend class Player;
 };
