@@ -15,3 +15,7 @@ Dragon:: ~Dragon() {}
 void setHoard(Thing* t) {
   hoard = t;
 }
+
+Thing* getHoard() {
+  return hoard;
+}
