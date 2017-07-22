@@ -36,25 +36,29 @@ Player *Player::createPlayer(string type){
 }
 
 
-void Player::attack(Thing &e){
+string Player::attack(Thing &e){
     if (e.getName()=="Lhalfling"){
       srand(time(NULL));
       int i = rand()%2;
       if (i == 0){
-        e.hurt(*this);
+        return e.hurt(*this);
       }
     }else{
-        e.hurt(*this);
+        return e.hurt(*this);
     }
 }
 
-void Player::hurt(Enemy &e){
+string Player::hurt(Enemy &e){
   int hurt = (100 / (100 + def))*e.atk;
   addHp(-hurt);
+  string m = e.getName().substr(1) + " deals " + to_string(hurt) + " to PC . ";
+  return m;
 }
 
-void Player::use(Thing* t){
+string Player::use(Thing* t){
     t->modify(this);
+    string m = "PC uses " + t.getName() + " . ";
+    return m; 
 }
 
 
@@ -114,9 +118,6 @@ int Player:: getHp() {
     return hp;
 }
 
-int Player:: getDamage() {
-    return damage;
-}
 
 int Player:: getGold() {
     return gold;
