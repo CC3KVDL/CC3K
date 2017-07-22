@@ -34,6 +34,8 @@ public:
     virtual std::string hurt(Thing &t);
     virtual std::string use(Thing * t);
     virtual int getHp();
+    virtual Thing* getOn();
+    virtual setOn(Thing *);
 
     // Virtual Method for Gold
     virtual void setOwner(Thing *t);
