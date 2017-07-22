@@ -9,6 +9,7 @@
 #include <cstdlib>
 #include <fstream>
 #include <algorithm>
+#include <string>
 #include "floor.h"
 #include "cell.h"
 #include "enemy.h"
