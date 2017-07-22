@@ -311,7 +311,7 @@ void Floor::spawnEverything(Player *pc){
     }
 }
 
-void Floor:: movePlayer(Player* pc, std::string dir){
+void Floor:: movePlayer(Player* pc, string dir){
     int x_pc = pc->getX(); // where pc is at
     int y_pc = pc->getY();
     int x_new = x_pc; // where "I" want to go
