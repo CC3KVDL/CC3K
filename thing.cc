@@ -40,6 +40,11 @@ void Thing::setOwner(Thing* t){}
 int Thing::getValue(){
     return -1;
 }
+
+Thing* Thing::getHoard(){
+    return nullptr;
+}
+
 Thing* Thing::getOwner(){
     return nullptr;
 }
