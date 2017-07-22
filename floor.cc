@@ -201,8 +201,9 @@ void Floor:: print(){
     dis->print();
 }
 
-string Floor:: getMes() {
-    return mes;
+void Floor::getMes(){
+  cout << mes;
+  mes = "Action: "
 }
 
 
@@ -271,6 +272,8 @@ void Floor:: movePlayer(Player* pc, std::string dir){
         grid[x_new][y_new] = pc;
         pc->setX(x_new);
         pc->setY(y_new);
+        //update message
+        mes = mes + "Player moves" + dir + ".";
     }
     
     // Now we "DON'T" let pc pick up a gold yet!!!
@@ -403,7 +406,9 @@ void Floor:: attackEnemy(Player *pc, string dir) {
     string name = enemy->getName();
     if (find(enemy_names.begin(), enemy_names.end(), name) != enemy_names.end()) {
         pc->attack(*enemy);
-        
+        //update message
+        mes = mes + "PC deals" + to_string(enemy->getDamage()) + "damage to" + (enemy->getName().substr(1)) + "."
+       
         // check if attacking a merchant
         if (enemy->getName() == "Mmerchant") {
             pc->setmKiller();
@@ -468,6 +473,8 @@ void Floor:: usePotion(Player *pc, string dir) {
     }
     
     if (grid[x][y]->getName()[0] == 'P') {
+        //update message
+        mes = mes + "PC uses" + grid[x][y]->getName().substr(1) + "."
         pc->use(grid[x][y]);
     }
     
