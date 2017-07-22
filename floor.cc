@@ -112,7 +112,7 @@ Floor:: ~Floor() {
 
 
 // initializing the floor
-void Floor:: readMap(string filename,Player* pc) {
+void Floor:: readMap(Player* pc,string filename) {
     ifstream file{filename};
     string line;
     string cell;
@@ -121,7 +121,7 @@ void Floor:: readMap(string filename,Player* pc) {
     for (int i = 0; i < 25; ++ i) {
         getline(file, line);
         for (int j = 0; j < 79; ++ j) {
-            cell = line[i];
+            cell = line[j];
             if (cell == "9") {
                 init(i, j, cell);
                 DHs.push_back(grid[i][j]);
@@ -146,7 +146,7 @@ void Floor:: readMap(string filename,Player* pc) {
         for (int j = -1; j <= 1; ++j){
             for (int k = -1 ; k <= 1; ++k){
                 Thing *D = grid[x+j][y+k]; // suppose it is a dragon
-                if (D->getName() == "D") {
+                if (D->getName() == "Ddragon") {
                     if (find(Ds.begin(), Ds.end(), D) != Ds.end()) {
                         DHs[i]->setOwner(D); // set Owner of gold
                         D->setHoard(DHs[i]); // set Gold of dragon
@@ -309,7 +309,7 @@ void Floor::spawnEverything(Player *pc){
     }
 }
 
-void Floor:: movePlayer(Player* pc, std::string dir){
+void Floor:: movePlayer(Player* pc, string dir){
     int x_pc = pc->getX(); // where pc is at
     int y_pc = pc->getY();
     int x_new = x_pc; // where "I" want to go
