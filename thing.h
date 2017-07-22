@@ -33,6 +33,7 @@ public:
     virtual void attack(Thing &t);
     virtual void hurt(Thing &t);
     virtual void use(Thing * t);
+    virtual int getHp();
 
     // Virtual Method for Gold
     virtual void setOwner(Thing *t);

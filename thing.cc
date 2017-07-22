@@ -33,6 +33,7 @@ Thing::~Thing(){}
 void Thing::attack(Thing &t){}
 void Thing::hurt(Thing &t) {}
 void Thing::use(Thing* t){}
+int Thing::getHp() {}
 
 // Virtual Method for Gold
 void Thing::setOwner(Thing* t){}

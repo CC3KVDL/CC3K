@@ -117,7 +117,16 @@ int main(int argc, const char * argv[]) {
                         return 0;
                     }
                     ++ floor;
+                    
+                    // new ark && def
+                    me->initStatus();
+                    
                     break;
+                }
+                
+                // troll adds 5 hp every turn
+                if (me->getName() == "@troll") {
+                    me->addHp(5);
                 }
                 
                 // print new map

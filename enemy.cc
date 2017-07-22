@@ -51,6 +51,10 @@ void Enemy:: hurt(Player &p) {
     hp -= hurt;
 }
 
+int Enemy::getHp() {
+    return hp;
+}
+
 int Enemy::getAtk() {
     return atk;
 }

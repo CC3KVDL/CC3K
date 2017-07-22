@@ -22,6 +22,7 @@ public:
     Enemy(int x, int y, std::string name, int hp, int atk, int def);
     virtual void attack(Player &p);
     void hurt(Player &p);
+    int getHp();
     int getAtk();
     static Enemy *createEnemy(std::string name, int x, int y);
     virtual ~Enemy();

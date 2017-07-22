@@ -281,15 +281,18 @@ void Floor:: movePlayer(Player* pc, std::string dir){
 // pick up gold; enemies in radius attack the pc; Dragon attack pc; get gold from dead enemies; delete dead enemies;
 void Floor:: check(Player* pc) {
     Thing *sOn = pc->getOn(); // what "I" am standing on
-    if (sOn->getName()[0] == 'G'){
+    
+    // pick up gold that I am on and change it to a tile
+    if (sOn->getName()[0] == 'G' && sOn->getOwner() == nullptr){
         int x = pc->getX();
         int y = pc->getY();
         pc->addGold(sOn->getValue());
         delete pc->getOn();
-        Thing *nt = new Cell(".", x, y);
-        pc->setOn(); ////////////////////
-        
+        Thing *nOn = new Cell(".", x, y);
+        pc->setOn(nOn);
     }
+    
+    
 }
 
 
@@ -307,19 +310,48 @@ void Floor::spawnEverything(Player *pc){
     init(x,y,"\\");
     
     // set potions
-    int pcount = 0;
-    while (pcount < 10) {
+    for (int i=0; i < 10; i++) {
         srand(time(NULL));
         int p = rand()%6; // p is a random number from 0--5
+        string pn = to_string(p);
+        
+        getPos(x, y);
+        while (grid[x][y]->getName() != ".") {
+            getPos(x, y);
+            }
+        init(x, y, pn);
+        }
+
+    // set golds
+    for (int i=0; i < 10; i++) {
+        srand(time(NULL));
+        int g = rand()%8;
+        string gn;
+        if (g >= 0 && g <= 4) {
+            gn = "6";
+        } else if (g >= 5 && g <= 6) {
+            gn = "7";
+        } else {
+            gn = "9";
+        }
+        
+        if (gn == "9") {
+            getPos(x, y);
+            while (grid[x][y]->getName() != ".") {
+                getPos(x, y);
+            }
+        }
+        
         while (true) {
-            string pn = to_string(p);
             getPos(x, y);
             if (grid[x][y]->getName() == ".") {
-                init(x, y, pn);
+                init(x, y, gn);
+                break;
             }
         }
     }
-    //////////////////////////////
+
+    //
 }
 
 
@@ -351,11 +383,47 @@ void Floor:: attackEnemy(Player *pc, string dir) {
     }
     
     // if enemy, attack
-    string name = grid[x][y]->getName();
+    Thing *enemy = grid[x][y];
+    string name = enemy->getName();
     if (find(enemy_names.begin(), enemy_names.end(), name) != enemy_names.end()) {
-        pc->attack(*grid[x][y]);
+        pc->attack(*enemy);
+        
+        // check if attacking a merchant
+        if (enemy->getName() == "Mmerchant") {
+            pc->setmKiller();
+        }
+        
+        // check if enemy is dead && pick up gold && delete it && make it to tile
+        if (enemy->getHp() <= 0) {
+            if (enemy->getName()[0] == 'H') {
+                pc->addGold(4);
+            } else if (enemy->getName()[0] == 'M') {
+                pc->addGold(4);
+            } else if (enemy->getName()[0] == 'D') {
+                pc->addGold(0);
+            } else {
+                srand(time(NULL));
+                int v = rand()%2+1; // 1~2
+                pc->addGold(v);
+            }
+            init(x, y, ".");
+            
+            // delete killed enemy
+            for (int i=0; i < Enemies.size(); i++) {
+                if (Enemies[i]->getName() == ".") {
+                    Enemies.erase(Enemies.begin() + i);
+                    break;
+                }
+            }
+            
+            // if goblin, steals 5 gold
+            if (pc->getName() == "@goblin") {
+                pc->addGold(5);
+            }
+        }
     }
 }
+// NOTICE: don't move the enemy attacked!!!!!!!!
 
 void Floor:: usePotion(Player *pc, string dir) {
     // potion's direction
@@ -386,6 +454,8 @@ void Floor:: usePotion(Player *pc, string dir) {
     if (grid[x][y]->getName()[0] == 'P') {
         pc->use(grid[x][y]);
     }
+    
+    init(x, y, ".");
 }
     
 
