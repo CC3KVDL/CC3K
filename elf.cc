@@ -9,6 +9,8 @@
 #include "elf.h"
 #include "player.h"
 
+using namespace std;
+
 Elf:: Elf(int x, int y): Enemy{x, y, "Eelf", 140, 30, 10} {}
 
 std:: string Elf:: attack(Player &p){
