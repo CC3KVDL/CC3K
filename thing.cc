@@ -54,6 +54,8 @@ bool Thing::getStand(){
     return false;
 }
 
+void Thing::setStand(bool s) {}
+
 Thing* Thing::getOwner(){
     return nullptr;
 }

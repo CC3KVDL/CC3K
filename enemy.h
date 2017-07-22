@@ -32,7 +32,7 @@ public:
     // accessor
     int getHp();
     int getAtk();
-    bool getStand();
+    void getStand(bool s) override;
     
     // mutator 
     void setStand();
