@@ -48,9 +48,7 @@ int main(int argc, const char * argv[]) {
             }
             
             // print the map and message
-            f.print();
-            me->printStatus();
-            f.getMes();
+            f.print(me, floor);
             cout<< "Player enters floor: " << floor << endl;
             
             
