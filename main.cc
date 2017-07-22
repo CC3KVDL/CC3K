@@ -50,7 +50,8 @@ int main(int argc, const char * argv[]) {
             // print the map and message
             f.print();
             me->printStatus();
-            cout << f.getMes() << "Player enters floor: " << floor << endl;
+            f.getMes();
+            cout<< "Player enters floor: " << floor << endl;
             
             
             // read in command
