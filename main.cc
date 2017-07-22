@@ -131,7 +131,7 @@ int main(int argc, const char * argv[]) {
                 }
                 
                 // print new map
-                f.print(floor);
+                f.print(me, floor);
                 
                 
             }
