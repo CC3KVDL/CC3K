@@ -35,7 +35,7 @@ public:
     virtual std::string use(Thing * t);
     virtual int getHp();
     virtual Thing* getOn();
-    virtual setOn(Thing *);
+    virtual void setOn(Thing *);
     virtual void setStand();
     virtual bool getStand();
 

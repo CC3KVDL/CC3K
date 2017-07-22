@@ -400,7 +400,7 @@ void Floor:: moveEnemies() {
     
     // move
     for (int i = 0; i < Enemies.size(); ++i) {
-        while (Enemies[i]->getStand()) {
+        while (!Enemies[i]->getStand()) {
             int v1 = rand()%3-1;
             int v2 = rand()%3-1;
             int x = Enemies[i]->getX();
@@ -416,6 +416,7 @@ void Floor:: moveEnemies() {
                 break;
             }
         }
+        Enemies[i]->setStand();
     }
 }
 
