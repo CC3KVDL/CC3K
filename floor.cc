@@ -114,7 +114,7 @@ Floor:: ~Floor() {
 
 
 // initializing the floor
-void Floor:: readMap(string filename,Player* pc) {
+void Floor:: readMap(Player* pc,string filename) {
     ifstream file{filename};
     string line;
     string cell;
