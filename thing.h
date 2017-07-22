@@ -40,6 +40,7 @@ public:
     virtual void setHoard(Thing* t);
     virtual int getValue();
     Thing *getOwner();
+    Thing* getHoard();
     
     // Virtual Method for Potion
     virtual void modify(Player *pc);
