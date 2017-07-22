@@ -103,9 +103,7 @@ Floor:: ~Floor() {
     for (int i = 0; i < 25; ++ i) {
         for (int j = 0; j < 79; ++ j) {
             if (grid[i][j]->getName()[0] == '@') {
-                Thing *pc = grid[i][j];
-                grid[i][j] = pc->getOn();
-                pc->setOn(nullptr);
+                freePlayer(grid[i][j]);
             }
             delete grid[i][j];
         }
@@ -528,7 +526,15 @@ void Floor:: usePotion(Player *pc, string dir) {
     
     init(x, y, ".");
 }
-    
+
+void Floor::freePlayer(Thing *pc) {
+    int x = pc->getX();
+    int y = pc->getY();
+    Thing *temp = grid[x][y];
+    grid[x][y] = temp->getOn();
+    pc->setOn(nullptr);
+}
+
 
 
 

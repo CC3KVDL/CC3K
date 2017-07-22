@@ -13,22 +13,40 @@
 
 using namespace std;
 
-
 int main(int argc, const char * argv[]) {
     while (true) {
-        cout << "Please choose your race or choose quit." << endl;
+        cout << "======================================================" << endl;
+        cout << "~~~~~~  ~~~~~~~~~  ~~~~~~~~     ~~~~~~~~~  ~~~~  ~~~~~" << endl;
+        cout << "~~~~~ ~~~~~~~~~~ ~~~~~~~~~ ~~~~~  ~~~~~~~ ~~~~ ~~~~~~~" << endl;
+        cout << "~~~~ ~~~~~~~~~~ ~~~~~~~~~~~~~~~~ ~~~~~~~~ ~~~ ~~~~~~~~" << endl;
+        cout << "~~~~ ~~~~~~~~~~ ~~~~~~~~~~~~~   ~~~~~~~~~   ~~~~~~~~~~" << endl;
+        cout << "~~~~ ~~~~~ ~~~~ ~~~~  ~~~~~~~~~~ ~~~~~~~~ ~~  ~~~~~~~~" << endl;
+        cout << "~~~~~    ~~~~~~~~   ~~~~~~  ~~~   ~~~~~~~ ~~~~~  ~~~~~" << endl;
+        cout << "======================================================" << endl;
+        cout << endl;
+        cout << "The world were zeros and ones before you came," << endl;
+        cout << "Three brave programmers build this game," << endl;
+        cout << "Five large chambres are the general frame," << endl;
+        cout << "There hides enemies that can't be tamed." << endl;
+        cout << "Fighting and climbing is how you play," << endl;
+        cout << "Getting to the sixth floor is your final aim," << endl;
+        cout << "Now that you shall choose your name." << endl;
+        cout << "Shout out your race or just be lame(q)." << endl;
+        cout << "s-shade" << endl << "d-drow" << endl << "v-vampire" << endl << "g-goblin" << endl <<"t-troll" << endl;
         string pc_type;
         cin >> pc_type;
         if (pc_type == "q") {
+            cout << "Alright man. Let's get you outta here." << endl;
             return 0;
         }
         
-        while (pc_type != "d" ||
+        while (pc_type != "" ||
+               pc_type != "d" ||
                pc_type != "v" ||
                pc_type != "g" ||
                pc_type != "s" ||
                pc_type != "t") {
-            cout << "Oops! You cannot be something that doesn't exist! Please           try to become something real!" << endl;
+            cout << "Oops! You cannot be something that doesn't exist! Please try to become something real!" << endl;
             cin >> pc_type;
         }
         Player *me = Player::createPlayer(pc_type);
@@ -41,10 +59,10 @@ int main(int argc, const char * argv[]) {
             
             // generate full floor
             if (argc == 1) { // no argument
-                f.readMap();
+                f.readMap(me);
                 f.spawnEverything(me);
             } else { // with argument
-                f.readMap(argv[1]);
+                f.readMap(me, argv[1]);
             }
             
             // print the map and message
@@ -87,6 +105,8 @@ int main(int argc, const char * argv[]) {
                     break;
                 } else if (command == "q" ) {
                     cout << "Game Over" << endl;
+                    f.freePlayer(me); // make sure grid has access to a valid address
+                    delete me;
                     return 0;
                 } else {
                     cout << "Invalide command" << endl;
@@ -105,6 +125,8 @@ int main(int argc, const char * argv[]) {
                 if (me->getHp() <= 0) {
                     cout << "Game Over" << endl;
                     cout << "You have scored: " << me->getGold() << endl;
+                    f.freePlayer(me); // make sure me is not deleted with Floor
+                    delete me;
                     return 0;
                 }
                 
@@ -113,6 +135,8 @@ int main(int argc, const char * argv[]) {
                     if (floor == 5) {
                         cout << "Win!" << endl;
                         cout << "You have scored: " << me->getGold() << endl;
+                        f.freePlayer(me); // make sure me is not deleted with floor
+                        delete me;
                         return 0;
                     }
                     ++ floor;

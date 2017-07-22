@@ -36,7 +36,7 @@ public:
     ~Floor();
     
     // initializing the floor and printing
-    void readMap(std::string filename = "default.txt", Player *pc = nullptr);
+    void readMap(Player *pc, std::string filename = "default.txt");
     void init(int x, int y, std::string c); // initial a signle Thing
     void print(Player *pc, int f); // print out the current map
     bool checkNbs(int x, int y); //check if one of the neighbours is spawnable
@@ -48,6 +48,7 @@ public:
     void usePotion(Player *pc, std::string dir);
     void check(Player *pc); // enemies in radius attack the pc; get gold from dead enemies; delete dead enemies;
     void moveEnemies(); // move all enemies randomly
+    void freePlayer(Thing *pc); // take pc off the grid
     
 };
 
