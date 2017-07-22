@@ -40,9 +40,9 @@ Potion::Potion(string name,int x, int y):Thing{name, x, y}{
 
 void Potion::modify(Player* p){
   if (p->getName()=="@drow"){
-    p->addHp(hp*1.5);                               //magfinied
-    p->addAtk(atk*1.5);
-    p->addDef(def*1.5);
+    p->addHp(hp*1.5/1);                               //magfinied
+    p->addAtk(atk*1.5/1);
+    p->addDef(def*1.5/1);
  }else{
     p->addHp(hp);
     p->addAtk(atk);
