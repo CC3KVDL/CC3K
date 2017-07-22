@@ -37,6 +37,7 @@ Player *Player::createPlayer(string type){
 
 
 string Player::attack(Thing &e){
+    e.stand = true;
     if (e.getName()=="Lhalfling"){
       srand(time(NULL));
       int i = rand()%2;
