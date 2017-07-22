@@ -34,6 +34,9 @@ public:
     int getAtk();
     int getDamage();
     
+    // mutator
+    void setDamage(int i);
+    
     friend class Player;
 };
 
