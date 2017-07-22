@@ -18,6 +18,7 @@ public:
     Dragon(int x, int y);
     ~Dragon();
     void setHoard(Thing* t);
+    Thing* getHoard();
 };
 
 #endif /* dragon_h */
