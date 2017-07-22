@@ -24,8 +24,8 @@ public:
     virtual ~Enemy();
     
     // actions of enemy
-    virtual void attack(Player &p);
-    void hurt(Player &p);
+    virtual std:: string attack(Player &p);
+    std:: string hurt(Player &p);
     static Enemy *createEnemy(std::string name, int x, int y);
     
     // accessor
