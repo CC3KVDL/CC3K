@@ -31,8 +31,6 @@ public:
     // accessor
     int getHp();
     int getAtk();
-    int getDamage();
-    
     
     friend class Player;
 };
