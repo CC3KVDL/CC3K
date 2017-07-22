@@ -15,7 +15,7 @@
 class Vampire: public Player {
 public:
     Vampire();
-    void attack(Thing &e) override;
+    std::string attack(Thing &e) override;
     ~Vampire();
 };
 
