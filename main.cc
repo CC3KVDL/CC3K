@@ -131,10 +131,7 @@ int main(int argc, const char * argv[]) {
                 }
                 
                 // print new map
-                f.print();
-                me->printStatus();
-                f.getMes() 
-                    cout << endl;
+                f.print(floor);
                 
                 
             }
