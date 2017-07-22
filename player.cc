@@ -30,7 +30,7 @@ Player *Player::createPlayer(string type){
         return new Troll();
     }else if (type == "g"){
         return new Goblin();
-    }else if (type == "s"){
+    }else{
         return new Shade();
     }
 }
