@@ -7,6 +7,7 @@
 //
 
 #include <cstdlib>
+#include <sstream>
 #include "player.h"
 #include "enemy.h"
 #include "human.h"
@@ -40,19 +41,23 @@ Enemy * Enemy:: createEnemy(string name, int x, int y) {
         return new Halfling(x, y);
     }
 }
-void Enemy:: attack(Player &p) {
+string Enemy:: attack(Player &p) {
     srand(time(NULL));
     int v = rand()%2; // 0~1
     if (v) {
-        p.hurt(*this);
+        return p.hurt(*this);
     } else {
-        p.setDamage(0);
+        return "";
     }
 }
-void Enemy:: hurt(Player &p) {
+string Enemy:: hurt(Player &p) {
     int hurt = (100 / (100 + def))* p.atk;
     hp -= hurt;
-    p.setDamage(hurt);
+    string name_p = p.getName.substr(1);
+    string name_e = name.substr(1);
+    string damage = to_string(hurt);
+    string mes = name_p + " " + "deals " + damage + " to " + name_e + ". ";
+    return mes;
 }
 
 // accessor
