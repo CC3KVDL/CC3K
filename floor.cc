@@ -6,6 +6,7 @@
 //  Copyright © 2017 Dennis. All rights reserved.
 //
 
+#include <iostream>
 #include <cstdlib>
 #include <fstream>
 #include <algorithm>
@@ -198,16 +199,88 @@ void Floor:: init(int x, int y, string c) {
     dis->notify(grid[x][y]);
 }
 
-void Floor:: print(){
+void Floor:: print(int f){
     dis->print();
 }
 
 void Floor::getMes(){
   cout << mes;
-  mes = "Action: "
+  mes = "Action: ";
 }
 
+// randomly generate things (This is called when no map has been provided)
 
+bool Floor::checkNbs(int x, int y) { // a helper function to set gold
+    bool result = false;
+    for (int i=-1; i<=1; i++) {
+        for (int j=-1; i<=1; j++) {
+            if (!(i==0 && j==0)) {
+                result = result || (grid[x+i][y+j]->getName() == ".");
+            }
+        }
+    }
+    return result;
+}
+
+void Floor::spawnEverything(Player *pc){
+    // set player
+    int x, y, chmbr;
+    chmbr = getPos(x, y);
+    pc->setOn(grid[x][y]);
+    grid[x][y] = pc;
+    
+    // set stairway
+    while (getPos(x, y) == chmbr){}
+    init(x,y,"\\");
+    
+    // set potions
+    for (int i=0; i < 10; i++) {
+        srand(time(NULL));
+        int p = rand()%6; // p is a random number from 0--5
+        string pn = to_string(p);
+        
+        getPos(x, y);
+        while (grid[x][y]->getName() != ".") {
+            getPos(x, y);
+        }
+        init(x, y, pn);
+    }
+    
+    // set golds
+    for (int i=0; i < 10; i++) {
+        srand(time(NULL));
+        int g = rand()%8;
+        string gn;
+        if (g >= 0 && g <= 4) {
+            gn = "6";
+        } else if (g >= 5 && g <= 6) {
+            gn = "7";
+        } else {
+            gn = "9";
+        }
+        
+        getPos(x, y);
+        if (gn == "9") {
+            // if the pos is not walkable or none of its neighbours are valid
+            // choose again
+            while (grid[x][y]->getName() != "." || !checkNbs(x, y)) {
+                getPos(x, y);
+            }
+        }
+        
+        init(x, y, gn);
+        
+        if (gn == "9") {
+            while (true) {
+                int i = rand()%3 - 1;
+                int j = rand()%3 - 1;
+                if (grid[x+i][y+j]->getName() == ".") {
+                    init(x+i, y+j, "D");
+                }
+            }
+        }
+    }
+}
 
 
 // move all enemies randomly
@@ -286,6 +359,7 @@ void Floor:: check(Player* pc) {
     
     // pick up gold that I am on and change it to a tile
     if (sOn->getName()[0] == 'G' && sOn->getOwner() == nullptr){
+        mes += "PC picks up a gold of value " + to_string(sOn->getValue()) + " .";
         int x = pc->getX();
         int y = pc->getY();
         pc->addGold(sOn->getValue());
@@ -295,84 +369,10 @@ void Floor:: check(Player* pc) {
     }
     
     
-}
-
-
-// randomly generate things (This is called when no map has been provided)
-
-// nbEmpty(int x, int y) check if the neighbours of a position have at least one empty tie
-
-bool Floor::checkNbs(int x, int y) { // a helper function to set gold
-    bool result = false;
-    for (int i=-1; i<=1; i++) {
-        for (int j=-1; i<=1; j++) {
-            if (!(i==0 && j==0)) {
-                result = result || (grid[x+i][y+j]->getName() == ".");
-            }
-        }
-    }
-    return result;
-}
-
-void Floor::spawnEverything(Player *pc){
-    // set player
-    int x, y, chmbr;
-    chmbr = getPos(x, y);
-    pc->setOn(grid[x][y]);
-    grid[x][y] = pc;
     
-    // set stairway
-    while (getPos(x, y) == chmbr){}
-    init(x,y,"\\");
-    
-    // set potions
-    for (int i=0; i < 10; i++) {
-        srand(time(NULL));
-        int p = rand()%6; // p is a random number from 0--5
-        string pn = to_string(p);
-        
-        getPos(x, y);
-        while (grid[x][y]->getName() != ".") {
-            getPos(x, y);
-            }
-        init(x, y, pn);
-        }
-
-    // set golds
-    for (int i=0; i < 10; i++) {
-        srand(time(NULL));
-        int g = rand()%8;
-        string gn;
-        if (g >= 0 && g <= 4) {
-            gn = "6";
-        } else if (g >= 5 && g <= 6) {
-            gn = "7";
-        } else {
-            gn = "9";
-        }
-        
-        getPos(x, y);
-        if (gn == "9") {
-            // if the pos is not walkable or none of its neighbours are valid
-            // choose again
-            while (grid[x][y]->getName() != "." || !checkNbs(x, y)) {
-                getPos(x, y);
-            }
-        }
-        
-        init(x, y, gn);
-        
-        if (gn == "9") {
-            while (true) {
-                int i = rand()%3 - 1;
-                int j = rand()%3 - 1;
-                if (grid[x+i][y+j]->getName() == ".") {
-                    init(x+i, y+j, "D");
-                }
-            }
-        }
-    }
 }
+
+
 
 
 // what pc do
@@ -408,7 +408,7 @@ void Floor:: attackEnemy(Player *pc, string dir) {
     if (find(enemy_names.begin(), enemy_names.end(), name) != enemy_names.end()) {
         pc->attack(*enemy);
         //update message
-        mes = mes + "PC deals" + to_string(enemy->getDamage()) + "damage to" + (enemy->getName().substr(1)) + "."
+        mes = mes + "PC deals " + to_string(enemy->getDamage()) + " damage to " + (enemy->getName().substr(1)) + " . ";
        
         // check if attacking a merchant
         if (enemy->getName() == "Mmerchant") {
@@ -475,7 +475,7 @@ void Floor:: usePotion(Player *pc, string dir) {
     
     if (grid[x][y]->getName()[0] == 'P') {
         //update message
-        mes = mes + "PC uses" + grid[x][y]->getName().substr(1) + "."
+        mes = mes + " PC uses " + grid[x][y]->getName().substr(1) + " . ";
         pc->use(grid[x][y]);
     }
     
