@@ -158,8 +158,6 @@ void Floor:: readMap(string filename,Player* pc) {
 
 
 void Floor:: init(int x, int y, string c) {
-    vector<string> cell_names = {"-", "|", "+", "#", "\\", " ", "."};
-    vector<string> enemy_names = {"M", "W", "L", "D", "E","H", "O"};
     bool isCell = find(cell_names.begin(), cell_names.end(), c) != cell_names.end();
     bool isEnemy = find(enemy_names.begin(), enemy_names.end(), c) != enemy_names.end();
     
@@ -298,6 +296,20 @@ void Floor:: check(Player* pc) {
 
 // randomly generate things (This is called when no map has been provided)
 
+// nbEmpty(int x, int y) check if the neighbours of a position have at least one empty tie
+
+bool Floor::checkNbs(int x, int y) { // a helper function to set gold
+    bool result = false;
+    for (int i=-1; i<=1; i++) {
+        for (int j=-1; i<=1; j++) {
+            if (!(i==0 && j==0)) {
+                result = result || (grid[x+i][y+j]->getName() == ".");
+            }
+        }
+    }
+    return result;
+}
+
 void Floor::spawnEverything(Player *pc){
     // set player
     int x, y, chmbr;
@@ -335,23 +347,27 @@ void Floor::spawnEverything(Player *pc){
             gn = "9";
         }
         
+        getPos(x, y);
         if (gn == "9") {
-            getPos(x, y);
-            while (grid[x][y]->getName() != ".") {
+            // if the pos is not walkable or none of its neighbours are valid
+            // choose again
+            while (grid[x][y]->getName() != "." || !checkNbs(x, y)) {
                 getPos(x, y);
             }
         }
         
-        while (true) {
-            getPos(x, y);
-            if (grid[x][y]->getName() == ".") {
-                init(x, y, gn);
-                break;
+        init(x, y, gn);
+        
+        if (gn == "9") {
+            while (true) {
+                int i = rand()%3 - 1;
+                int j = rand()%3 - 1;
+                if (grid[x+i][y+j]->getName() == ".") {
+                    init(x+i, y+j, "D");
+                }
             }
         }
     }
-
-    //
 }
 
 

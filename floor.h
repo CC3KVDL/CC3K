@@ -39,6 +39,7 @@ public:
     void readMap(std::string filename = "default.txt", Player *pc = nullptr);
     void init(int x, int y, std::string c); // initial a signle Thing
     void print(); // print out the current map
+    bool checkNbs(int x, int y); //check if one of the neighbours is spawnable
     void spawnEverything(Player *pc);
     std:: string getMes();
     
