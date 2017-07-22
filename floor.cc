@@ -199,7 +199,7 @@ void Floor:: init(int x, int y, string c) {
     dis->notify(grid[x][y]);
 }
 
-void Floor:: print(int f){
+void Floor:: print(Player *pc, int f){
     dis->print();
 }
 
