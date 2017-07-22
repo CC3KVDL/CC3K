@@ -34,7 +34,6 @@ public:
     virtual void hurt(Thing &t);
     virtual void use(Thing * t);
     virtual int getHp();
-    virtual int getDamage();
 
     // Virtual Method for Gold
     virtual void setOwner(Thing *t);
