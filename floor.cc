@@ -105,9 +105,6 @@ Floor:: ~Floor() {
             delete grid[i][j];
         }
     }
-    for (int i = 0; i < Enemies.size(); ++ i) {
-        delete Enemies[i];
-    }
 }
 
 
