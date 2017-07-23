@@ -11,7 +11,7 @@
 
 using namespace std;
 
-Gold:: Gold(string name, int x, int y, Thing* owner): Thing{name, x, y}, owner{owner} {
+Gold:: Gold(string name, int x, int y, shared_ptr<Thing> owner): Thing{name, x, y}, owner{owner} {
     if (name == "GD") { // dragon gold
         value = 8;
     } else if (name == "GS") { // small gold
@@ -23,11 +23,11 @@ Gold:: Gold(string name, int x, int y, Thing* owner): Thing{name, x, y}, owner{o
     }
 }
 
-void Gold:: setOwner(Thing *t) {
+void Gold:: setOwner(shared_ptr<Thing> t) {
     owner = t;
 }
 
-Thing *Gold:: getOwner() {
+shared_ptr<Thing> Gold:: getOwner() {
     return owner;
 }
 
