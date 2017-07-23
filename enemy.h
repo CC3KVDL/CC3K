@@ -27,7 +27,7 @@ public:
     // actions of enemy
     virtual std:: string attack(Thing &t) override;
     std:: string hurt(Player &p) override;
-    static Enemy *createEnemy(std::string name, int x, int y);
+    static std::shared_ptr<Enemy> createEnemy(std::string name, int x, int y);
     
     // accessor
     int getHp() override;
