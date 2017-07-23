@@ -486,18 +486,17 @@ void Floor:: attackEnemy(Player *pc, string dir) {
                 int v = rand()%2+1; // 1~2
                 pc->addGold(v);
             }
+            
+            grid[x][y] = nullptr; // To avoid dangling pointer.
+            
+            delete *find (Enemies.begin(), Enemies.end(), enemy);
+            
+            // initial new tile
             init(x, y, ".");
             
-            // delete killed enemy
-            for (int i=0; i < Enemies.size(); i++) {
-                if (Enemies[i]->getName() == ".") {
-                    Enemies.erase(Enemies.begin() + i);
-                    break;
-                }
-            }
             
             // if goblin, steals 5 gold
-            if (pc->getName() == "@goblin") {
+            if (pc->getName() == "@Goblin") {
                 pc->addGold(5);
             }
         }
