@@ -118,8 +118,8 @@ void Floor:: readMap(shared_ptr<Player> pc,string filename) {
     
     string line;
     string cell;
-    vector<Thing *> DHs; // array of pointers to Dragon Hoard
-    vector<Thing *> Ds; // array of pointers to Dragon
+    vector<shared_ptr<Thing>> DHs; // array of pointers to Dragon Hoard
+    vector<shared_ptr<Thing>> Ds; // array of pointers to Dragon
     for (int i = 0; i < 25; ++ i) {
         // getline(file, line);
         for (int j = 0; j < 79; ++ j) {
@@ -150,7 +150,7 @@ void Floor:: readMap(shared_ptr<Player> pc,string filename) {
         int y = DHs[i]->getY();
         for (int j = -1; j <= 1; ++j){
             for (int k = -1 ; k <= 1; ++k){
-                Thing *D = grid[x+j][y+k]; // suppose it is a dragon
+                shared_ptr<Thing> D = grid[x+j][y+k]; // suppose it is a dragon
                 if (D->getName() == "Ddragon") {
                     if (find(Ds.begin(), Ds.end(), D) != Ds.end()) {
                         DHs[i]->setOwner(D); // set Owner of gold
@@ -174,39 +174,39 @@ void Floor:: init(int x, int y, string c) {
     
     // adding enemy
     if (isCell) {
-        grid[x][y] = new Cell(c, x, y);
+        grid[x][y] = shared_ptr<Cell>(new Cell(c, x, y));
     } else if (isEnemy) {
         grid[x][y] = Enemy::createEnemy(c, x, y);
         if (grid[x][y]->getName()!="Ddragon"){
             Enemies.push_back(grid[x][y]);
         }
     } else if (c == "0") {
-        grid[x][y] = new Potion("PRH",x,y);
+        grid[x][y] = shared_ptr<Potion>(new Potion("PRH",x,y));
     } else if (c == "1") {
-        grid[x][y] = new Potion("PBA",x,y);
+        grid[x][y] = shared_ptr<Potion>(new Potion("PBA",x,y));
     } else if (c == "2") {
-        grid[x][y] = new Potion("PBD",x,y);
+        grid[x][y] = shared_ptr<Potion>(new Potion("PBD",x,y));
     } else if (c == "3") {
-        grid[x][y] = new Potion("PPH",x,y);
+        grid[x][y] = shared_ptr<Potion>(new Potion("PPH",x,y));
     } else if (c == "4") {
-        grid[x][y] = new Potion("PWA",x,y);
+        grid[x][y] = shared_ptr<Potion>(new Potion("PWA",x,y));
     } else if (c == "5") {
-        grid[x][y] = new Potion("PWD",x,y);
+        grid[x][y] = shared_ptr<Potion>(new Potion("PWD",x,y));
     } else if (c == "6") {
-        grid[x][y] = new Gold("GN",x,y); // normal gold
+        grid[x][y] = shared_ptr<Gold>(new Gold("GN",x,y)); // normal gold
     } else if (c == "7") {
-        grid[x][y] = new Gold("GS",x,y); // small gold
+        grid[x][y] = shared_ptr<Gold>(new Gold("GS",x,y)); // small gold
     } else if (c == "8") {
-        grid[x][y] = new Gold("GH",x,y); // merchant gold
+        grid[x][y] = shared_ptr<Gold>(new Gold("GH",x,y)); // merchant gold
     } else if (c == "9") {
-        grid[x][y] = new Gold("GD",x,y); // dragon gold
+        grid[x][y] = shared_ptr<Gold>(new Gold("GD",x,y)); // dragon gold
     }
     
     // notifying display
     dis->notify(grid[x][y]);
 }
 
-void Floor:: print(Player *pc, int f){
+void Floor:: print(shared_ptr<Player> pc, int f){
     dis->print();
     pc->printStatus(f);
     cout << mes << endl;
@@ -227,7 +227,7 @@ bool Floor::checkNbs(int x, int y) { // a helper function to set gold
     return result;
 }
 
-void Floor::spawnEverything(Player *pc){
+void Floor::spawnEverything(shared_ptr<Player> pc){
     // set player
     int x, y, chmbr;
     chmbr = getPos(x, y);
@@ -321,7 +321,7 @@ void Floor::spawnEverything(Player *pc){
     }
 }
 
-void Floor:: movePlayer(Player* pc, string dir){
+void Floor:: movePlayer(shared_ptr<Player> pc, string dir){
     int x_pc = pc->getX(); // where pc is at
     int y_pc = pc->getY();
     int x_new = x_pc; // where "I" want to go
@@ -349,7 +349,7 @@ void Floor:: movePlayer(Player* pc, string dir){
     }
     
     // here is when pc actually walks
-    Thing *whereTo = grid[x_new][y_new]; // Thing pc wants to step on
+    shared_ptr<Thing> whereTo = grid[x_new][y_new]; // Thing pc wants to step on
     vector<string> walkable = {"G", ".", "+", "#", "\\"}; // Names of Tings that can step on
     string whatTo = grid[x_new][y_new]->getName().substr(0,1); // Name of Thing pc want to step on
     if (find(walkable.begin(), walkable.end(), whatTo) != walkable.end()) {
@@ -368,7 +368,7 @@ void Floor:: movePlayer(Player* pc, string dir){
 }
 
 // pick up gold; enemies in radius attack pc; Dragon attack pc;
-void Floor:: check(Player* pc) {
+void Floor:: check(shared_ptr<Player> pc) {
     Thing *sOn = pc->getOn(); // what "I" am standing on
     int x = pc->getX();
     int y = pc->getY();
@@ -383,14 +383,14 @@ void Floor:: check(Player* pc) {
         
         // set new tile
         delete pc->getOn();
-        Thing *nOn = new Cell(".", x, y);
+        shared_ptr<Cell> nOn = shared_ptr<Cell>(new Cell(".", x, y));
         pc->setOn(nOn);
     }
     
     // enemies in radius attack pc, dragon attack pc
     for (int i=-1; i<=1; i++) {
         for (int j=-1; j<=1; j++){
-            Thing *what = grid[x+i][y+j]; // This is the thing you see(may attack you)
+            shared_ptr<Thing> what = grid[x+i][y+j]; // This is the thing you see(may attack you)
             string name = what->getName().substr(0,1); // name
             bool isEnemy = find(enemy_names.begin(), enemy_names.end(), name) != enemy_names.end();
             bool isGold = name == "G";
@@ -436,7 +436,7 @@ void Floor:: moveEnemies() {
 // what pc do
 
 // attackEnemy should get gold from dead enemy and modify dragons
-void Floor:: attackEnemy(Player *pc, string dir) {
+void Floor:: attackEnemy(shared_ptr<Player> pc, string dir) {
     // enemy's direction
     int x = pc->getX();
     int y = pc->getY();
@@ -463,7 +463,7 @@ void Floor:: attackEnemy(Player *pc, string dir) {
     }
     
     // if enemy, attack
-    Thing *enemy = grid[x][y];
+    shared_ptr<Thing> enemy = grid[x][y];
     string name = enemy->getName().substr(0,1);
     if (find(enemy_names.begin(), enemy_names.end(), name) != enemy_names.end()) {
         //update message
@@ -504,7 +504,7 @@ void Floor:: attackEnemy(Player *pc, string dir) {
 }
 // NOTICE: don't move the enemy attacked!!!!!!!!
 
-void Floor:: usePotion(Player *pc, string dir) {
+void Floor:: usePotion(shared_ptr<Player> pc, string dir) {
     // potion's direction
     int x = pc->getX();
     int y = pc->getY();
@@ -538,10 +538,10 @@ void Floor:: usePotion(Player *pc, string dir) {
     init(x, y, ".");
 }
 
-void Floor::freePlayer(Thing *pc) {
+void Floor::freePlayer(shared_ptr<Thing> pc) {
     int x = pc->getX();
     int y = pc->getY();
-    Thing *temp = grid[x][y];
+    shared_ptr<Thing> temp = grid[x][y];
     grid[x][y] = temp->getOn();
     pc->setOn(nullptr);
 }
