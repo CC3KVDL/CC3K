@@ -14,12 +14,13 @@
 #include "goblin.h"
 #include "shade.h"
 #include <iostream>
+#include <memory>
 #include <cmath>
 
 using namespace std;
 
 // ctor && dtor
-Player::Player(std::string pc_type, int hp, int atk, int def): Thing{pc_type,0,0}, hp{hp}, atk{atk}, def{def}, gold{0}, On{nullptr}, mKiller{false} {}
+Player::Player(std::string pc_type, int hp, int atk, int def): Thing{pc_type,0,0}, hp{hp}, atk{atk}, def{def}, gold{0}, On{shared_ptr<Thing>(nullptr)}, mKiller{false} {}
 Player::~Player(){}
 
 shared_ptr<Player> Player::createPlayer(string type){
@@ -58,7 +59,7 @@ string Player::hurt(Enemy &e){
     return m;
 }
 
-string Player::use(Thing* t){
+string Player::use(shared_ptr<Thing> t){
     t->modify(this);
     string m = "PC uses " + t->getName().substr(1) + " . ";
     return m;
@@ -131,24 +132,24 @@ void Player::setmKiller(){
     mKiller = true;
 }
 
-void Player::setOn(Thing* t){
+void Player::setOn(shared_ptr<Thing> t){
     On = t;
 }
 
 void Player::initStatus(){
-    if (getName() == "@vampire"){
+    if (getName() == "@Vampire"){
         atk = 25;
         def = 25;
-    }else if (getName() == "@shade"){
+    }else if (getName() == "@Shade"){
         atk = 25;
         def = 25;
-    }else if (getName() == "@drow"){
+    }else if (getName() == "@Drow"){
         atk = 25;
         def = 15;
-    }else if (getName() == "@troll"){
+    }else if (getName() == "@Troll"){
         atk = 25;
         def = 15;
-    }else if (getName() == "@goblin"){
+    }else if (getName() == "@Goblin"){
         atk = 15;
         def = 20;
     }
