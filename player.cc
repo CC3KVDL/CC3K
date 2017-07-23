@@ -22,17 +22,17 @@ using namespace std;
 Player::Player(std::string pc_type, int hp, int atk, int def): Thing{pc_type,0,0}, hp{hp}, atk{atk}, def{def}, gold{0}, On{nullptr}, mKiller{false} {}
 Player::~Player(){}
 
-Player *Player::createPlayer(string type){
+shared_ptr<Player> Player::createPlayer(string type){
     if (type == "d"){
-        return new Drow();
+        return shared_ptr<Drow>(new Drow());
     }else if(type == "v"){
-        return new Vampire();
+        return shared_ptr<Vampire>(new Vampire());
     }else if(type == "t"){
-        return new Troll();
+        return shared_ptr<Troll>(new Troll());
     }else if (type == "g"){
-        return new Goblin();
+        return shared_ptr<Goblin>(new Goblin());
     }else{
-        return new Shade();
+        return shared_ptr<Shade>(new Shade());
     }
 }
 

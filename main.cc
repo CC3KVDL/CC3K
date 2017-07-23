@@ -51,7 +51,7 @@ int main(int argc, const char * argv[]) {
             cout << "Oops! You cannot be something that doesn't exist! Please try to become something real!" << endl;
             cin >> pc_type;
         }
-        Player *me = Player::createPlayer(pc_type);
+        shared_ptr<Player> me = Player::createPlayer(pc_type);
         int floor = 1;
         
         while (true) {

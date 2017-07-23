@@ -30,7 +30,7 @@ public:
     virtual ~Player();
     
     // actions of player
-    static Player *createPlayer(std::string pc_type);
+    static std::shared_ptr<Player> createPlayer(std::string pc_type);
     virtual std::string attack(Thing &t) override;
     virtual std::string hurt(Enemy &e) override;
     std::string use(Thing *t) override; // This is the first version, in DLC this should be a virtual

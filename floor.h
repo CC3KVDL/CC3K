@@ -25,30 +25,30 @@ bool isIn(std::string ele, std::vector<std::string>);
 bool cmpEnemies(Thing *a, Thing *b);
 
 class Floor {
-    std::vector<std::vector<Thing *>> grid; // the real grid of objects
-    std::vector<Thing *> Enemies; // an array of enemies
+    std::vector<std::vector<std::shared_ptr<Thing>>> grid; // the real grid of objects
+    std::vector<std::shared_ptr<Thing>> Enemies; // an array of enemies
     std::string mes; // the message that you print out each time
-    Display *dis; // a field to keep track of the display
+    std::shared_ptr<Display> dis; // a field to keep track of the display
 
 public:
     // ctor / dtor
-    Floor(Display* dis);
+    Floor(std::shared_ptr<Display> dis);
     ~Floor();
     
     // initializing the floor and printing
-    void readMap(Player *pc, std::string filename = "default.txt");
+    void readMap(std::shared_ptr<Player> pc, std::string filename = "default.txt");
     void init(int x, int y, std::string c); // initial a signle Thing
-    void print(Player *pc, int f); // print out the current map
+    void print(std::shared_ptr<Player> pc, int f); // print out the current map
     bool checkNbs(int x, int y); //check if one of the neighbours is spawnable
-    void spawnEverything(Player *pc);
+    void spawnEverything(std::shared_ptr<Player> pc);
     
     // what pc do
-    void movePlayer(Player* pc, std::string dir); // move pc to a direction
-    void attackEnemy(Player *pc, std::string dir);
-    void usePotion(Player *pc, std::string dir);
-    void check(Player *pc); // enemies in radius attack the pc; get gold from dead enemies; delete dead enemies;
+    void movePlayer(std::shared_ptr<Player> pc, std::string dir); // move pc to a direction
+    void attackEnemy(std::shared_ptr<Player> pc, std::string dir);
+    void usePotion(std::shared_ptr<Player> pc, std::string dir);
+    void check(std::shared_ptr<Player> pc); // enemies in radius attack the pc; get gold from dead enemies; delete dead enemies;
     void moveEnemies(); // move all enemies randomly
-    void freePlayer(Thing *pc); // take pc off the grid
+    void freePlayer(std::shared_ptr<Thing> pc); // take pc off the grid
     
 };
 
