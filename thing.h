@@ -45,12 +45,12 @@ public:
     virtual void setStand(bool s);
     virtual bool getStand();
     virtual void setHoard(Thing* t);
-    Thing* getHoard();
+    shared_ptr<Thing> getHoard();
 
     // Virtual Method for Gold
     virtual void setOwner(Thing *t);
     virtual int getValue();
-    Thing *getOwner();
+    shared_ptr<Thing> getOwner();
     
     // Virtual Method for Potion
     virtual void modify(Player *pc);
