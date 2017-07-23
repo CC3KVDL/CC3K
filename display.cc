@@ -19,7 +19,7 @@ Display::Display() {
     }
 }
 
-void Display::notify(Thing *t){
+void Display::notify(shared_ptr<Thing> t){
     int x = t->getX();
     int y = t->getY();
     char new_char = t->getName()[0];

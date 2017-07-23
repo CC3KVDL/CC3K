@@ -17,7 +17,7 @@ class Display {
     char map[25][79];
 public:
     Display();
-    void notify(Thing *t);
+    void notify(std::shared_ptr<Thing> t);
     void print();
     ~Display();
 };
