@@ -25,21 +25,21 @@ Enemy:: Enemy(int x, int y, std:: string name, int hp, int atk, int def): Thing{
 Enemy:: ~Enemy() {}
 
 // actions of enemy
-Enemy * Enemy:: createEnemy(string name, int x, int y) {
+shared_ptr<Enemy> Enemy:: createEnemy(string name, int x, int y) {
     if (name == "H" ) {
-        return new Human(x,y);
+        return shared_ptr<Human>(new Human(x,y));
     } else if (name == "W") {
-        return new Dwarf(x, y);
+        return shared_ptr<Dwarf>(new Dwarf(x, y));
     } else if (name == "E") {
-        return new Elf(x, y);
+        return shard_ptr<Elf>(new Elf(x, y));
     } else if (name == "O") {
-        return new Orcs(x, y);
+        return shared_ptr<Orcs>(new Orcs(x, y));
     } else if (name == "M") {
-        return new Merchant(x, y);
+        return shared_ptr<Merchant>(new Merchant(x, y));
     } else if (name == "D") {
-        return new Dragon(x, y);
+        return shared_ptr<Dragon>(new Dragon(x, y));
     } else {
-        return new Halfling(x, y);
+        return shared_ptr<Halfling>(new Halfling(x, y));
     }
 }
 string Enemy:: attack(Thing &t) {
