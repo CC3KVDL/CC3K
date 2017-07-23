@@ -26,22 +26,22 @@ int Thing::getHp() {return 0;}
 // Virtual Methods for Player only
 string Thing::use(Thing* t){return "";}
 string Thing::hurt(Enemy &e){return "";}
-Thing* Thing::getOn(){return nullptr;}
-void Thing::setOn(Thing *t){}
+shared_ptr<Thing> Thing::getOn(){return shared_ptr<Thing>(nullptr);}
+void Thing::setOn(shared_ptr<Thing> t){}
 bool Thing::getmKiller(){return false;}
 
 // Virtual Methods for Enemy only
 string Thing::hurt(Player &p) {return "";}
 bool Thing::getStand(){return false;}
 void Thing::setStand(bool s) {}
-void Thing::setHoard(Thing *t) {}
-Thing* Thing::getHoard(){return nullptr;}
+void Thing::setHoard(shared_ptr<Thing> t) {}
+shared_ptr<Thing> Thing::getHoard(){return shared_ptr<Thing>(nullptr);}
 
 // Virtual Method for Gold
-void Thing::setOwner(Thing* t){}
+void Thing::setOwner(shared_ptr<Thing> t){}
 int Thing::getValue(){return -1;}
-Thing* Thing::getOwner(){return nullptr;}
+shared_ptr<Thing> Thing::getOwner(){return shared_ptr<Thing>(nullptr);}
 
 // Virtual Method for Potion
-void Thing::modify(Player *pc) {}
+void Thing::modify(shared_ptr<Player> pc) {}
 
