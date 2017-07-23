@@ -14,7 +14,6 @@
 #include "goblin.h"
 #include "shade.h"
 #include <iostream>
-#include <memory>
 #include <cmath>
 
 using namespace std;
