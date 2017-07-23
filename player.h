@@ -9,6 +9,7 @@
 #ifndef player_h
 #define player_h
 #include <string>
+#include <memory>
 #include <cstdlib>
 #include "thing.h"
 #include "enemy.h"
@@ -44,11 +45,11 @@ public:
     //accessor
     int getHp() override;
     int getGold();
-    Thing *getOn() override;
+    shared_ptr<Thing> getOn() override;
     bool getmKiller() override;
     
     //mutator
-    void setOn(Thing* t) override; // Let pc step on something
+    void setOn(shared_ptr<Thing> t) override; // Let pc step on something
     void setmKiller();
     void initStatus();
 
