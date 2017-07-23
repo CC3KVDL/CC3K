@@ -49,3 +49,5 @@ void Potion::modify(Player* p){
     p->addDef(def);
  }
 }
+
+Potion::~Potion(){}

@@ -11,6 +11,7 @@
 #include <fstream>
 #include <algorithm>
 #include <string>
+#include <ctime>
 #include "floor.h"
 #include "cell.h"
 #include "enemy.h"
@@ -20,13 +21,12 @@
 using namespace std;
 
 // This
-vector<string> cell_names = {"-", "|", "+", "#", "\\", " "};
+vector<string> cell_names = {"-", "|", "+", "#", "\\", " ", "."};
 vector<string> enemy_names = {"H", "W", "L", "E", "O", "M", "D"};
 
 // what appears first are helper functions
 // This is the implementation of getPos
 int getPos(int& x, int& y) {
-    srand(time(NULL));
     int v = rand()%5; // generate 0~4
     if (v == 0) {
         int v0 = rand()%104; // chambre1 -> 4 * 26 = 104 tiles 1~104
@@ -75,7 +75,7 @@ int getPos(int& x, int& y) {
 }
 
 // This is the implementation of cmpEnemies
-bool cmpEnemies(Enemy *a, Enemy *b) {
+bool cmpEnemies(Thing *a, Thing *b) {
     if (a->getX() > b->getX()) {
         return true;
     } else if (a->getX() == b->getX()) {
@@ -113,15 +113,20 @@ Floor:: ~Floor() {
 
 // initializing the floor
 void Floor:: readMap(Player* pc,string filename) {
-    ifstream file{filename};
+    ifstream file{"default.txt"};
+    string map1 = "|-----------------------------------------------------------------------------||                                                                             || |--------------------------|        |-----------------------|               || |..........................|        |.......................|               || |..........................+########+.......................|-------|       || |..........................|   #    |................................|-|    || |..........................|   #    |..................................|--| || |----------+---------------|   #    |----+----------------|...............| ||            #                 #############                |...............| ||            #                 #     |-----+------|         |...............| ||            #                 #     |............|         |...............| ||            ###################     |............|   ######+...............| ||            #                 #     |............|   #     |...............| ||            #                 #     |-----+------|   #     |--------+------| ||  |---------+-----------|     #           #          #              #        ||  |.....................|     #           #          #         |----+------| ||  |.....................|     ########################         |...........| ||  |.....................|     #           #                    |...........| ||  |.....................|     #    |------+--------------------|...........| ||  |.....................|     #    |.......................................| ||  |.....................+##########+.......................................| ||  |.....................|          |.......................................| ||  |---------------------|          |---------------------------------------| ||                                                                             ||-----------------------------------------------------------------------------|";
+    
     string line;
     string cell;
     vector<Thing *> DHs; // array of pointers to Dragon Hoard
     vector<Thing *> Ds; // array of pointers to Dragon
     for (int i = 0; i < 25; ++ i) {
-        getline(file, line);
+        // getline(file, line);
         for (int j = 0; j < 79; ++ j) {
-            cell = line[j];
+            //cell = line[j];
+            
+            cell = map1[i*79 + j];
+            
             if (cell == "9") {
                 init(i, j, cell);
                 DHs.push_back(grid[i][j]);
@@ -172,7 +177,9 @@ void Floor:: init(int x, int y, string c) {
         grid[x][y] = new Cell(c, x, y);
     } else if (isEnemy) {
         grid[x][y] = Enemy::createEnemy(c, x, y);
-        Enemies.push_back(grid[x][y]);
+        if (grid[x][y]->getName()!="Ddragon"){
+            Enemies.push_back(grid[x][y]);
+        }
     } else if (c == "0") {
         grid[x][y] = new Potion("PRH",x,y);
     } else if (c == "1") {
@@ -211,7 +218,7 @@ void Floor:: print(Player *pc, int f){
 bool Floor::checkNbs(int x, int y) { // a helper function to set gold
     bool result = false;
     for (int i=-1; i<=1; i++) {
-        for (int j=-1; i<=1; j++) {
+        for (int j=-1; j<=1; j++) {
             if (i!=0 || j!=0) {
                 result = result || (grid[x+i][y+j]->getName() == ".");
             }
@@ -226,6 +233,9 @@ void Floor::spawnEverything(Player *pc){
     chmbr = getPos(x, y);
     pc->setOn(grid[x][y]);
     grid[x][y] = pc;
+    pc->setX(x);
+    pc->setY(y);
+    dis->notify(pc);
     
     // set stairway
     while (getPos(x, y) == chmbr){}
@@ -233,9 +243,10 @@ void Floor::spawnEverything(Player *pc){
     
     // set potions
     for (int i=0; i < 10; i++) {
-        srand(time(NULL));
+        
         int p = rand()%6; // p is a random number from 0--5
         string pn = to_string(p);
+        
         
         getPos(x, y);
         while (grid[x][y]->getName() != ".") {
@@ -244,9 +255,9 @@ void Floor::spawnEverything(Player *pc){
         init(x, y, pn);
     }
     
+    
     // set golds
     for (int i=0; i < 10; i++) {
-        srand(time(NULL));
         int g = rand()%8 + 1;
         string gn; // gold name
         if (g >= 1 && g <= 5) {
@@ -264,7 +275,6 @@ void Floor::spawnEverything(Player *pc){
         }
         
         init(x, y, gn);
-        
         // set the dragon
         if (gn == "9") {
             while (true) {
@@ -280,9 +290,9 @@ void Floor::spawnEverything(Player *pc){
         }
     }
     
+    
     //set enemies
     for (int i=0; i<20; i++) {
-        srand(time(NULL));
         int e = rand()%18 + 1;
         string en; // enemy name
         if (1<=e && e<=4) {
@@ -300,8 +310,10 @@ void Floor::spawnEverything(Player *pc){
         }
         
         getPos(x, y);
+        
         while (grid[x][y]->getName() != ".") {
             getPos(x, y);
+            
         }
         
         init(x, y, en); // we pushed enemy into Enemies in the function init!!
@@ -339,15 +351,17 @@ void Floor:: movePlayer(Player* pc, string dir){
     // here is when pc actually walks
     Thing *whereTo = grid[x_new][y_new]; // Thing pc wants to step on
     vector<string> walkable = {"G", ".", "+", "#", "\\"}; // Names of Tings that can step on
-    string whatTo = grid[x_new][y_new]->getName(); // Name of Thing pc want to step on
+    string whatTo = grid[x_new][y_new]->getName().substr(0,1); // Name of Thing pc want to step on
     if (find(walkable.begin(), walkable.end(), whatTo) != walkable.end()) {
         grid[x_pc][y_pc] = pc->getOn();
         pc->setOn(whereTo);
         grid[x_new][y_new] = pc;
+        dis->notify(grid[x_pc][y_pc]);
         pc->setX(x_new);
         pc->setY(y_new);
+        dis->notify(pc);
         //update message
-        mes = mes + "Player moves" + dir + ".";
+        mes = mes + "Player moves " + dir + ".";
     }
     
     // Now we "DON'T" let pc pick up a gold yet!!!
@@ -414,7 +428,7 @@ void Floor:: moveEnemies() {
                 break;
             }
         }
-        Enemies[i]->setStand();
+        Enemies[i]->setStand(false);
     }
 }
 
@@ -452,10 +466,9 @@ void Floor:: attackEnemy(Player *pc, string dir) {
     Thing *enemy = grid[x][y];
     string name = enemy->getName().substr(0,1);
     if (find(enemy_names.begin(), enemy_names.end(), name) != enemy_names.end()) {
-         //update message
-         mes += pc->attack(*enemy);
-       
-       
+        //update message
+        mes = mes + pc->attack(*enemy);
+        
         // check if attacking a merchant
         if (name == "M") {
             pc->setmKiller();
@@ -470,7 +483,6 @@ void Floor:: attackEnemy(Player *pc, string dir) {
             } else if (name == "D") {
                 pc->addGold(0);
             } else {
-                srand(time(NULL));
                 int v = rand()%2+1; // 1~2
                 pc->addGold(v);
             }

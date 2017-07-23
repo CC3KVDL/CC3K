@@ -31,9 +31,9 @@ public:
     
     // actions of player
     static Player *createPlayer(std::string pc_type);
-    virtual std::string attack(Thing& e);
-    virtual std::string hurt(Enemy &e);
-    std::string use(Thing *t); // This is the first version, in DLC this should be a virtual
+    virtual std::string attack(Thing &t) override;
+    virtual std::string hurt(Enemy &e) override;
+    std::string use(Thing *t) override; // This is the first version, in DLC this should be a virtual
     
     //mutate relevant fields
     void addHp(int amount);
@@ -42,13 +42,13 @@ public:
     void addGold(int amount); // This is called whenever "I" steps on a pile of gold or "I" killed an enemy
     
     //accessor
-    int getHp();
+    int getHp() override;
     int getGold();
-    Thing *getOn();
-    bool getmKiller();
+    Thing *getOn() override;
+    bool getmKiller() override;
     
     //mutator
-    void setOn(Thing* t); // Let pc step on something
+    void setOn(Thing* t) override; // Let pc step on something
     void setmKiller();
     void initStatus();
 

@@ -14,7 +14,7 @@
 class Merchant: public Enemy {
 public:
     Merchant(int x, int y);
-    std::string attack(Player &p) override;
+    std::string attack(Thing& t) override;
     ~Merchant();
 };
 

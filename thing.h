@@ -31,20 +31,26 @@ public:
     
     // Virtual Method for Player and Enemy
     virtual std::string attack(Thing &t);
-    virtual std::string hurt(Thing &t);
-    virtual std::string use(Thing * t);
     virtual int getHp();
+    
+    // Virtual Method only for Player
+    virtual std::string use(Thing * t);
+    virtual std::string hurt(Enemy &e);
     virtual Thing* getOn();
-    virtual void setOn(Thing *);
+    virtual void setOn(Thing *t);
+    virtual bool getmKiller();
+    
+    // Virtual Method only for Enemy
+    virtual std::string hurt(Player &p);
     virtual void setStand(bool s);
     virtual bool getStand();
+    virtual void setHoard(Thing* t);
+    Thing* getHoard();
 
     // Virtual Method for Gold
     virtual void setOwner(Thing *t);
-    virtual void setHoard(Thing* t);
     virtual int getValue();
     Thing *getOwner();
-    Thing* getHoard();
     
     // Virtual Method for Potion
     virtual void modify(Player *pc);

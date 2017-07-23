@@ -25,17 +25,18 @@ public:
     virtual ~Enemy();
     
     // actions of enemy
-    virtual std:: string attack(Player &p);
-    std:: string hurt(Player &p);
+    virtual std:: string attack(Thing &t) override;
+    std:: string hurt(Player &p) override;
     static Enemy *createEnemy(std::string name, int x, int y);
     
     // accessor
-    int getHp();
+    int getHp() override;
     int getAtk();
-    void getStand(bool s) override;
+    bool getStand() override;
     
-    // mutator 
-    void setStand();
+    
+    // mutator
+    void setStand(bool s) override;
     
     friend class Player;
 };

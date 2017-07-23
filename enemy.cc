@@ -6,8 +6,9 @@
 //  Copyright © 2017 Dennis. All rights reserved.
 //
 
-#include <cstdlib>
 #include <sstream>
+#include <cmath>
+#include <iostream>
 #include "player.h"
 #include "enemy.h"
 #include "human.h"
@@ -41,17 +42,16 @@ Enemy * Enemy:: createEnemy(string name, int x, int y) {
         return new Halfling(x, y);
     }
 }
-string Enemy:: attack(Player &p) {
-    srand(time(NULL));
+string Enemy:: attack(Thing &t) {
     int v = rand()%2; // 0~1
     if (v) {
-        return p.hurt(*this);
+        return t.hurt(*this);
     } else {
         return "";
     }
 }
 string Enemy:: hurt(Player &p) {
-    int hurt = (100 / (100 + def))* p.atk;
+    int hurt = ceil(100 *p.atk/ (100 + def));
     hp -= hurt;
     if (hp < 0) { hp = 0; }
     string name_p = p.getName().substr(1);
@@ -75,8 +75,8 @@ bool Enemy:: getStand() {
 }
 
 // mutator
-void Enemy:: setStand() {
-    stand = false;
+void Enemy:: setStand(bool s) {
+    stand = s;
 }
 
 

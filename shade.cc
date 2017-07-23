@@ -8,6 +8,6 @@
 
 #include "shade.h"
 
-Shade::Shade(): Player{"@shade", 120, 25, 25} {}
+Shade::Shade(): Player{"@Shade", 120, 25, 25} {}
 
 Shade::~Shade(){}

@@ -14,15 +14,16 @@ using namespace std;
 
 Merchant:: Merchant(int x, int y): Enemy{x, y, "Mmerchant", 30, 70, 5} {}
 
-string Merchant:: attack(Player &p) {
-  if (p.getmKiller()) {
-    srand(time(NULL));
+string Merchant:: attack(Thing& t) {
+  if (t.getmKiller()) {
     int v = rand()%2; // 0~1
     if (v) {
-      return p.hurt(*this);
+      return t.hurt(*this);
     } else {
       return "";
     }
+  }else{
+      return "";
   }
 }
 

@@ -12,10 +12,10 @@ Dragon:: Dragon(int x, int y): Enemy{x, y, "Ddragon", 150, 20, 20}, hoard{nullpt
 
 Dragon:: ~Dragon() {}
 
-void setHoard(Thing* t) {
+void Dragon::setHoard(Thing* t) {
   hoard = t;
 }
 
-Thing* getHoard() {
+Thing* Dragon::getHoard() {
   return hoard;
 }

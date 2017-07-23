@@ -10,7 +10,7 @@
 
 using namespace std;
 
-Drow::Drow(): Player{"@drow", 150, 25, 15} {}
+Drow::Drow(): Player{"@Drow", 150, 25, 15} {}
 
 
 

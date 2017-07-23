@@ -22,7 +22,7 @@ int getPos(int &x, int &y);
 bool isIn(std::string ele, std::vector<std::string>);
 
 // sortEnemies is a function to compare to enemies and decide their sequence.
-bool cmpEnemies(Enemy *a, Enemy *b);
+bool cmpEnemies(Thing *a, Thing *b);
 
 class Floor {
     std::vector<std::vector<Thing *>> grid; // the real grid of objects

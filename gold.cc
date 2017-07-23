@@ -6,10 +6,12 @@
 //  Copyright © 2017 Dennis. All rights reserved.
 //
 
+#include <string>
 #include "gold.h"
 
+using namespace std;
 
-Gold:: Gold(std::string name, int x, int y, Thing* owner): Thing{name, x, y}, owner{owner} {
+Gold:: Gold(string name, int x, int y, Thing* owner): Thing{name, x, y}, owner{owner} {
     if (name == "GD") { // dragon gold
         value = 8;
     } else if (name == "GS") { // small gold

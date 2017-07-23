@@ -14,6 +14,8 @@
 using namespace std;
 
 int main(int argc, const char * argv[]) {
+    
+    srand(time(NULL));
     while (true) {
         cout << "======================================================" << endl;
         cout << "~~~~~~  ~~~~~~~~~  ~~~~~~~~     ~~~~~~~~~  ~~~~  ~~~~~" << endl;
@@ -28,8 +30,8 @@ int main(int argc, const char * argv[]) {
         cout << "Three brave programmers build this game," << endl;
         cout << "Five large chambres are the general frame," << endl;
         cout << "There hides enemies that can't be tamed." << endl;
-        cout << "Fighting and climbing is how you play," << endl;
-        cout << "Getting to the sixth floor is your final aim," << endl;
+        cout << "Fighting and collecting is how you play," << endl;
+        cout << "Climbing to the sixth floor is your final aim," << endl;
         cout << "Now that you shall choose your name." << endl;
         cout << "Shout out your race or just be lame(q)." << endl;
         cout << "s-shade" << endl << "d-drow" << endl << "v-vampire" << endl << "g-goblin" << endl <<"t-troll" << endl;
@@ -40,11 +42,11 @@ int main(int argc, const char * argv[]) {
             return 0;
         }
         
-        while (pc_type != "" ||
-               pc_type != "d" ||
-               pc_type != "v" ||
-               pc_type != "g" ||
-               pc_type != "s" ||
+        while (pc_type != "" &&
+               pc_type != "d" &&
+               pc_type != "v" &&
+               pc_type != "g" &&
+               pc_type != "s" &&
                pc_type != "t") {
             cout << "Oops! You cannot be something that doesn't exist! Please try to become something real!" << endl;
             cin >> pc_type;
@@ -148,7 +150,7 @@ int main(int argc, const char * argv[]) {
                 }
                 
                 // troll adds 5 hp every turn
-                if (me->getName() == "@troll") {
+                if (me->getName() == "@Troll") {
                     me->addHp(5);
                 }
                 
