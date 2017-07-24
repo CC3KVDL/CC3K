@@ -17,24 +17,24 @@ int main(int argc, const char * argv[]) {
     
     srand(time(NULL));
     while (true) {
-        cout << "======================================================" << endl;
-        cout << "~~~~~~  ~~~~~~~~~  ~~~~~~~~     ~~~~~~~~~  ~~~~  ~~~~~" << endl;
-        cout << "~~~~~ ~~~~~~~~~~ ~~~~~~~~~ ~~~~~  ~~~~~~~ ~~~~ ~~~~~~~" << endl;
-        cout << "~~~~ ~~~~~~~~~~ ~~~~~~~~~~~~~~~~ ~~~~~~~~ ~~~ ~~~~~~~~" << endl;
-        cout << "~~~~ ~~~~~~~~~~ ~~~~~~~~~~~~~   ~~~~~~~~~   ~~~~~~~~~~" << endl;
-        cout << "~~~~ ~~~~~ ~~~~ ~~~~  ~~~~~~~~~~ ~~~~~~~~ ~~  ~~~~~~~~" << endl;
-        cout << "~~~~~    ~~~~~~~~   ~~~~~~  ~~~   ~~~~~~~ ~~~~~  ~~~~~" << endl;
-        cout << "======================================================" << endl;
+        cout << "=======================================================" << endl;
+        cout << "~~~~~~~  ~~~~~~~~~  ~~~~~~~~     ~~~~~~~~~  ~~~~  ~~~~~" << endl;
+        cout << "~~~~~  ~~~~~~~~~~ ~~~~~~~~~ ~~~~~  ~~~~~~~ ~~~~ ~~~~~~~" << endl;
+        cout << "~~~~  ~~~~~~~~~~ ~~~~~~~~~~~~~~~~ ~~~~~~~~ ~~~ ~~~~~~~~" << endl;
+        cout << "~~~~ ~~~~~~~~~~~ ~~~~~~~~~~~~~   ~~~~~~~~~   ~~~~~~~~~~" << endl;
+        cout << "~~~~  ~~~~~~~~~~ ~~~~  ~~~~~~~~~~ ~~~~~~~~ ~~  ~~~~~~~~" << endl;
+        cout << "~~~~~~    ~~~~~~~~   ~~~~~~  ~~~   ~~~~~~~ ~~~~~  ~~~~~" << endl;
+        cout << "=======================================================" << endl;
         cout << endl;
         cout << "The world were zeros and ones before you came," << endl;
-        cout << "Three brave programmers build this game," << endl;
+        cout << "Three smart programmers build this game," << endl;
         cout << "Five large chambres are the general frame," << endl;
         cout << "There hides enemies that can't be tamed." << endl;
         cout << "Fighting and collecting is how you play," << endl;
         cout << "Climbing to the sixth floor is your final aim," << endl;
-        cout << "Now that you shall choose your name." << endl;
-        cout << "Shout out your race or just be lame(q)." << endl;
-        cout << "s-shade" << endl << "d-drow" << endl << "v-vampire" << endl << "g-goblin" << endl <<"t-troll" << endl;
+        cout << "Now that you shall choose your race," << endl;
+        cout << "Choose to quit(q) or type in your name." << endl;
+        cout << "s-Shade" << endl << "d-Drow" << endl << "v-Vampire" << endl << "g-Goblin" << endl <<"t-Troll" << endl;
         string pc_type;
         cin >> pc_type;
         if (pc_type == "q") {
@@ -55,8 +55,8 @@ int main(int argc, const char * argv[]) {
         int floor = 1;
         
         while (true) {
-            Display dis;
-            Floor f(&dis);
+            shared_ptr<Display> pdis(new Display()); // Display lalala
+            Floor f(pdis);
             bool restart = false;
             
             // generate full floor
@@ -69,7 +69,6 @@ int main(int argc, const char * argv[]) {
             
             // print the map and message
             f.print(me, floor);
-            cout<< "Player enters floor: " << floor << endl;
             
             
             // read in command
@@ -108,10 +107,9 @@ int main(int argc, const char * argv[]) {
                 } else if (command == "q" ) {
                     cout << "Game Over" << endl;
                     f.freePlayer(me); // make sure grid has access to a valid address
-                    delete me;
                     return 0;
                 } else {
-                    cout << "Invalide command" << endl;
+                    cout << "Oh man you can't actually do that. Just try another command." << endl;
                     continue;
                 }
                 
@@ -125,20 +123,35 @@ int main(int argc, const char * argv[]) {
                 
                 // HP == 0
                 if (me->getHp() <= 0) {
-                    cout << "Game Over" << endl;
+                    f.print(me, floor);
+                    cout << "///////////////////////////////////////////////////////////////////////" << endl;
+                    cout << "You are Dead!" << endl;
                     cout << "You have scored: " << me->getGold() << endl;
+                    cout << "I know, I know. Those bastards are mean, aren't they. I bid you farewell," << endl << "my dear friend." << endl;
                     f.freePlayer(me); // make sure me is not deleted with Floor
-                    delete me;
                     return 0;
                 }
                 
                 // at stair / win
                 if (me->getOn()->getName() == "\\") {
                     if (floor == 5) {
-                        cout << "Win!" << endl;
+                        f.print(me, floor);
+                        cout << "//////////////////////////////////////////////////////////////////////" << endl;
+                        cout << "You did it!" << endl;
                         cout << "You have scored: " << me->getGold() << endl;
+                        cout << endl << endl;
+                        cout << "\"So what next?\"" << endl << endl;
+                        cout << "Asked the confused gamer," << endl << endl;
+                        cout << "\"What's the point of all of this?\"" << endl << endl;
+                        cout << "Suddenly the gamer heard a voice from the sky." << endl << endl;
+                        cout << "\"No, there is no point in any of these, my friend. This is just like" << endl;
+                        cout << "your life. You climbed and climbed, struggled and struggled, hoping " << endl;
+                        cout << "that there is a light waiting for you somewhere, welcoming, eluding, " << endl;
+                        cout << "restlessly flickering in the dark. You know, deep down, it is there " << endl;
+                        cout << "somewhere. Right?\"" << endl << endl;
+                        cout << "\"So you beat on, boats against the current, borne back ceaselessly" << endl;
+                        cout << "into the past." << endl << endl;
                         f.freePlayer(me); // make sure me is not deleted with floor
-                        delete me;
                         return 0;
                     }
                     ++ floor;

@@ -6,6 +6,7 @@
 //  Copyright © 2017 Dennis. All rights reserved.
 //
 
+#include <iostream>
 #include <string>
 #include "gold.h"
 

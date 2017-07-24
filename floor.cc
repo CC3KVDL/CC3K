@@ -6,6 +6,7 @@
 //  Copyright © 2017 Dennis. All rights reserved.
 //
 
+
 #include <iostream>
 #include <cstdlib>
 #include <fstream>
@@ -105,7 +106,6 @@ Floor:: ~Floor() {
             if (grid[i][j]->getName()[0] == '@') {
                 freePlayer(grid[i][j]);
             }
-            delete grid[i][j];
         }
     }
 }
@@ -114,18 +114,18 @@ Floor:: ~Floor() {
 // initializing the floor
 void Floor:: readMap(shared_ptr<Player> pc,string filename) {
     ifstream file{"default.txt"};
-    string map1 = "|-----------------------------------------------------------------------------||                                                                             || |--------------------------|        |-----------------------|               || |..........................|        |.......................|               || |..........................+########+.......................|-------|       || |..........................|   #    |................................|-|    || |..........................|   #    |..................................|--| || |----------+---------------|   #    |----+----------------|...............| ||            #                 #############                |...............| ||            #                 #     |-----+------|         |...............| ||            #                 #     |............|         |...............| ||            ###################     |............|   ######+...............| ||            #                 #     |............|   #     |...............| ||            #                 #     |-----+------|   #     |--------+------| ||  |---------+-----------|     #           #          #              #        ||  |.....................|     #           #          #         |----+------| ||  |.....................|     ########################         |...........| ||  |.....................|     #           #                    |...........| ||  |.....................|     #    |------+--------------------|...........| ||  |.....................|     #    |.......................................| ||  |.....................+##########+.......................................| ||  |.....................|          |.......................................| ||  |---------------------|          |---------------------------------------| ||                                                                             ||-----------------------------------------------------------------------------|";
+    //string map1 = "|-----------------------------------------------------------------------------||                                                                             || |--------------------------|        |-----------------------|               || |..........................|        |.......................|               || |..........................+########+.......................|-------|       || |..........................|   #    |................................|-|    || |..........................|   #    |..................................|--| || |----------+---------------|   #    |----+----------------|...............| ||            #                 #############                |...............| ||            #                 #     |-----+------|         |...............| ||            #                 #     |............|         |...............| ||            ###################     |............|   ######+...............| ||            #                 #     |............|   #     |...............| ||            #                 #     |-----+------|   #     |--------+------| ||  |---------+-----------|     #           #          #              #        ||  |.....................|     #           #          #         |----+------| ||  |.....................|     ########################         |...........| ||  |.....................|     #           #                    |...........| ||  |.....................|     #    |------+--------------------|...........| ||  |.....................|     #    |.......................................| ||  |.....................+##########+.......................................| ||  |.....................|          |.......................................| ||  |---------------------|          |---------------------------------------| ||                                                                             ||-----------------------------------------------------------------------------|";
     
     string line;
     string cell;
     vector<shared_ptr<Thing>> DHs; // array of pointers to Dragon Hoard
     vector<shared_ptr<Thing>> Ds; // array of pointers to Dragon
     for (int i = 0; i < 25; ++ i) {
-        // getline(file, line);
+        getline(file, line);
         for (int j = 0; j < 79; ++ j) {
-            //cell = line[j];
+            cell = line[j];
             
-            cell = map1[i*79 + j];
+            //cell = map1[i*79 + j];
             
             if (cell == "9") {
                 init(i, j, cell);
@@ -161,7 +161,7 @@ void Floor:: readMap(shared_ptr<Player> pc,string filename) {
             }
         }
     }
-    
+    mes = mes + "Player enters the floor. ";
 }
 
 
@@ -170,7 +170,6 @@ void Floor:: init(int x, int y, string c) {
     bool isEnemy = find(enemy_names.begin(), enemy_names.end(), c) != enemy_names.end();
     
     // deleting the tile
-    delete grid[x][y];
     
     // adding enemy
     if (isCell) {
@@ -361,7 +360,7 @@ void Floor:: movePlayer(shared_ptr<Player> pc, string dir){
         pc->setY(y_new);
         dis->notify(pc);
         //update message
-        mes = mes + "Player moves " + dir + ".";
+        mes = mes + "Player moves " + dir + ". ";
     }
     
     // Now we "DON'T" let pc pick up a gold yet!!!
@@ -369,7 +368,7 @@ void Floor:: movePlayer(shared_ptr<Player> pc, string dir){
 
 // pick up gold; enemies in radius attack pc; Dragon attack pc;
 void Floor:: check(shared_ptr<Player> pc) {
-    Thing *sOn = pc->getOn(); // what "I" am standing on
+    shared_ptr<Thing> sOn = pc->getOn(); // what "I" am standing on
     int x = pc->getX();
     int y = pc->getY();
     
@@ -382,7 +381,6 @@ void Floor:: check(shared_ptr<Player> pc) {
         mes += "PC picks up a gold of value " + to_string(sOn->getValue()) + " .";
         
         // set new tile
-        delete pc->getOn();
         shared_ptr<Cell> nOn = shared_ptr<Cell>(new Cell(".", x, y));
         pc->setOn(nOn);
     }
@@ -402,8 +400,6 @@ void Floor:: check(shared_ptr<Player> pc) {
         }
     }
 }
-
-
 
 // move all enemies randomly
 void Floor:: moveEnemies() {
@@ -482,6 +478,7 @@ void Floor:: attackEnemy(shared_ptr<Player> pc, string dir) {
                 pc->addGold(4);
             } else if (name == "D") {
                 pc->addGold(0);
+                enemy->getHoard()->setOwner(nullptr);
             } else {
                 int v = rand()%2+1; // 1~2
                 pc->addGold(v);
@@ -489,7 +486,12 @@ void Floor:: attackEnemy(shared_ptr<Player> pc, string dir) {
             
             grid[x][y] = nullptr; // To avoid dangling pointer.
             
-            delete *find (Enemies.begin(), Enemies.end(), enemy);
+            for (int i=0; i<Enemies.size(); i++) {
+                if (Enemies[i] == enemy) {
+                    Enemies[i] = nullptr; // not necessarily, but it means we "deleted" what's useless
+                    Enemies.erase(Enemies.begin() + i);
+                }
+            }
             
             // initial new tile
             init(x, y, ".");
@@ -533,9 +535,8 @@ void Floor:: usePotion(shared_ptr<Player> pc, string dir) {
     if (grid[x][y]->getName()[0] == 'P') {
         //update message
         mes = mes + pc->use(grid[x][y]);
+        init(x, y, ".");
     }
-    
-    init(x, y, ".");
 }
 
 void Floor::freePlayer(shared_ptr<Thing> pc) {

@@ -9,16 +9,17 @@
 #ifndef dragon_h
 #define dragon_h
 
+#include <memory>
 #include "enemy.h"
 
 class Dragon: public Enemy {
-    Thing* hoard;
+    std::shared_ptr<Thing> hoard;
     
 public:
     Dragon(int x, int y);
     ~Dragon();
-    void setHoard(Thing* t);
-    Thing* getHoard();
+    void setHoard(std::shared_ptr<Thing> t) override;
+    std::shared_ptr<Thing> getHoard() override;
 };
 
 #endif /* dragon_h */

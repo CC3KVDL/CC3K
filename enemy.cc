@@ -31,7 +31,7 @@ shared_ptr<Enemy> Enemy:: createEnemy(string name, int x, int y) {
     } else if (name == "W") {
         return shared_ptr<Dwarf>(new Dwarf(x, y));
     } else if (name == "E") {
-        return shard_ptr<Elf>(new Elf(x, y));
+        return shared_ptr<Elf>(new Elf(x, y));
     } else if (name == "O") {
         return shared_ptr<Orcs>(new Orcs(x, y));
     } else if (name == "M") {
@@ -61,6 +61,12 @@ string Enemy:: hurt(Player &p) {
     string mes = name_p + " " + "deals " + damage + " to " + name_e + "( " + hp_e + " )" + ". ";
     return mes;
 }
+
+void Enemy::setHoard(shared_ptr<Thing> t) {}
+
+
+shared_ptr<Thing> Enemy::getHoard() {return nullptr;}
+
 
 // accessor
 int Enemy::getHp() {

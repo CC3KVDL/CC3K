@@ -18,7 +18,7 @@ class Potion : public Thing {
     int def;
 public:
     Potion(std::string name, int x, int y);
-    void modify(Player* p);
+    void modify(Player& p);
     ~Potion();
 };
 

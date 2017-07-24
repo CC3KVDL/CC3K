@@ -14,12 +14,12 @@
 
 class Gold: public Thing {
     int value;
-    shared_ptr<Thing> owner;
+    std::shared_ptr<Thing> owner;
     
     public:
-    Gold(std::string name, int x, int y, shared_ptr<Thing> owner = nullptr);
-    void setOwner(shared_ptr<Thing> t);
-    shared_ptr<Thing> getOwner();
+    Gold(std::string name, int x, int y, std::shared_ptr<Thing> owner = nullptr);
+    void setOwner(std::shared_ptr<Thing> t);
+    std::shared_ptr<Thing> getOwner();
     int getValue();
     ~Gold();
 };

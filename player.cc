@@ -59,7 +59,7 @@ string Player::hurt(Enemy &e){
 }
 
 string Player::use(shared_ptr<Thing> t){
-    t->modify(this);
+    t->modify(*this);
     string m = "PC uses " + t->getName().substr(1) + " . ";
     return m;
 }
@@ -107,7 +107,7 @@ void Player::addDef(int amount){
 
 
 //accessor
-Thing* Player::getOn(){
+shared_ptr<Thing> Player::getOn(){
     return On;
 }
 
@@ -156,8 +156,8 @@ void Player::initStatus(){
 
 
 void Player::printStatus(int floor){
-    cout << "Race: " << getName().substr(1) << " " << "Gold: " << gold << endl;
-    for (int i = 0 ; i < 50; ++i){
+    cout << "Race: " << getName().substr(1) << "                         " << "Gold: " << gold;
+    for (int i = 0 ; i < 27; ++i){
         cout << " ";
     }
     cout << "Floor: " <<  floor << endl;

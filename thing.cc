@@ -24,7 +24,7 @@ int Thing::getHp() {return 0;}
 
 
 // Virtual Methods for Player only
-string Thing::use(Thing* t){return "";}
+string Thing::use(shared_ptr<Thing> t){return "";}
 string Thing::hurt(Enemy &e){return "";}
 shared_ptr<Thing> Thing::getOn(){return shared_ptr<Thing>(nullptr);}
 void Thing::setOn(shared_ptr<Thing> t){}
@@ -43,5 +43,5 @@ int Thing::getValue(){return -1;}
 shared_ptr<Thing> Thing::getOwner(){return shared_ptr<Thing>(nullptr);}
 
 // Virtual Method for Potion
-void Thing::modify(shared_ptr<Player> pc) {}
+void Thing::modify(Player& pc) {}
 

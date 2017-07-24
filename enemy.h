@@ -28,6 +28,8 @@ public:
     virtual std:: string attack(Thing &t) override;
     std:: string hurt(Player &p) override;
     static std::shared_ptr<Enemy> createEnemy(std::string name, int x, int y);
+    virtual void setHoard(std::shared_ptr<Thing> t) override;
+    virtual std::shared_ptr<Thing> getHoard() override;
     
     // accessor
     int getHp() override;

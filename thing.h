@@ -29,7 +29,7 @@ public:
     std::string getName();
     virtual ~Thing();
     
-    // Virtual Method for Player and Enemy
+    // Virtual Methov for Player and Enemy
     virtual std::string attack(Thing &t);
     virtual int getHp();
     
@@ -45,15 +45,15 @@ public:
     virtual void setStand(bool s);
     virtual bool getStand();
     virtual void setHoard(std::shared_ptr<Thing> t);
-    std::shared_ptr<Thing> getHoard();
+    virtual std::shared_ptr<Thing> getHoard();
 
     // Virtual Method for Gold
     virtual void setOwner(std::shared_ptr<Thing> t);
     virtual int getValue();
-    std::shared_ptr<Thing> getOwner();
+    virtual std::shared_ptr<Thing> getOwner();
     
     // Virtual Method for Potion
-    virtual void modify(std::shared_ptr<Player> pc);
+    virtual void modify(Player& pc);
 };
 
 #endif /* thing_h */

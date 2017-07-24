@@ -11,11 +11,12 @@
 Dragon:: Dragon(int x, int y): Enemy{x, y, "Ddragon", 150, 20, 20}, hoard{nullptr} {}
 
 Dragon:: ~Dragon() {}
+using namespace std;
 
-void Dragon::setHoard(Thing* t) {
-  hoard = t;
+void Dragon::setHoard(shared_ptr<Thing> t) {
+    hoard = t;
 }
 
-Thing* Dragon::getHoard() {
-  return hoard;
+shared_ptr<Thing> Dragon::getHoard() {
+    return hoard;
 }
