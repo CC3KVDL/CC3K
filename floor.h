@@ -36,7 +36,7 @@ public:
     ~Floor();
     
     // initializing the floor and printing
-    void readMap(std::shared_ptr<Player> pc, std::string filename = "default.txt");
+    void readMap(std::shared_ptr<Player> pc, std::ifstream &file);
     void init(int x, int y, std::string c); // initial a signle Thing
     void print(std::shared_ptr<Player> pc, int f); // print out the current map
     bool checkNbs(int x, int y); //check if one of the neighbours is spawnable
@@ -49,7 +49,7 @@ public:
     void check(std::shared_ptr<Player> pc); // enemies in radius attack the pc; get gold from dead enemies; delete dead enemies;
     void moveEnemies(); // move all enemies randomly
     void freePlayer(std::shared_ptr<Thing> pc); // take pc off the grid
-    
+    void buy(std::shared_ptr<Player> pc, std::string dir);
 };
 
 

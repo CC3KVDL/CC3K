@@ -1,11 +1,3 @@
-//
-//  troll.hpp
-//  CC3K
-//
-//  Created by Dennis on 2017-07-16.
-//  Copyright © 2017 Dennis. All rights reserved.
-//
-
 #ifndef troll_h
 #define troll_h
 
@@ -19,3 +11,4 @@ public:
 };
 
 #endif /* troll_h */
+

@@ -6,7 +6,6 @@
 //  Copyright © 2017 Dennis. All rights reserved.
 //
 
-
 #include <iostream>
 #include <cstdlib>
 #include <fstream>
@@ -103,8 +102,13 @@ Floor :: Floor(shared_ptr<Display> dis): mes{"Action: "}, dis{dis} {
 Floor:: ~Floor() {
     for (int i = 0; i < 25; ++ i) {
         for (int j = 0; j < 79; ++ j) {
-            if (grid[i][j]->getName()[0] == '@') {
-                freePlayer(grid[i][j]);
+            shared_ptr<Thing> what(grid[i][j]);
+            if (what->getName()[0] == '@') {
+                freePlayer(what);
+            } else if (what->getName()[0] == 'D'){
+                what->getHoard() = nullptr;
+            } else if (what->getName() == "GD") {
+                what->getOwner() = nullptr;
             }
         }
     }
@@ -112,9 +116,7 @@ Floor:: ~Floor() {
 
 
 // initializing the floor
-void Floor:: readMap(shared_ptr<Player> pc,string filename) {
-    ifstream file{"default.txt"};
-    //string map1 = "|-----------------------------------------------------------------------------||                                                                             || |--------------------------|        |-----------------------|               || |..........................|        |.......................|               || |..........................+########+.......................|-------|       || |..........................|   #    |................................|-|    || |..........................|   #    |..................................|--| || |----------+---------------|   #    |----+----------------|...............| ||            #                 #############                |...............| ||            #                 #     |-----+------|         |...............| ||            #                 #     |............|         |...............| ||            ###################     |............|   ######+...............| ||            #                 #     |............|   #     |...............| ||            #                 #     |-----+------|   #     |--------+------| ||  |---------+-----------|     #           #          #              #        ||  |.....................|     #           #          #         |----+------| ||  |.....................|     ########################         |...........| ||  |.....................|     #           #                    |...........| ||  |.....................|     #    |------+--------------------|...........| ||  |.....................|     #    |.......................................| ||  |.....................+##########+.......................................| ||  |.....................|          |.......................................| ||  |---------------------|          |---------------------------------------| ||                                                                             ||-----------------------------------------------------------------------------|";
+void Floor:: readMap(shared_ptr<Player> pc,ifstream &file) {
     
     string line;
     string cell;
@@ -134,6 +136,8 @@ void Floor:: readMap(shared_ptr<Player> pc,string filename) {
                 init(i, j, cell);
                 Ds.push_back(grid[i][j]);
             }else if (cell=="@"){
+                init(i, j, ".");
+                pc->setOn(grid[i][j]);
                 grid[i][j] = pc;
                 pc->setX(i);
                 pc->setY(j);
@@ -386,16 +390,23 @@ void Floor:: check(shared_ptr<Player> pc) {
     }
     
     // enemies in radius attack pc, dragon attack pc
+    vector<shared_ptr<Thing>> dragons; // to make sure that a dragon only attack once
     for (int i=-1; i<=1; i++) {
         for (int j=-1; j<=1; j++){
             shared_ptr<Thing> what = grid[x+i][y+j]; // This is the thing you see(may attack you)
             string name = what->getName().substr(0,1); // name
             bool isEnemy = find(enemy_names.begin(), enemy_names.end(), name) != enemy_names.end();
+            bool isDragon = name == "D";
             bool isGold = name == "G";
-            if (isEnemy) {
+            if (isDragon && find(dragons.begin(), dragons.end(), what) == dragons.end()) {
                 mes += grid[x+i][y+j]->attack(*pc);
-            } else if (isGold && what->getOwner() != nullptr) {
+                dragons.push_back(what);
+            } else if (isGold && // is a gold
+                       find(dragons.begin(), dragons.end(), what->getOwner()) == dragons.end()) { // owner hasn't attacked.
                 mes += what->getOwner()->attack(*pc); // dragon attack pc
+                dragons.push_back(what->getOwner());
+            } else if (isEnemy){
+                mes += grid[x+i][y+j]->attack(*pc);
             }
         }
     }
@@ -407,7 +418,7 @@ void Floor:: moveEnemies() {
     sort(Enemies.begin(), Enemies.end(), cmpEnemies);
     
     // move
-    for (int i = 0; i < Enemies.size(); ++i) {
+    for (size_t i = 0; i < Enemies.size(); ++i) {
         while (!Enemies[i]->getStand()) {
             int v1 = rand()%3-1;
             int v2 = rand()%3-1;
@@ -486,7 +497,7 @@ void Floor:: attackEnemy(shared_ptr<Player> pc, string dir) {
             
             grid[x][y] = nullptr; // To avoid dangling pointer.
             
-            for (int i=0; i<Enemies.size(); i++) {
+            for (size_t i=0; i<Enemies.size(); i++) {
                 if (Enemies[i] == enemy) {
                     Enemies[i] = nullptr; // not necessarily, but it means we "deleted" what's useless
                     Enemies.erase(Enemies.begin() + i);
@@ -539,6 +550,84 @@ void Floor:: usePotion(shared_ptr<Player> pc, string dir) {
     }
 }
 
+void Floor::buy(shared_ptr<Player> pc, string dir){
+    int x = pc->getX();
+    int y = pc->getY();
+    if (dir == "no") {
+        x-=1;
+    } else if (dir == "ne") {
+        x-=1;
+        y+=1;
+    } else if (dir == "ea") {
+        y+=1;
+    } else if (dir == "se") {
+        x+=1;
+        y+=1;
+    } else if (dir == "so") {
+        x+=1;
+    } else if (dir == "sw") {
+        x+=1;
+        y-=1;
+    } else if (dir == "we") {
+        y-=1;
+    } else if (dir == "nw") {
+        x-=1;
+        y-=1;
+    }
+    if (grid[x][y]->getName()[0] == 'M') {
+        //update message
+        cout << "Long time no see my old friend? Tell me, are you looking for some of my stock?" << endl << endl;
+        cout << "0 No thanks, I am good." << endl;
+        cout << "1 BIG BIG BOOST(Add 50 HP: 10 Gold)" << endl;
+        cout << "2 Teleport(Enter the next floor: 20 Gold)"  << endl;
+        cout << "3 Immunity(Choose a race that cannot attack you: 30 Gold)" << endl;
+        int i;
+        cin >> i;
+        while(cin.fail()){
+            cout << "My friend you have to say a number, or cin won't be happy." << endl;
+            cin.clear();
+            cin.ignore();
+            cin >> i;
+        }
+        grid[x][y]->setStand(true);
+        if (i == 1){
+            if (pc->getGold() < 10){
+                cout << "Nah, you gonna give me a little more!" << endl;
+            }else{
+                pc->addGold(-10);
+                pc->addHp(50);
+                mes = mes + "PC buys BIG BIG BOOST. ";
+            }
+        }else if (i == 2){
+            if (pc->getGold() < 20){
+                cout << "No! Not enough money!" << endl;
+            }else{
+                mes = mes + "PC buys Teleport. ";
+                pc->addGold(-20);
+                pc->setOn(shared_ptr<Thing>(new Cell("\\",-1,-1)));
+            }
+        }else if(i == 3){
+            if (pc->getGold() < 30){
+                cout << "Sorry! You do not have enought money!" << endl;
+            }else {
+                pc->addGold(-30);
+                mes = mes + "PC buys Immunity. ";
+                cout << "Enter a race name: Only the first char!" << endl;
+                string name;
+                cin >> name;
+                while(find(enemy_names.begin(),enemy_names.end(),name)==enemy_names.end()){
+                    cout << "No, there is no such a thing! Yes, I'm sure." << endl;
+                    cin >> name;
+                }
+                *find(enemy_names.begin(),enemy_names.end(),name) = ""; // set to empty string
+            }
+        }else {
+            cout << "O well, maybe next time." << endl;
+        }
+    }
+}
+
+
 void Floor::freePlayer(shared_ptr<Thing> pc) {
     int x = pc->getX();
     int y = pc->getY();
@@ -546,7 +635,4 @@ void Floor::freePlayer(shared_ptr<Thing> pc) {
     grid[x][y] = temp->getOn();
     pc->setOn(nullptr);
 }
-
-
-
 

@@ -1,11 +1,3 @@
-//
-//  player.hpp
-//  CC3K
-//
-//  Created by Dennis on 2017-07-16.
-//  Copyright © 2017 Dennis. All rights reserved.
-//
-
 #ifndef player_h
 #define player_h
 #include <string>
@@ -61,3 +53,4 @@ public:
 
 
 #endif /* player_h */
+

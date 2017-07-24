@@ -25,3 +25,4 @@ class Gold: public Thing {
 };
 
 #endif /* gold_h */
+

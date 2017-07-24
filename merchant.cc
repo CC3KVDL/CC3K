@@ -28,3 +28,4 @@ string Merchant:: attack(Thing& t) {
 }
 
 Merchant:: ~Merchant() {}
+

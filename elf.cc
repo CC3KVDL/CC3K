@@ -37,3 +37,4 @@ string Elf:: attack(Thing &t){
 }
 
 Elf:: ~Elf() {}
+

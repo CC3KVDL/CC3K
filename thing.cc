@@ -1,11 +1,3 @@
-//
-//  thing.cpp
-//  CC3K
-//
-//  Created by Dennis on 2017-07-14.
-//  Copyright © 2017 Dennis. All rights reserved.
-//
-
 #include "thing.h"
 using namespace std;
 
@@ -44,4 +36,5 @@ shared_ptr<Thing> Thing::getOwner(){return shared_ptr<Thing>(nullptr);}
 
 // Virtual Method for Potion
 void Thing::modify(Player& pc) {}
+
 

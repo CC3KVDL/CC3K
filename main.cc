@@ -6,6 +6,7 @@
 //  Copyright © 2017 Dennis. All rights reserved.
 //
 
+#include <fstream>
 #include <iostream>
 #include <string>
 #include "player.h"
@@ -53,6 +54,15 @@ int main(int argc, const char * argv[]) {
         }
         shared_ptr<Player> me = Player::createPlayer(pc_type);
         int floor = 1;
+        ifstream file;
+        if (argc == 1) {
+            file.open("default.txt");
+        } else if (argc == 2) {
+            file.open(argv[1]);
+        } else {
+            cout << "OMG! You have wrong number of command line arguments!" << endl;
+            return 0;
+        }
         
         while (true) {
             shared_ptr<Display> pdis(new Display()); // Display lalala
@@ -61,10 +71,10 @@ int main(int argc, const char * argv[]) {
             
             // generate full floor
             if (argc == 1) { // no argument
-                f.readMap(me);
+                f.readMap(me, file);
                 f.spawnEverything(me);
             } else { // with argument
-                f.readMap(me, argv[1]);
+                f.readMap(me, file);
             }
             
             // print the map and message
@@ -101,7 +111,11 @@ int main(int argc, const char * argv[]) {
                     } else {
                         moveEnemy = true;
                     }
-                } else if (command == "r" ) {
+                }else if (command == "b"){
+                    string dir;
+                    cin >> dir;
+                    f.buy(me, dir);
+                }else if (command == "r" ) {
                     restart = true;
                     break;
                 } else if (command == "q" ) {
@@ -143,12 +157,12 @@ int main(int argc, const char * argv[]) {
                         cout << "\"So what next?\"" << endl << endl;
                         cout << "Asked the confused gamer," << endl << endl;
                         cout << "\"What's the point of all of this?\"" << endl << endl;
-                        cout << "Suddenly the gamer heard a voice from the sky." << endl << endl;
+                        cout << "Suddenly the gamer heard a callous voice up above." << endl << endl;
                         cout << "\"No, there is no point in any of these, my friend. This is just like" << endl;
                         cout << "your life. You climbed and climbed, struggled and struggled, hoping " << endl;
                         cout << "that there is a light waiting for you somewhere, welcoming, eluding, " << endl;
-                        cout << "restlessly flickering in the dark. You know, deep down, it is there " << endl;
-                        cout << "somewhere. Right?\"" << endl << endl;
+                        cout << "restlessly flickering in the dark. You want yourself to know, deep" << endl;
+                        cout << "down, it is there somewhere. Right?\"" << endl << endl;
                         cout << "\"So you beat on, boats against the current, borne back ceaselessly" << endl;
                         cout << "into the past." << endl << endl;
                         f.freePlayer(me); // make sure me is not deleted with floor

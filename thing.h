@@ -1,15 +1,9 @@
-//
-//  thing.hpp
-//  CC3K
-//
-//  Created by Dennis on 2017-07-14.
-//  Copyright © 2017 Dennis. All rights reserved.
-//
-
 #ifndef thing_h
 #define thing_h
+
 #include <memory>
 #include <string>
+#include "type.h"
 
 class Player;
 class Enemy;
@@ -27,6 +21,7 @@ public:
     void setX(int pos_x);
     void setY(int pos_y);
     std::string getName();
+    virtual Type getType();
     virtual ~Thing();
     
     // Virtual Methov for Player and Enemy
@@ -57,3 +52,4 @@ public:
 };
 
 #endif /* thing_h */
+

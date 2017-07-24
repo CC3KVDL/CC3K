@@ -18,3 +18,4 @@ public:
 };
 
 #endif /* halfling_hpp */
+

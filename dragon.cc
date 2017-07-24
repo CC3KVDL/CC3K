@@ -20,3 +20,4 @@ void Dragon::setHoard(shared_ptr<Thing> t) {
 shared_ptr<Thing> Dragon::getHoard() {
     return hoard;
 }
+
