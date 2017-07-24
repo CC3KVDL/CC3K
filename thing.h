@@ -21,7 +21,7 @@ public:
     void setX(int pos_x);
     void setY(int pos_y);
     std::string getName();
-    virtual Type getType();
+ //   virtual Type getType()=0;
     virtual ~Thing();
     
     // Virtual Methov for Player and Enemy

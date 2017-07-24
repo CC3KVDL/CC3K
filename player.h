@@ -1,3 +1,11 @@
+//
+//  player.hpp
+//  CC3K
+//
+//  Created by Dennis on 2017-07-16.
+//  Copyright © 2017 Dennis. All rights reserved.
+//
+
 #ifndef player_h
 #define player_h
 #include <string>
@@ -5,6 +13,7 @@
 #include <cstdlib>
 #include "thing.h"
 #include "enemy.h"
+#include "type.h"
 
 
 class Player: public Thing{
@@ -27,7 +36,7 @@ public:
     virtual std::string attack(Thing &t) override;
     virtual std::string hurt(Enemy &e) override;
     std::string use(std::shared_ptr<Thing> t) override; // This is the first version, in DLC this should be a virtual
-    
+
     //mutate relevant fields
     void addHp(int amount);
     void addAtk(int amount);
@@ -53,4 +62,3 @@ public:
 
 
 #endif /* player_h */
-
