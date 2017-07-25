@@ -10,7 +10,7 @@ class Display {
 public:
     Display();
     void notify(std::shared_ptr<Thing> t);
-    void print();
+    void print() const;
     ~Display();
 };
 

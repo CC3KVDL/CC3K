@@ -18,7 +18,7 @@ void Display::notify(shared_ptr<Thing> t){
     map[x][y] = new_char;
 }
 
-void Display::print() {
+void Display::print() const{
     for (int i = 0; i < 25; i++) {
         for (int j = 0; j < 79; j++) {
             cout << map[i][j];

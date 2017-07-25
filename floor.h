@@ -40,7 +40,7 @@ public:
     void init(int x, int y, std::string c); // initial a signle Thing
     void print(std::shared_ptr<Player> pc, int f); // print out the current map
     bool checkNbs(int x, int y); //check if one of the neighbours is spawnable
-    void spawnEverything(std::shared_ptr<Player> pc);
+    void spawnEverything(std::shared_ptr<Player> pc, bool ent);
     
     // what pc do
     void movePlayer(std::shared_ptr<Player> pc, std::string dir); // move pc to a direction

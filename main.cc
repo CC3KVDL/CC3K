@@ -16,6 +16,7 @@ using namespace std;
 
 int main(int argc, const char * argv[]) {
     
+    bool ent = false;
     srand(time(NULL));
     while (true) {
         cout << "=======================================================" << endl;
@@ -41,6 +42,10 @@ int main(int argc, const char * argv[]) {
         if (pc_type == "q") {
             cout << "Alright man. Let's get you outta here." << endl;
             return 0;
+        } if (pc_type == "e") {
+            cout << "Secret enemy \"Ent\" unlocked." << endl;
+            ent = true;
+            cin >> pc_type;
         }
         
         while (pc_type != "" &&
@@ -48,7 +53,8 @@ int main(int argc, const char * argv[]) {
                pc_type != "v" &&
                pc_type != "g" &&
                pc_type != "s" &&
-               pc_type != "t") {
+               pc_type != "t" &&
+               pc_type != "e") {
             cout << "Oops! You cannot be something that doesn't exist! Please try to become something real!" << endl;
             cin >> pc_type;
         }
@@ -70,11 +76,9 @@ int main(int argc, const char * argv[]) {
             bool restart = false;
             
             // generate full floor
+            f.readMap(me, file);
             if (argc == 1) { // no argument
-                f.readMap(me, file);
-                f.spawnEverything(me);
-            } else { // with argument
-                f.readMap(me, file);
+                f.spawnEverything(me, ent);
             }
             
             // print the map and message

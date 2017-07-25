@@ -233,7 +233,7 @@ bool Floor::checkNbs(int x, int y) { // a helper function to set gold
     return result;
 }
 
-void Floor::spawnEverything(shared_ptr<Player> pc){
+void Floor::spawnEverything(shared_ptr<Player> pc, bool ent){
     // set player
     int x, y, chmbr;
     chmbr = getPos(x, y);
@@ -326,16 +326,16 @@ void Floor::spawnEverything(shared_ptr<Player> pc){
         
     }
     
+
     // set ent
-    int e = rand()%2;
-    if (e) {
+    if (ent) {
         getPos(x, y);
         while (grid[x][y]->getName() != ".") {
             getPos(x, y);
         }
+    init(x,y,"N");
     }
     
-    init(x,y,"N");
 }
 
 void Floor:: movePlayer(shared_ptr<Player> pc, string dir){
