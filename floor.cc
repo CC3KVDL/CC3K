@@ -150,7 +150,7 @@ void Floor:: readMap(shared_ptr<Player> pc,ifstream &file) {
     }
     
     // Set the owner of a Dragon Hoard to a specific Dragon and set the hoard of a Dragon to a specific Gold
-    for (int i = 0 ; i < DHs.size();++i){
+    for (size_t i = 0 ; i < DHs.size();++i){
         int x = DHs[i]->getX();
         int y = DHs[i]->getY();
         for (int j = -1; j <= 1; ++j){
