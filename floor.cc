@@ -641,7 +641,7 @@ void Floor:: talk(shared_ptr<Player> pc, shared_ptr<Thing> ent) {
     int y = ent->getY();
     
     if (grid[x][y]->getName()[0] == 'N') {
-        cout << pc->getName().substr(1) << " heard a voice of ent from above: Oh my old friend. There are two little hobbits sitting on my shoulds, could you tell me who they are?" << endl;
+        cout << pc->getName().substr(1) << " heard a voice of ent from above: Oh my old friend. There are two little hobbits sitting on my shoulders, could you tell me who they are?" << endl;
         cout << "1- Harry and Ron" << endl;
         cout << "2- Merry and Pippin" << endl;
         cout << "3- Wendy and Peter" << endl;

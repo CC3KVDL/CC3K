@@ -36,7 +36,8 @@ public:
     virtual std::string attack(Thing &t) override;
     virtual std::string hurt(Enemy &e) override;
     std::string use(std::shared_ptr<Thing> t) override; // This is the first version, in DLC this should be a virtual
-
+    
+    
     //mutate relevant fields
     void addHp(int amount);
     void addAtk(int amount);
