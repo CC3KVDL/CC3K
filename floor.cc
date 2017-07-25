@@ -328,7 +328,8 @@ void Floor::spawnEverything(shared_ptr<Player> pc, bool ent){
     
 
     // set ent
-    if (ent) {
+    int e = rand()%2;
+    if (ent && e) {
         getPos(x, y);
         while (grid[x][y]->getName() != ".") {
             getPos(x, y);
