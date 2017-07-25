@@ -30,7 +30,7 @@ int main(int argc, const char * argv[]) {
         cout << "The world were zeros and ones before you came," << endl;
         cout << "Three smart programmers build this game," << endl;
         cout << "Five large chambres are the general frame," << endl;
-        cout << "There hides enemies that can't be tamed." << endl;
+        cout << "There hide creatures that can't be tamed." << endl;
         cout << "Fighting and collecting is how you play," << endl;
         cout << "Climbing to the sixth floor is your final aim," << endl;
         cout << "Now that you shall choose your race," << endl;
@@ -115,7 +115,7 @@ int main(int argc, const char * argv[]) {
                     string dir;
                     cin >> dir;
                     f.buy(me, dir);
-                }else if (command == "r" ) {
+                } else if (command == "r" ) {
                     restart = true;
                     break;
                 } else if (command == "q" ) {
@@ -157,7 +157,7 @@ int main(int argc, const char * argv[]) {
                         cout << "\"So what next?\"" << endl << endl;
                         cout << "Asked the confused gamer," << endl << endl;
                         cout << "\"What's the point of all of this?\"" << endl << endl;
-                        cout << "Suddenly the gamer heard a callous voice up above." << endl << endl;
+                        cout << "Suddenly the gamer heard a callous voice from above." << endl << endl;
                         cout << "\"No, there is no point in any of these, my friend. This is just like" << endl;
                         cout << "your life. You climbed and climbed, struggled and struggled, hoping " << endl;
                         cout << "that there is a light waiting for you somewhere, welcoming, eluding, " << endl;

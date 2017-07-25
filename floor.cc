@@ -17,6 +17,7 @@
 #include "enemy.h"
 #include "potion.h"
 #include "gold.h"
+#include "ent.h"
 
 using namespace std;
 
@@ -102,18 +103,18 @@ Floor :: Floor(shared_ptr<Display> dis): mes{"Action: "}, dis{dis} {
 Floor:: ~Floor() {
     for (int i = 0; i < 25; ++ i) {
         for (int j = 0; j < 79; ++ j) {
-            shared_ptr<Thing> what(grid[i][j]);
-            if (what->getName()[0] == '@') {
-                freePlayer(what);
-            } else if (what->getName()[0] == 'D'){
-                what->getHoard() = nullptr;
-            } else if (what->getName() == "GD") {
-                what->getOwner() = nullptr;
+            if (grid[i][j]->getName()[0] == '@') {
+                freePlayer(grid[i][j]);
+            }
+            if (grid[i][j]->getName()[0] == 'D') {
+                grid[i][j]->setHoard(nullptr);
+            }
+            if (grid[i][j]->getName() == "GD") {
+                grid[i][j]->setOwner(nullptr);
             }
         }
     }
 }
-
 
 // initializing the floor
 void Floor:: readMap(shared_ptr<Player> pc,ifstream &file) {
@@ -203,6 +204,8 @@ void Floor:: init(int x, int y, string c) {
         grid[x][y] = shared_ptr<Gold>(new Gold("GH",x,y)); // merchant gold
     } else if (c == "9") {
         grid[x][y] = shared_ptr<Gold>(new Gold("GD",x,y)); // dragon gold
+    } else if (c == "N") {
+        grid[x][y] = shared_ptr<Enemy>(new Ent(x,y));
     }
     
     // notifying display
@@ -322,6 +325,17 @@ void Floor::spawnEverything(shared_ptr<Player> pc){
         init(x, y, en); // we pushed enemy into Enemies in the function init!!
         
     }
+    
+    // set ent
+    int e = rand()%2;
+    if (e) {
+        getPos(x, y);
+        while (grid[x][y]->getName() != ".") {
+            getPos(x, y);
+        }
+    }
+    
+    init(x,y,"N");
 }
 
 void Floor:: movePlayer(shared_ptr<Player> pc, string dir){
@@ -390,23 +404,18 @@ void Floor:: check(shared_ptr<Player> pc) {
     }
     
     // enemies in radius attack pc, dragon attack pc
-    vector<shared_ptr<Thing>> dragons; // to make sure that a dragon only attack once
     for (int i=-1; i<=1; i++) {
         for (int j=-1; j<=1; j++){
             shared_ptr<Thing> what = grid[x+i][y+j]; // This is the thing you see(may attack you)
             string name = what->getName().substr(0,1); // name
             bool isEnemy = find(enemy_names.begin(), enemy_names.end(), name) != enemy_names.end();
-            bool isDragon = name == "D";
             bool isGold = name == "G";
-            if (isDragon && find(dragons.begin(), dragons.end(), what) == dragons.end()) {
+            if (isEnemy) {
                 mes += grid[x+i][y+j]->attack(*pc);
-                dragons.push_back(what);
-            } else if (isGold && // is a gold
-                       find(dragons.begin(), dragons.end(), what->getOwner()) == dragons.end()) { // owner hasn't attacked.
+            } else if (isGold && what->getOwner() != nullptr) {
                 mes += what->getOwner()->attack(*pc); // dragon attack pc
-                dragons.push_back(what->getOwner());
-            } else if (isEnemy){
-                mes += grid[x+i][y+j]->attack(*pc);
+            } else if (what->getName()[0] == 'N') {
+                talk(pc, what);
             }
         }
     }
@@ -580,11 +589,11 @@ void Floor::buy(shared_ptr<Player> pc, string dir){
         cout << "0 No thanks, I am good." << endl;
         cout << "1 BIG BIG BOOST(Add 50 HP: 10 Gold)" << endl;
         cout << "2 Teleport(Enter the next floor: 20 Gold)"  << endl;
-        cout << "3 Immunity(Choose a race that cannot attack you: 30 Gold)" << endl;
+        cout << "3 Contract(Sign a contract with any race and promise not to attack each other: 30 Gold)" << endl;
         int i;
         cin >> i;
         while(cin.fail()){
-            cout << "My friend you have to say a number, or cin won't be happy." << endl;
+            cout << "My friend. You have to say a number, or cin won't be happy." << endl;
             cin.clear();
             cin.ignore();
             cin >> i;
@@ -606,12 +615,12 @@ void Floor::buy(shared_ptr<Player> pc, string dir){
                 pc->addGold(-20);
                 pc->setOn(shared_ptr<Thing>(new Cell("\\",-1,-1)));
             }
-        }else if(i == 3){
+        }else if (i == 3){
             if (pc->getGold() < 30){
                 cout << "Sorry! You do not have enought money!" << endl;
             }else {
                 pc->addGold(-30);
-                mes = mes + "PC buys Immunity. ";
+                mes = mes + "PC signs a Contract. ";
                 cout << "Enter a race name: Only the first char!" << endl;
                 string name;
                 cin >> name;
@@ -625,6 +634,68 @@ void Floor::buy(shared_ptr<Player> pc, string dir){
             cout << "O well, maybe next time." << endl;
         }
     }
+}
+
+void Floor:: talk(shared_ptr<Player> pc, shared_ptr<Thing> ent) {
+    int x = ent->getX();
+    int y = ent->getY();
+    
+    if (grid[x][y]->getName()[0] == 'N') {
+        cout << pc->getName().substr(1) << " heard a voice of ent from above: Oh my old friend. There are two little hobbits sitting on my shoulds, could you tell me who they are?" << endl;
+        cout << "1- Harry and Ron" << endl;
+        cout << "2- Merry and Pippin" << endl;
+        cout << "3- Wendy and Peter" << endl;
+        cout << "4- Groot and Rocket" << endl;
+        int answer;
+        cin >> answer;
+        if (cin.fail()) {
+            cout << "Only numbers between 1 and 4 are good answers." << endl;
+            cin.clear();
+            cin.ignore();
+            cin >> answer;
+        }
+        if (answer == 2) {
+            cout << "Yes. Yes. Please forgive my blockhead, but why am I calling a entmoot?" << endl;
+            cout << "1- Merry and Pippin are looking for Saruman" << endl;
+            cout << "2- Merry and Pippin are carrying a ring" << endl;
+            cout << "3- Merry and Pippin are angry with Gandalf" << endl;
+            cout << "4- Merry and Pippin are asking for help" << endl;
+            cin >> answer;
+            if (cin.fail()) {
+                cout << "Only numbers between 1 and 4 are good answers." << endl;
+                cin.clear();
+                cin.ignore();
+                cin >> answer;
+            }
+            if (answer == 4) {
+                cout << "Oh yes, my friend. could you please answer my final question. Please be honest. Did you attack a merchant?" << endl;
+                cout << "1- Yes" << endl;
+                cout << "2- No" << endl;
+                cin >> answer;
+                if (cin.fail()) {
+                    cout << "Only 1 or 2 are good answers." << endl;
+                    cin.clear();
+                    cin.ignore();
+                    cin >> answer;
+                }
+                if (answer==1 && pc->getmKiller()) {
+                    cout << "Oh! So horrible! So horrible!" << endl;
+                } else if (answer==2 && !pc->getmKiller()) {
+                    mes = mes + "The ent said: Thank you my friend! I will give you 50 golds in return! ";
+                    pc->addGold(50);
+                    mes = mes + pc->getName().substr(1) + " got 50 golds from the old ent. ";
+                } else {
+                    mes = mes + "The ent said: I wish not speak to you.";
+                }
+                
+            } else {
+                mes = mes + "The ent said: I shall take my leave! ";
+            }
+        } else {
+            mes = mes + "The ent said: No, I am not Groot! Please leave! ";
+        }
+    }
+    init(x, y, ".");
 }
 
 

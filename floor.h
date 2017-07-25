@@ -50,6 +50,7 @@ public:
     void moveEnemies(); // move all enemies randomly
     void freePlayer(std::shared_ptr<Thing> pc); // take pc off the grid
     void buy(std::shared_ptr<Player> pc, std::string dir);
+    void talk(std::shared_ptr<Player> pc, std::shared_ptr<Thing> ent);
 };
 
 

@@ -1,11 +1,12 @@
 #include "goblin.h"
+#include <cmath>
 using namespace std;
 
 Goblin::Goblin(): Player{"@Goblin", 110, 15, 20}{}
 
     
 string Goblin::hurt(Enemy &e) {
-  int hurt = (100 / (100 + def))* e.getAtk();
+  int hurt = ceil(100 * e.getAtk() / (100 + def));
   string m;
   if (e.getName()=="Oorcs"){
     addHp(-hurt*1.5);
